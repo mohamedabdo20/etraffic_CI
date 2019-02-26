@@ -2,8 +2,6 @@ package isoft.etraffic.ctapages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.Test;
-
 import io.qameta.allure.Step;
 import isoft.etraffic.wrapper.SeleniumWraper;
 
