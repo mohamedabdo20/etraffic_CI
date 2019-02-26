@@ -1,0 +1,1 @@
+{"uuid":"ac838f70-6dc6-4806-a010-997a85ad4127","name":"isoft.etraffic.vhl.ftftest.ClearanceCertificateTest.setup","description":"","start":1551172333641,"stop":1551172334927,"children":["4b968d71-e421-43b0-8715-55b2638daaab"],"befores":[{"name":"setup","status":"passed","stage":"finished","description":"","start":1551172333641,"stop":1551172334927}]}
