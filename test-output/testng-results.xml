@@ -1,72 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
+<testng-results skipped="0" failed="1" ignored="0" total="4" passed="3">
   <reporter-output>
   </reporter-output>
-  <suite name="Staging" duration-ms="79043" started-at="2019-02-26T09:12:05Z" finished-at="2019-02-26T09:13:24Z">
+  <suite name="Default suite" duration-ms="29542" started-at="2019-02-26T10:00:44Z" finished-at="2019-02-26T10:01:14Z">
     <groups>
     </groups>
-    <test name="VHL Smoke Test" duration-ms="79043" started-at="2019-02-26T09:12:05Z" finished-at="2019-02-26T09:13:24Z">
-      <class name="isoft.etraffic.vhl.ftftest.ClearanceCertificateTest">
-        <test-method status="PASS" signature="setup(java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:isoft.etraffic.vhl.ftftest.ClearanceCertificateTest@7920ba90]" name="setup" is-config="true" duration-ms="7959" started-at="2019-02-26T09:12:05Z" finished-at="2019-02-26T09:12:13Z">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[https://tst12c:7793/trfesrv/public_resources/public-access.do]]>
-              </value>
-            </param>
-            <param index="1">
-              <value>
-                <![CDATA[IE]]>
-              </value>
-            </param>
-            <param index="2">
-              <value>
-                <![CDATA[en]]>
-              </value>
-            </param>
-          </params>
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- setup -->
-        <test-method status="PASS" signature="setup()[pri:0, instance:isoft.etraffic.vhl.ftftest.ClearanceCertificateTest@7920ba90]" name="setup" is-config="true" duration-ms="1287" started-at="2019-02-26T09:12:13Z" finished-at="2019-02-26T09:12:14Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- setup -->
-        <test-method status="PASS" signature="vehicleClearanceCert()[pri:0, instance:isoft.etraffic.vhl.ftftest.ClearanceCertificateTest@7920ba90]" name="vehicleClearanceCert" duration-ms="12010" started-at="2019-02-26T09:12:14Z" finished-at="2019-02-26T09:12:26Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- vehicleClearanceCert -->
-        <test-method status="FAIL" signature="tearDown(org.testng.ITestResult)[pri:0, instance:isoft.etraffic.vhl.ftftest.ClearanceCertificateTest@7920ba90]" name="tearDown" is-config="true" duration-ms="57298" started-at="2019-02-26T09:12:26Z" finished-at="2019-02-26T09:13:24Z">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[[TestResult name=vehicleClearanceCert status=SUCCESS method=ClearanceCertificateTest.vehicleClearanceCert()[pri:0, instance:isoft.etraffic.vhl.ftftest.ClearanceCertificateTest@7920ba90] output={null}]]]>
-              </value>
-            </param>
-          </params>
-          <exception class="java.io.FileNotFoundException">
+    <test name="Default test" duration-ms="29542" started-at="2019-02-26T10:00:44Z" finished-at="2019-02-26T10:01:14Z">
+      <class name="ctatestcases.Smoke">
+        <test-method status="FAIL" signature="FailedTC()[pri:0, instance:ctatestcases.Smoke@5762806e]" name="FailedTC" duration-ms="124" started-at="2019-02-26T10:00:44Z" finished-at="2019-02-26T10:00:44Z">
+          <exception class="junit.framework.ComparisonFailure">
             <message>
-              <![CDATA[.\screenshots\Passed\vehicleClearanceCert_26-2-2019-01-12.png (The system cannot find the path specified)]]>
+              <![CDATA[expected:<1> but was:<2>]]>
             </message>
             <full-stacktrace>
-              <![CDATA[java.io.FileNotFoundException: .\screenshots\Passed\vehicleClearanceCert_26-2-2019-01-12.png (The system cannot find the path specified)
-at java.io.FileOutputStream.open0(Native Method)
-at java.io.FileOutputStream.open(Unknown Source)
-at java.io.FileOutputStream.<init>(Unknown Source)
-at java.io.FileOutputStream.<init>(Unknown Source)
-at org.openqa.selenium.io.FileHandler.copyFile(FileHandler.java:137)
-at org.openqa.selenium.io.FileHandler.copy(FileHandler.java:116)
-at isoft.etraffic.utils.ScreenCapture.getScreenShot(ScreenCapture.java:17)
-at isoft.etraffic.testbase.TestBase.tearDown(TestBase.java:64)
+              <![CDATA[junit.framework.ComparisonFailure: expected:<1> but was:<2>
+at junit.framework.Assert.assertEquals(Assert.java:81)
+at junit.framework.Assert.assertEquals(Assert.java:87)
+at ctatestcases.Smoke.FailedTC(Smoke.java:43)
 at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
 at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
 at java.lang.reflect.Method.invoke(Unknown Source)
 at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:124)
-at org.testng.internal.MethodInvocationHelper.invokeMethodConsideringTimeout(MethodInvocationHelper.java:59)
-at org.testng.internal.Invoker.invokeConfigurationMethod(Invoker.java:458)
-at org.testng.internal.Invoker.invokeConfigurations(Invoker.java:222)
-at org.testng.internal.Invoker.invokeMethod(Invoker.java:646)
+at org.testng.internal.Invoker.invokeMethod(Invoker.java:583)
 at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:719)
 at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:989)
 at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
@@ -88,11 +44,23 @@ at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
 at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
 ]]>
             </full-stacktrace>
-          </exception> <!-- java.io.FileNotFoundException -->
+          </exception> <!-- junit.framework.ComparisonFailure -->
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- tearDown -->
-      </class> <!-- isoft.etraffic.vhl.ftftest.ClearanceCertificateTest -->
-    </test> <!-- VHL Smoke Test -->
-  </suite> <!-- Staging -->
+        </test-method> <!-- FailedTC -->
+        <test-method status="PASS" signature="openFirefox()[pri:0, instance:ctatestcases.Smoke@5762806e]" name="openFirefox" duration-ms="4386" started-at="2019-02-26T10:00:45Z" finished-at="2019-02-26T10:00:49Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- openFirefox -->
+        <test-method status="PASS" signature="openIE()[pri:0, instance:ctatestcases.Smoke@5762806e]" name="openIE" duration-ms="18256" started-at="2019-02-26T10:00:49Z" finished-at="2019-02-26T10:01:07Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- openIE -->
+        <test-method status="PASS" signature="openchrome()[pri:0, instance:ctatestcases.Smoke@5762806e]" name="openchrome" duration-ms="6185" started-at="2019-02-26T10:01:07Z" finished-at="2019-02-26T10:01:13Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- openchrome -->
+      </class> <!-- ctatestcases.Smoke -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
 </testng-results>

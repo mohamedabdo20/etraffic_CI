@@ -8,29 +8,21 @@
 <body>
 <table>
 <tr><th>Test</th><th># Passed</th><th># Skipped</th><th># Failed</th><th>Time (ms)</th><th>Included Groups</th><th>Excluded Groups</th></tr>
-<tr><th colspan="7">Staging</th></tr>
-<tr><td><a href="#t0">VHL Smoke Test</a></td><td class="num">1</td><td class="num">0</td><td class="num">0</td><td class="num">79,043</td><td></td><td></td></tr>
+<tr><th colspan="7">Default suite</th></tr>
+<tr><td><a href="#t0">Default test</a></td><td class="num">3</td><td class="num">0</td><td class="num attn">1</td><td class="num">29,542</td><td></td><td></td></tr>
 </table>
-<table id='summary'><thead><tr><th>Class</th><th>Method</th><th>Start</th><th>Time (ms)</th></tr></thead><tbody><tr><th colspan="4">Staging</th></tr></tbody><tbody id="t0"><tr><th colspan="4">VHL Smoke Test &#8212; failed (configuration methods)</th></tr><tr class="failedeven"><td rowspan="1">isoft.etraffic.vhl.ftftest.ClearanceCertificateTest</td><td><a href="#m0">tearDown</a></td><td rowspan="1">1551172346998</td><td rowspan="1">57298</td></tr><tr><th colspan="4">VHL Smoke Test &#8212; passed</th></tr><tr class="passedeven"><td rowspan="1">isoft.etraffic.vhl.ftftest.ClearanceCertificateTest</td><td><a href="#m1">vehicleClearanceCert</a></td><td rowspan="1">1551172334933</td><td rowspan="1">12010</td></tr></tbody>
+<table id='summary'><thead><tr><th>Class</th><th>Method</th><th>Start</th><th>Time (ms)</th></tr></thead><tbody><tr><th colspan="4">Default suite</th></tr></tbody><tbody id="t0"><tr><th colspan="4">Default test &#8212; failed</th></tr><tr class="failedeven"><td rowspan="1">ctatestcases.Smoke</td><td><a href="#m0">FailedTC</a></td><td rowspan="1">1551175244861</td><td rowspan="1">124</td></tr><tr><th colspan="4">Default test &#8212; passed</th></tr><tr class="passedeven"><td rowspan="3">ctatestcases.Smoke</td><td><a href="#m1">openFirefox</a></td><td rowspan="1">1551175245138</td><td rowspan="1">4386</td></tr><tr class="passedeven"><td><a href="#m2">openIE</a></td><td rowspan="1">1551175249533</td><td rowspan="1">18256</td></tr><tr class="passedeven"><td><a href="#m3">openchrome</a></td><td rowspan="1">1551175267798</td><td rowspan="1">6185</td></tr></tbody>
 </table>
-<h2>VHL Smoke Test</h2><h3 id="m0">isoft.etraffic.vhl.ftftest.ClearanceCertificateTest#tearDown</h3><table class="result"><tr class="param"><th>Parameter #1</th></tr><tr class="param stripe"><td>[TestResult name=vehicleClearanceCert status=SUCCESS method=ClearanceCertificateTest.vehicleClearanceCert()[pri:0, instance:isoft.etraffic.vhl.ftftest.ClearanceCertificateTest@7920ba90] output={null}]</td></tr><tr><th>Exception</th></tr><tr><td><div class="stacktrace">java.io.FileNotFoundException: .\screenshots\Passed\vehicleClearanceCert_26-2-2019-01-12.png (The system cannot find the path specified)
-	at java.io.FileOutputStream.open0(Native Method)
-	at java.io.FileOutputStream.open(Unknown Source)
-	at java.io.FileOutputStream.&lt;init&gt;(Unknown Source)
-	at java.io.FileOutputStream.&lt;init&gt;(Unknown Source)
-	at org.openqa.selenium.io.FileHandler.copyFile(FileHandler.java:137)
-	at org.openqa.selenium.io.FileHandler.copy(FileHandler.java:116)
-	at isoft.etraffic.utils.ScreenCapture.getScreenShot(ScreenCapture.java:17)
-	at isoft.etraffic.testbase.TestBase.tearDown(TestBase.java:64)
+<h2>Default test</h2><h3 id="m0">ctatestcases.Smoke#FailedTC</h3><table class="result"><tr><th>Exception</th></tr><tr><td><div class="stacktrace">junit.framework.ComparisonFailure: expected:&lt;1&gt; but was:&lt;2&gt;
+	at junit.framework.Assert.assertEquals(Assert.java:81)
+	at junit.framework.Assert.assertEquals(Assert.java:87)
+	at ctatestcases.Smoke.FailedTC(Smoke.java:43)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
 	at java.lang.reflect.Method.invoke(Unknown Source)
 	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:124)
-	at org.testng.internal.MethodInvocationHelper.invokeMethodConsideringTimeout(MethodInvocationHelper.java:59)
-	at org.testng.internal.Invoker.invokeConfigurationMethod(Invoker.java:458)
-	at org.testng.internal.Invoker.invokeConfigurations(Invoker.java:222)
-	at org.testng.internal.Invoker.invokeMethod(Invoker.java:646)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:583)
 	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:719)
 	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:989)
 	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
@@ -51,6 +43,8 @@
 	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
 	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
 </div></td></tr></table><p class="totop"><a href="#summary">back to summary</a></p>
-<h3 id="m1">isoft.etraffic.vhl.ftftest.ClearanceCertificateTest#vehicleClearanceCert</h3><table class="result"><tr><th class="invisible"/></tr></table><p class="totop"><a href="#summary">back to summary</a></p>
+<h3 id="m1">ctatestcases.Smoke#openFirefox</h3><table class="result"><tr><th class="invisible"/></tr></table><p class="totop"><a href="#summary">back to summary</a></p>
+<h3 id="m2">ctatestcases.Smoke#openIE</h3><table class="result"><tr><th class="invisible"/></tr></table><p class="totop"><a href="#summary">back to summary</a></p>
+<h3 id="m3">ctatestcases.Smoke#openchrome</h3><table class="result"><tr><th class="invisible"/></tr></table><p class="totop"><a href="#summary">back to summary</a></p>
 </body>
 </html>
