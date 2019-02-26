@@ -32,12 +32,13 @@ public class Smoke {
 	@Test
 	public void openIE()
 	{
-		System.setProperty("webdriver.ie.driver", "./drivers/IEDriverServer.exe");
-		InternetExplorerOptions options =new InternetExplorerOptions();
+		//System.setProperty("webdriver.ie.driver", "./drivers/IEDriverServer.exe");
+		System.setProperty("webdriver.ie.driver", "C:\\Windows\\System32\\IEDriverServer.exe");
+		/*InternetExplorerOptions options =new InternetExplorerOptions();
 		options.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS,true);
 		options.setCapability(InternetExplorerDriver.IGNORE_ZOOM_SETTING,true);
-		options.setCapability(InternetExplorerDriver.INITIAL_BROWSER_URL,"https://tst12c:7791/traffic/faces/jsf/auth/login.jsf");
-		driver = new InternetExplorerDriver(options);
+		options.setCapability(InternetExplorerDriver.INITIAL_BROWSER_URL,"https://tst12c:7791/traffic/faces/jsf/auth/login.jsf");*/
+		driver = new InternetExplorerDriver();
 		driver.navigate().to("https://tst12c:7791/traffic/faces/jsf/auth/login.jsf");
 		driver.quit();
 		
