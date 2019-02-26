@@ -5,15 +5,12 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.testng.annotations.Test;
 
 public class GetOrderNo {
 	String trsNo;
 	String ordNo;
 	String certno;
 	
-	@Test(priority = 2, enabled = true)
-
 	public void gettheresulCer() throws ClassNotFoundException, SQLException, InterruptedException {
 
 		System.out.print("connect to database");
