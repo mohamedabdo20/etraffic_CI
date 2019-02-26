@@ -39,7 +39,7 @@ public class Smoke {
 		options.setCapability(InternetExplorerDriver.IGNORE_ZOOM_SETTING,true);
 		options.setCapability(InternetExplorerDriver.INITIAL_BROWSER_URL,"https://tst12c:7791/traffic/faces/jsf/auth/login.jsf");*/
 		driver = new InternetExplorerDriver();
-		//driver.navigate().to("https://tst12c:7791/traffic/faces/jsf/auth/login.jsf");
+		driver.get("https://google.com");
 		//driver.quit();
 		System.out.println("Working");
 		
