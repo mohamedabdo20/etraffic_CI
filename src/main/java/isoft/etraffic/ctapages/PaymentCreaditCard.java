@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.annotations.Test;
+
 
 import io.qameta.allure.Step;
 
@@ -14,7 +14,7 @@ public class PaymentCreaditCard {
 	//private WebDriver driver;
 	
 	@Step("Make Payment by credit card")
-	@Test
+	
 	public void paymentcreaditcard(WebDriver driver) throws InterruptedException
 	{ 
 		driver.findElement(By.xpath("//input[@id='payButtonId']")).click();

@@ -23,7 +23,6 @@ public class DeliveryMethod extends SeleniumWraper
 	private By submitbtn = By.id("btnGoToStep35");
 	  
 	@Step("Fill delivery data for transaction")
-	@Test
 	public void delivermethod(String mobileNumber , String phoneNumber , String email , String emailConfirm) throws InterruptedException {
 		writeToElement(mobileNumbertxt, mobileNumber);
 		writeToElement(phoneNumbertxt, phoneNumber);

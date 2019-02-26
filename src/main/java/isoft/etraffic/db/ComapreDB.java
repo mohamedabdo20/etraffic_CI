@@ -6,15 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.testng.annotations.Test;
-
-
 public class ComapreDB {
 
 		String NOCS_TO_BE_APPLIED;
 		String NOCS_TO_BE_IGNORED;
 
-		@Test(priority = 2, enabled = true)
 		public void getcertificateno() throws ClassNotFoundException, SQLException, InterruptedException {
 
 			// step1 load the driver class

@@ -3,15 +3,11 @@ package isoft.etraffic.db;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import org.testng.annotations.Test;
-
 import io.qameta.allure.Step;
 
 public class NewNocApprovals {
 	 
 	@Step("Approve security requests")
-	@Test
 	public void securityapproval(String AppNo) throws ClassNotFoundException, SQLException, InterruptedException {
 		
 		Connection con = dbConn.dbconntion();
@@ -32,7 +28,7 @@ public class NewNocApprovals {
 	}
 	
 	@Step("Approve EPS")
-	@Test
+
 	public void EPSapproval(String TRSID) throws ClassNotFoundException, SQLException, InterruptedException {
 
 	
@@ -55,7 +51,6 @@ public class NewNocApprovals {
 	}
 
 	@Step("Update transaction status after approve EPS and security approvals ")
-	@Test
 	public void TRXupdateStatus(String AppNo ,String status )
 			throws ClassNotFoundException, SQLException, InterruptedException {
 
