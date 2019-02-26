@@ -4,6 +4,8 @@ import java.sql.SQLException;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.ie.InternetExplorerOptions;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -49,9 +51,12 @@ public class ClearanceCertificateTest {
 		commonPage.payFTF();*/
 	}
 
+
 	private void startBrowser(String browser) {
 		System.setProperty("webdriver.ie.driver", System.getProperty("user.dir") + "\\drivers\\IEDriverServer.exe");
-		driver = new InternetExplorerDriver();
+		InternetExplorerOptions options =new InternetExplorerOptions();
+		options.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS,true); 
+		driver = new InternetExplorerDriver(options);
 		driver.get("https://tst12c:7791/traffic/faces/jsf/auth/login.jsf");// "https://qctest:4443/traffic/faces/jsf/auth/login.jsf");
 		driver.get("javascript:document.getElementById('overridelink').click();");
 		driver.manage().window().maximize();
