@@ -2,15 +2,16 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Staging]">
   <parameter name="browser" value="CHROME"/>
-  <test thread-count="5" name="Chrome-FullCycleExcel(failed)">
+  <test thread-count="5" name="VHL Smoke Test(failed)">
     <classes>
-      <class name="ctatestcases.NewTLFullCycleExcel">
+      <class name="isoft.etraffic.vhl.ftftest.ClearanceCertificateTest">
         <methods>
           <include name="tearDown"/>
+          <include name="vehicleClearanceCert"/>
           <include name="setup"/>
-          <include name="NewNoc" invocation-numbers="0"/>
+          <include name="setup"/>
         </methods>
-      </class> <!-- ctatestcases.NewTLFullCycleExcel -->
+      </class> <!-- isoft.etraffic.vhl.ftftest.ClearanceCertificateTest -->
     </classes>
-  </test> <!-- Chrome-FullCycleExcel(failed) -->
+  </test> <!-- VHL Smoke Test(failed) -->
 </suite> <!-- Failed suite [Staging] -->

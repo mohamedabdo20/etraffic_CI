@@ -10,16 +10,17 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import isoft.etraffic.db.DBQueries;
+import isoft.etraffic.testbase.TestBase;
 import isoft.etraffic.vhl.ftfpages.ClearanceCertificatePage;
 import isoft.etraffic.vhl.ftfpages.CommonPage;
 import isoft.etraffic.vhl.ftfpages.LoginFTFPage;
 
-public class ClearanceCertificateTest {
+public class ClearanceCertificateTest extends TestBase{
 	String username = "rta13580";// "rta10686";
 	String center = "مؤسسة الترخيص - ديرة";
 	String plateNumber, plateCategory, plateCode, trafficFileNo;
 
-	WebDriver driver;
+	//WebDriver driver;
 	DBQueries dbQueries = new DBQueries();
 	CommonPage commonPage;
 	LoginFTFPage loginPage;
@@ -27,7 +28,7 @@ public class ClearanceCertificateTest {
 
 	@BeforeMethod
 	public void setup() throws ClassNotFoundException, SQLException {
-		startBrowser("ie");
+		//startBrowser("ie");
 		String[] vehicle = dbQueries.getVehicle();
 		trafficFileNo = vehicle[0];
 		plateNumber = vehicle[1];
@@ -51,7 +52,7 @@ public class ClearanceCertificateTest {
 		commonPage.payFTF();*/
 	}
 
-
+/*
 	private void startBrowser(String browser) {
 		System.setProperty("webdriver.ie.driver", System.getProperty("user.dir") + "\\drivers\\IEDriverServer.exe");
 		InternetExplorerOptions options =new InternetExplorerOptions();
@@ -62,4 +63,5 @@ public class ClearanceCertificateTest {
 		driver.get("javascript:document.getElementById('overridelink').click();");
 		driver.manage().window().maximize();
 	}
+	*/
 }
