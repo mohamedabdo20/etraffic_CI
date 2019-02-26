@@ -1,66 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="1" ignored="0" total="4" passed="3">
+<testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="29542" started-at="2019-02-26T10:00:44Z" finished-at="2019-02-26T10:01:14Z">
+  <suite name="Default suite" duration-ms="16775" started-at="2019-02-26T10:25:15Z" finished-at="2019-02-26T10:25:32Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="29542" started-at="2019-02-26T10:00:44Z" finished-at="2019-02-26T10:01:14Z">
-      <class name="ctatestcases.Smoke">
-        <test-method status="FAIL" signature="FailedTC()[pri:0, instance:ctatestcases.Smoke@5762806e]" name="FailedTC" duration-ms="124" started-at="2019-02-26T10:00:44Z" finished-at="2019-02-26T10:00:44Z">
-          <exception class="junit.framework.ComparisonFailure">
-            <message>
-              <![CDATA[expected:<1> but was:<2>]]>
-            </message>
-            <full-stacktrace>
-              <![CDATA[junit.framework.ComparisonFailure: expected:<1> but was:<2>
-at junit.framework.Assert.assertEquals(Assert.java:81)
-at junit.framework.Assert.assertEquals(Assert.java:87)
-at ctatestcases.Smoke.FailedTC(Smoke.java:43)
-at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
-at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
-at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
-at java.lang.reflect.Method.invoke(Unknown Source)
-at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:124)
-at org.testng.internal.Invoker.invokeMethod(Invoker.java:583)
-at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:719)
-at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:989)
-at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
-at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
-at org.testng.TestRunner.privateRun(TestRunner.java:648)
-at org.testng.TestRunner.run(TestRunner.java:505)
-at org.testng.SuiteRunner.runTest(SuiteRunner.java:455)
-at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:450)
-at org.testng.SuiteRunner.privateRun(SuiteRunner.java:415)
-at org.testng.SuiteRunner.run(SuiteRunner.java:364)
-at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
-at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:84)
-at org.testng.TestNG.runSuitesSequentially(TestNG.java:1208)
-at org.testng.TestNG.runSuitesLocally(TestNG.java:1137)
-at org.testng.TestNG.runSuites(TestNG.java:1049)
-at org.testng.TestNG.run(TestNG.java:1017)
-at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:114)
-at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:251)
-at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
-]]>
-            </full-stacktrace>
-          </exception> <!-- junit.framework.ComparisonFailure -->
+    <test name="Default test" duration-ms="16775" started-at="2019-02-26T10:25:15Z" finished-at="2019-02-26T10:25:32Z">
+      <class name="isoft.etraffic.vhl.ftftest.ClearanceCertificateTest">
+        <test-method status="PASS" signature="setup()[pri:0, instance:isoft.etraffic.vhl.ftftest.ClearanceCertificateTest@48524010]" name="setup" is-config="true" duration-ms="7808" started-at="2019-02-26T10:25:15Z" finished-at="2019-02-26T10:25:23Z">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- FailedTC -->
-        <test-method status="PASS" signature="openFirefox()[pri:0, instance:ctatestcases.Smoke@5762806e]" name="openFirefox" duration-ms="4386" started-at="2019-02-26T10:00:45Z" finished-at="2019-02-26T10:00:49Z">
+        </test-method> <!-- setup -->
+        <test-method status="PASS" signature="vehicleClearanceCert()[pri:0, instance:isoft.etraffic.vhl.ftftest.ClearanceCertificateTest@48524010]" name="vehicleClearanceCert" duration-ms="8671" started-at="2019-02-26T10:25:23Z" finished-at="2019-02-26T10:25:32Z">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- openFirefox -->
-        <test-method status="PASS" signature="openIE()[pri:0, instance:ctatestcases.Smoke@5762806e]" name="openIE" duration-ms="18256" started-at="2019-02-26T10:00:49Z" finished-at="2019-02-26T10:01:07Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- openIE -->
-        <test-method status="PASS" signature="openchrome()[pri:0, instance:ctatestcases.Smoke@5762806e]" name="openchrome" duration-ms="6185" started-at="2019-02-26T10:01:07Z" finished-at="2019-02-26T10:01:13Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- openchrome -->
-      </class> <!-- ctatestcases.Smoke -->
+        </test-method> <!-- vehicleClearanceCert -->
+      </class> <!-- isoft.etraffic.vhl.ftftest.ClearanceCertificateTest -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>

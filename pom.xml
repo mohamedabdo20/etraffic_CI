@@ -139,7 +139,7 @@
 			</activation>
 			<properties>
 				<testNGSuite>RunCTAPublicAccess\smoke.xml</testNGSuite>
-				<!-- <testNGSuite>RunCTAPublicAccess\vhl_smoke.xml</testNGSuite> -->
+				 <testNGSuite>RunCTAPublicAccess\vhl_smoke.xml</testNGSuite>
 			</properties>
 		</profile>
 		

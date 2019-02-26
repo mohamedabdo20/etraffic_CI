@@ -10,7 +10,7 @@ import junit.framework.Assert;
 
 public class Smoke {
 	WebDriver driver;
-	@Test
+/*	@Test
 	public void openchrome()
 	{
 	
@@ -19,13 +19,30 @@ public class Smoke {
 		driver.get("http://www.googl.com");
 		driver.quit();
 		
-	}
+	}*/
+	/*@Test
+	public void openFirefox()
+	{
+		System.setProperty("webdriver.gecko.driver", "./drivers/geckodriver.exe");
+		driver = new FirefoxDriver();
+		driver.get("https://tst12c:7791/traffic/faces/jsf/auth/login.jsf");
+		driver.quit();
+	}*/
 	@Test
+	public void openIE()
+	{
+		System.setProperty("webdriver.ie.driver", "./drivers/IEDriverServer.exe");
+		driver = new InternetExplorerDriver();
+		driver.get("https://tst12c:7791/traffic/faces/jsf/auth/login.jsf");
+		driver.quit();
+		
+	}
+	/*@Test
 	public void FailedTC()
 	{
 		Assert.assertEquals("1","2");
 		
 	}
-	
+	*/
 	
 }
