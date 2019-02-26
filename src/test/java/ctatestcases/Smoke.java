@@ -41,6 +41,7 @@ public class Smoke {
 		driver = new InternetExplorerDriver();
 		//driver.navigate().to("https://tst12c:7791/traffic/faces/jsf/auth/login.jsf");
 		//driver.quit();
+		System.out.println("Working");
 		
 	}
 	/*@Test
