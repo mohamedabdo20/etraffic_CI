@@ -138,7 +138,7 @@
 				</property>
 			</activation>
 			<properties>
-				<testNGSuite>RunCTAPublicAccess\NewTLFullCycle_Chrome.xml</testNGSuite>
+				<testNGSuite>vhl_smoke.xml</testNGSuite>
 			</properties>
 		</profile>
 		

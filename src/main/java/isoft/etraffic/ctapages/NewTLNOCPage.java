@@ -6,8 +6,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import isoft.etraffic_CI.enums.*;
+
 import io.qameta.allure.Step;
+import isoft.etraffic.enums.*;
 import isoft.etraffic.wrapper.SeleniumWraper;
 
 public class NewTLNOCPage extends SeleniumWraper {

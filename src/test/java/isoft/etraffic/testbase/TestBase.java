@@ -14,8 +14,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 
-import isoft.etraffic_CI.enums.*;
-
 public class TestBase {
 
 	protected WebDriver driver = null;

@@ -375,7 +375,6 @@ public abstract class SeleniumWraper {
 			} catch (Exception e) {
 				Thread.sleep(1000);
 				seconds++;
-				//waitForElement(by);
 			}
 		}
 	}
