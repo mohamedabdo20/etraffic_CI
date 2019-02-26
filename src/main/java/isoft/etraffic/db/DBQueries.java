@@ -10,7 +10,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import org.testng.annotations.Test;
 import isoft.etraffic.enums.Database;
 import isoft.etraffic.enums.PlateCategory;
 import isoft.etraffic.enums.VehicleClass;
@@ -262,7 +261,6 @@ public class DBQueries {
 		con.close();
 	}
 
-	 @Test
 		public void addTestUnRegisteredVehicle(String chassis, VehicleClass vehicleClass, String weight)
 				throws ClassNotFoundException, SQLException {
 			setConnection();
