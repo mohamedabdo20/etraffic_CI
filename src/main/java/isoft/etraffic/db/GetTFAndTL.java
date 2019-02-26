@@ -4,9 +4,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import org.testng.annotations.Test;
-
 import io.qameta.allure.Step;
 
 public class GetTFAndTL {
@@ -277,7 +274,7 @@ public class GetTFAndTL {
 		// Thread.sleep(10000);
 
 	}
-	@Test
+
 	public void getTFandTLForaddnewContract () throws SQLException, InterruptedException {
 
 		Statement SQLStatement = con.createStatement();

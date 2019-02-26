@@ -5,8 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.testng.annotations.Test;
-
 public class GetTF {
 
 	public String TRF;
@@ -57,7 +55,7 @@ public class GetTF {
 
 	}
 
-	@Test
+	
 	public void getnewTF(String TL) throws SQLException, InterruptedException {
 
 		Statement SQLStatement = con.createStatement();
