@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite guice-stage="DEVELOPMENT" name="Failed suite [Staging]">
+  <parameter name="browser" value="CHROME"/>
+  <test thread-count="5" name="Chrome-FullCycleExcel(failed)">
+    <classes>
+      <class name="ctatestcases.NewTLFullCycleExcel">
+        <methods>
+          <include name="tearDown"/>
+          <include name="setup"/>
+          <include name="NewNoc"/>
+        </methods>
+      </class> <!-- ctatestcases.NewTLFullCycleExcel -->
+    </classes>
+  </test> <!-- Chrome-FullCycleExcel(failed) -->
+</suite> <!-- Failed suite [Staging] -->
