@@ -139,5 +139,26 @@
 				<testNGSuite>RunCTAPublicAccess\NewTLFullCycle_Chrome.xml</testNGSuite>
 			</properties>
 		</profile>
+		<profile>
+			  <id>nexus</id>
+			  <!--Enable snapshots for the built in central repo to direct -->
+			  <!--all requests to nexus via the mirror -->
+			  <repositories>
+			    <repository>
+			      <id>central</id>
+			      <url>http://central</url>
+			      <releases><enabled>true</enabled><updatePolicy>always</updatePolicy></releases>
+			      <snapshots><enabled>true</enabled><updatePolicy>always</updatePolicy></snapshots>
+			    </repository>
+			  </repositories>
+			 <pluginRepositories>
+			    <pluginRepository>
+			      <id>central</id>
+			      <url>http://central</url>
+			      <releases><enabled>true</enabled><updatePolicy>always</updatePolicy></releases>
+			      <snapshots><enabled>true</enabled><updatePolicy>always</updatePolicy></snapshots>
+			    </pluginRepository>
+			  </pluginRepositories>
+			</profile>
 	</profiles>
 </project>
