@@ -57,7 +57,8 @@ public class ClearanceCertificateTest {
 		InternetExplorerOptions options =new InternetExplorerOptions();
 		options.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS,true); 
 		driver = new InternetExplorerDriver(options);
-		driver.get("https://tst12c:7791/traffic/faces/jsf/auth/login.jsf");// "https://qctest:4443/traffic/faces/jsf/auth/login.jsf");
+	//	driver.get("https://tst12c:7791/traffic/faces/jsf/auth/login.jsf");
+		driver.get("https://www.google.com");
 		driver.get("javascript:document.getElementById('overridelink').click();");
 		driver.manage().window().maximize();
 	}
