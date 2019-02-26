@@ -21,23 +21,6 @@ public class Smoke {
 		
 	}
 	@Test
-	public void openIE()
-	{
-		System.setProperty("webdriver.gecko.driver", "./drivers/geckodriver.exe");
-		driver = new FirefoxDriver();
-		driver.get("http://www.googl.com");
-		driver.quit();
-	}
-	@Test
-	public void openFirefox()
-	{
-		System.setProperty("webdriver.ie.driver", "./drivers/IEDriverServer.exe");
-		driver = new InternetExplorerDriver();
-		driver.get("http://www.googl.com");
-		driver.quit();
-		
-	}
-	@Test
 	public void FailedTC()
 	{
 		Assert.assertEquals("1","2");
