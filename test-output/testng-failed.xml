@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite guice-stage="DEVELOPMENT" name="Failed suite [Staging]">
-  <parameter name="browser" value="CHROME"/>
-  <test thread-count="5" name="VHL Smoke Test(failed)">
+<suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
+  <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="isoft.etraffic.vhl.ftftest.ClearanceCertificateTest">
+      <class name="isoft.etraffic.vhl.sdditest.ClearanceCertificateSDDITest">
         <methods>
           <include name="tearDown"/>
-          <include name="vehicleClearanceCert"/>
           <include name="setup"/>
-          <include name="setup"/>
+          <include name="beforeClass"/>
+          <include name="clearanceCertificateSDDITest"/>
         </methods>
-      </class> <!-- isoft.etraffic.vhl.ftftest.ClearanceCertificateTest -->
+      </class> <!-- isoft.etraffic.vhl.sdditest.ClearanceCertificateSDDITest -->
     </classes>
-  </test> <!-- VHL Smoke Test(failed) -->
-</suite> <!-- Failed suite [Staging] -->
+  </test> <!-- Default test(failed) -->
+</suite> <!-- Failed suite [Default suite] -->

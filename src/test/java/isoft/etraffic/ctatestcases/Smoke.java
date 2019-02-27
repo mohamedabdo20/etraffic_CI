@@ -1,25 +1,24 @@
 package isoft.etraffic.ctatestcases;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.annotations.Test;
 
+import isoft.etraffic.testbase.TestBase;
 import junit.framework.Assert;
 
-public class Smoke {
-	WebDriver driver;
+public class Smoke extends TestBase {
+	//WebDriver driver;
 	@Test
-	public void openchrome()
-	{
-	
-		System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
-		driver = new ChromeDriver();
-		driver.get("http://www.googl.com");
-		driver.quit();}
+	public void FirstTest()
+	{}
 	
 	@Test
 	public void PassedTC()
 	{
 		Assert.assertEquals("1","1");}
+	
+	@Test
+	public void FailedTC()
+	{
+		Assert.assertEquals("1","2");}
 	
 }

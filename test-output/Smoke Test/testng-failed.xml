@@ -3,14 +3,15 @@
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Smoke Test]">
   <test thread-count="5" name="Smoke Test(failed)">
     <classes>
-      <class name="ctatestcases.Smoke">
+      <class name="isoft.etraffic.ctatestcases.Smoke">
         <methods>
-          <include name="openFirefox"/>
-          <include name="openchrome"/>
+          <include name="PassedTC"/>
+          <include name="tearDown"/>
           <include name="FailedTC"/>
-          <include name="openIE"/>
+          <include name="FirstTest"/>
+          <include name="setup"/>
         </methods>
-      </class> <!-- ctatestcases.Smoke -->
+      </class> <!-- isoft.etraffic.ctatestcases.Smoke -->
     </classes>
   </test> <!-- Smoke Test(failed) -->
 </suite> <!-- Failed suite [Smoke Test] -->

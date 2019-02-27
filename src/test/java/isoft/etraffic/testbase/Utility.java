@@ -1,4 +1,4 @@
-package isoft.etraffic.utils;
+package isoft.etraffic.testbase;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,17 +7,11 @@ import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.io.FileHandler;
 
-public class ScreenCapture {
+public class Utility 
+{
 
-	public static void getScreenShot(WebDriver driver,String fileToSave) throws IOException{
-		//capture screen shoot with a .png format.
-		File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-		FileHandler.copy(scrFile, new File(fileToSave));
-	}
-	/*
-	public static String getScreenshotpath(WebDriver driver)
+	public static String getScreenshot(WebDriver driver)
 	{
 		TakesScreenshot ts=(TakesScreenshot) driver;
 		
@@ -36,5 +30,6 @@ public class ScreenCapture {
 		}
 		
 		return path;
-	}*/
+	}
+	
 }
