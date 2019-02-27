@@ -1,1 +1,0 @@
-{"uuid":"c4e8dd25-88c7-4e06-b4d7-af4bf326dfdd","name":"isoft.etraffic.testbase.TestBase.setup","description":"","start":1551161156357,"stop":1551161165497,"children":["20e3a469-735f-4ce4-8edb-52926f1a73d6"],"befores":[{"name":"setup","status":"passed","stage":"finished","description":"","start":1551161156359,"stop":1551161165495}]}

@@ -13,13 +13,13 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class ExcelReader {
 
 	static FileInputStream fis = null ; 
-	String fileName = "testdata";
+	public static String ExcelfileName = "testdata";
 	public static String sheetname = null;
 	public static int TotalNumberOfCols;
 	
 	public FileInputStream getFileInputStream() 
 	{
-		String filePath = System.getProperty("user.dir")+"/Exceldata/"+fileName+".xlsx"; 
+		String filePath = System.getProperty("user.dir")+"/Exceldata/"+ExcelfileName+".xlsx"; 
 		File srcFile = new File(filePath);
 		
 		try {
