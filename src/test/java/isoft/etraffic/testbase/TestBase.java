@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.testng.ITestResult;
@@ -31,7 +32,10 @@ public class TestBase {
 		switch (browser) {
 		case "CHROME":
 			System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
-			driver = new ChromeDriver();
+			ChromeOptions options = new ChromeOptions();
+			options.addArguments("--new-window");
+			options.addArguments("-incognito");
+			driver = new ChromeDriver(options);
 			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 			driver.manage().window().maximize();
 			driver.get(url);

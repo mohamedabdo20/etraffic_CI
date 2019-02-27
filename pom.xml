@@ -129,16 +129,16 @@
 	</dependencies>
 	<profiles>
 		<profile>
-			<id>regression</id>
+			<id>smoke</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 				<property>
 					<name>environment</name>
-					<value>regression</value>
+					<value>smoke</value>
 				</property>
 			</activation>
 			<properties>
-				<testNGSuite>RunCTAPublicAccess\vhl_smoke.xml</testNGSuite>
+				<testNGSuite>RunCTAPublicAccess\smoke.xml</testNGSuite>
 			</properties>
 		</profile>
 		

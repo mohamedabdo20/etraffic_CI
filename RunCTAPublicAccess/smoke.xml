@@ -5,7 +5,7 @@
 	  <test verbose="2" name="Smoke Test">
 
 		<classes>
-			<class name="ctatestcases.Smoke" />
+			<class name="isoft.etraffic.ctatestcases.Smoke" />
 		</classes>
 	</test> 
 
