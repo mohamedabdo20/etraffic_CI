@@ -33,7 +33,7 @@ public class AddPerson extends SeleniumWraper {
 	private By membersharetxt = By.id("memberCapitalShareId");
 	private By emiratesIDattach = By.id("membermEmiratesIdCopyId");
 	private By saveMemberbtn = By.id("btnCompanyProfileSubmit");
-	MemberTypes membertypes;
+	
 	
 	@Step("Add new person")
 	public void addOwnerOrManager(String ArabicName, String EnglishName, String MobileNo, String birthDate,
@@ -60,15 +60,15 @@ public class AddPerson extends SeleniumWraper {
 		writeToElement(emirateIdtxt, emiratesID);
 		clickElement(memberTypeDrp); 
 		
-		switch (membertypes) {
-		case manager:
+		switch (memberType) {
+		case "manager":
 		
 			waitForElement(membertypeInput);
 			selectFromFTFList(membertypeInput, "manager");
 			/*wait.until(ExpectedConditions.elementToBeClickable(memberTypeManagerSelect));
 			clickElement(memberTypeManagerSelect);*/
 			break;
-		case owner:
+		case "owner":
 			wait.until(ExpectedConditions.elementToBeClickable(memberTypeOwnerSelect));
 			clickElement(memberTypeOwnerSelect);
 			break;}

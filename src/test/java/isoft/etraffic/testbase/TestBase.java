@@ -27,7 +27,7 @@ public class TestBase {
 	@BeforeMethod
 	@Parameters({ "url", "browser", "lang" })
 	public void setup(@Optional("https://tst12c:7793/trfesrv/public_resources/public-access.do") String url,
-			@Optional("chrome") String browser, @Optional("en") String lang) {
+			@Optional("CHROME") String browser, @Optional("en") String lang) {
 
 		switch (browser) {
 		case "CHROME":

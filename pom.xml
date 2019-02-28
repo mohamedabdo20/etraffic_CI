@@ -137,8 +137,7 @@
 				</property>
 			</activation>
 			<properties>
-				<testNGSuite>RunCTAPublicAccess\smoke.xml</testNGSuite>
-				<testNGSuite>SmokeTest\VHLSDDISmoke.xml</testNGSuite>
+				<testNGSuite>SmokeTest\CTASDDISmoke.xml</testNGSuite>
 			</properties>
 		</profile>
 		

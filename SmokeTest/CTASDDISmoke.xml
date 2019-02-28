@@ -6,6 +6,7 @@
 
 		<classes>
 			<class name="isoft.etraffic.ctatestcases.NewTLFullCycleExcel" />
+			<class name="isoft.etraffic.ctatestcases.Smoke" />
 		</classes>
 	</test> 
 
