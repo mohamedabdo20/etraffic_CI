@@ -13,7 +13,7 @@ import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 public class ExtentReportDemo 
 {
  
-	@Test
+	
 	public void loginTest() throws IOException
 	{    
             // Create Object of ExtentHtmlReporter and provide the path where you want to generate the report 

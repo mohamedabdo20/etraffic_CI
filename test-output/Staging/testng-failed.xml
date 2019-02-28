@@ -1,17 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Staging]">
-  <parameter name="browser" value="CHROME"/>
-  <test thread-count="5" name="VHL Smoke Test(failed)">
+  <test thread-count="5" name="CTA Smoke Test(failed)">
     <classes>
-      <class name="isoft.etraffic.vhl.ftftest.ClearanceCertificateTest">
+      <class name="isoft.etraffic.ctatestcases.NewTLFullCycleExcel">
         <methods>
           <include name="tearDown"/>
-          <include name="vehicleClearanceCert"/>
           <include name="setup"/>
-          <include name="setup"/>
+          <include name="NewNoc" invocation-numbers="0"/>
         </methods>
-      </class> <!-- isoft.etraffic.vhl.ftftest.ClearanceCertificateTest -->
+      </class> <!-- isoft.etraffic.ctatestcases.NewTLFullCycleExcel -->
     </classes>
-  </test> <!-- VHL Smoke Test(failed) -->
+  </test> <!-- CTA Smoke Test(failed) -->
 </suite> <!-- Failed suite [Staging] -->

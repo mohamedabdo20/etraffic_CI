@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
-  <test thread-count="5" name="Default test(failed)">
+<suite guice-stage="DEVELOPMENT" name="Failed suite [Staging]">
+  <test thread-count="5" name="CTA Smoke Test(failed)">
     <classes>
-      <class name="isoft.etraffic.vhl.sdditest.ClearanceCertificateSDDITest">
+      <class name="isoft.etraffic.ctatestcases.NewTLFullCycleExcel">
         <methods>
           <include name="tearDown"/>
           <include name="setup"/>
-          <include name="beforeClass"/>
-          <include name="clearanceCertificateSDDITest"/>
+          <include name="NewNoc" invocation-numbers="0"/>
         </methods>
-      </class> <!-- isoft.etraffic.vhl.sdditest.ClearanceCertificateSDDITest -->
+      </class> <!-- isoft.etraffic.ctatestcases.NewTLFullCycleExcel -->
     </classes>
-  </test> <!-- Default test(failed) -->
-</suite> <!-- Failed suite [Default suite] -->
+  </test> <!-- CTA Smoke Test(failed) -->
+</suite> <!-- Failed suite [Staging] -->

@@ -133,7 +133,7 @@ public class DBQueries {
 		System.out.println(" Vehicle Insurance was added successfully");
 	}
 
-	// @Test
+	// 
 	public void addTest(String chassis, VehicleClass vehicleClass, String weight)
 			throws ClassNotFoundException, SQLException {
 		setConnection();

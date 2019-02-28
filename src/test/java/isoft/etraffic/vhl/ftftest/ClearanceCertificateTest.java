@@ -41,7 +41,7 @@ public class ClearanceCertificateTest extends TestBase{
 		loginPage = new LoginFTFPage(driver);
 		loginPage.loginFTF(username, dbQueries.getUserPassword(username), center);
 
-		/*commonPage = new CommonPage(driver);
+		commonPage = new CommonPage(driver);
 		commonPage.gotoSmartServices();
 		commonPage.searchByPlate(plateCategory, plateNumber, plateCode);
 		commonPage.gotoPlateService("شهادة براءة ذمة");
@@ -49,7 +49,7 @@ public class ClearanceCertificateTest extends TestBase{
 		clearanceCertificatePage = new ClearanceCertificatePage(driver);
 		clearanceCertificatePage.proceedTrs();
 
-		commonPage.payFTF();*/
+		commonPage.payFTF();
 	}
 
 /*

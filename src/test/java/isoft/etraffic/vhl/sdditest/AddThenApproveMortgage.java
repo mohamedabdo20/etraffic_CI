@@ -76,7 +76,7 @@ public class AddThenApproveMortgage {
 		approveMortgage(chassisRegistered, passport);
 	}
 
-	//@Test
+	@Test
 	public void addMortgage_Not_RegisteredVehicle() throws Exception {
 
 		commonPage = new CommonPageOnline(driver);
@@ -98,7 +98,7 @@ public class AddThenApproveMortgage {
 
 		approveMortgage(chassisNotRegistered, passport);
 	}
-
+	@Test
 	public void approveMortgage(String chassisRegistered, String passport) throws Exception {
 //		chassisRegistered = "WP1ZZZ92ZCLA12870";
 //		passport = "752618";

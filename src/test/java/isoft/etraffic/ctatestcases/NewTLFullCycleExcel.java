@@ -80,7 +80,7 @@ public class NewTLFullCycleExcel extends TestBase {
 		ReviewObject.ReviewTL(TrxID, AppNo);
 
 		DeliveryMethod DeliveryObject = new DeliveryMethod(driver);
-		DeliveryObject.delivermethod("0501234657", "04065858585", "test@test.com", "test@test.com");
+		DeliveryObject.delivermethod("0501234657", "04065858585", "test.com", "test.com");
 
 		PaymentCreaditCard payment = new PaymentCreaditCard();
 		payment.paymentcreaditcard(driver);
@@ -99,7 +99,7 @@ public class NewTLFullCycleExcel extends TestBase {
 		UpdateTLpage UpdateTLobject = new UpdateTLpage(driver);
 		UpdateTLobject.searchForComp(certificatenumber, AppNo);
 		UpdateTLobject.fillTLData(AppNo, "شركة جديدة", "New Company", "01-01-2018", "01-01-2020", "0506242628",
-				"04065958684", "test@test.com", "15619849", "Company Address");
+				"04065958684", "test.com", "15619849", "Company Address");
 		UpdateTLobject.submitTRX();
 
 		String UpdateTrxID = NOCpage.UpdateTraxID();

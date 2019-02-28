@@ -45,7 +45,7 @@ public class ClearanceCertificateSDDITest extends TestBase {
 		commonPage.gotoPlateService("Vehicle(s) Clearance Certificate");
 		clearenceCertificatePage = new ClearenceCertificatePage(driver);
 		clearenceCertificatePage.proceedTrs();
-	//	commonPage.payOnline();
+		commonPage.payOnline();
 	}
 
 }
