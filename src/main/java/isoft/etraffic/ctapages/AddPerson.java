@@ -5,7 +5,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import io.qameta.allure.Step;
-import isoft.etraffic.enums.MemberTypes;
 import isoft.etraffic.wrapper.SeleniumWraper;
 
 public class AddPerson extends SeleniumWraper {
@@ -27,7 +26,7 @@ public class AddPerson extends SeleniumWraper {
 	private By emirateIdtxt = By.id("memberEmirateId");
 	private By memberTypeDrp = By.id("select2-memberTypeId-container");
 	private By membertypeInput = By.xpath("//*[@class='select2-search__field']");
-	private By memberTypeManagerSelect = By.xpath("/html/body/span/span/span[2]/ul/li[18]");
+	//private By memberTypeManagerSelect = By.xpath("/html/body/span/span/span[2]/ul/li[18]");
 	private By memberTypeMemberSelect = By.xpath("/html/body/span/span/span[2]/ul/li[3]");
 	private By memberTypeOwnerSelect = By.xpath("/html/body/span/span/span[2]/ul/li[2]");
 	private By membersharetxt = By.id("memberCapitalShareId");

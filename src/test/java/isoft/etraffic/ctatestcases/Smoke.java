@@ -1,7 +1,5 @@
 package isoft.etraffic.ctatestcases;
 
-import org.testng.annotations.Test;
-
 import isoft.etraffic.testbase.TestBase;
 import junit.framework.Assert;
 

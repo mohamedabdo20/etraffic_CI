@@ -18,11 +18,11 @@ import isoft.etraffic.ctapages.NewTLNOCPage;
 import isoft.etraffic.ctapages.PaymentCreaditCard;
 import isoft.etraffic.ctapages.ReviewTLPage;
 import isoft.etraffic.ctapages.UpdateTLpage;
-import isoft.etraffic.testbase.TestBase;
 import isoft.etraffic.data.ExcelReader;
 import isoft.etraffic.db.GetNo;
 import isoft.etraffic.db.GetTF;
 import isoft.etraffic.db.NewNocApprovals;
+import isoft.etraffic.testbase.TestBase;
 
 @Epic("Master test cases Execution")
 @Feature("New trade license full cycle")
