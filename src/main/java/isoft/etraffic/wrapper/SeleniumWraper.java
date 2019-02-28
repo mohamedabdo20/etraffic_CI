@@ -152,7 +152,7 @@ public abstract class SeleniumWraper {
 	
 	// Wrapper
 	public void clickElement(By locator) throws InterruptedException {
-		 waitForElement(locator);
+		waitForElement(locator);
 		driver.findElement(locator).click();
 	}
 

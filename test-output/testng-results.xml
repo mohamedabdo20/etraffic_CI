@@ -2,12 +2,12 @@
 <testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
   <reporter-output>
   </reporter-output>
-  <suite name="Staging" duration-ms="270551" started-at="2019-02-28T08:09:14Z" finished-at="2019-02-28T08:13:45Z">
+  <suite name="CTA_Staging" duration-ms="155005" started-at="2019-02-28T12:41:01Z" finished-at="2019-02-28T12:43:36Z">
     <groups>
     </groups>
-    <test name="CTA Smoke Test" duration-ms="270551" started-at="2019-02-28T08:09:14Z" finished-at="2019-02-28T08:13:45Z">
-      <class name="isoft.etraffic.ctatestcases.NewTLFullCycleExcel">
-        <test-method status="PASS" signature="setup(java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:isoft.etraffic.ctatestcases.NewTLFullCycleExcel@71c8becc]" name="setup" is-config="true" duration-ms="7488" started-at="2019-02-28T08:09:15Z" finished-at="2019-02-28T08:09:23Z">
+    <test name="CTA Smoke Test" duration-ms="155005" started-at="2019-02-28T12:41:01Z" finished-at="2019-02-28T12:43:36Z">
+      <class name="isoft.etraffic.ctatestcases.ReprintDocumentCases">
+        <test-method status="PASS" signature="setup(java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:isoft.etraffic.ctatestcases.ReprintDocumentCases@4d1c00d0]" name="setup" is-config="true" duration-ms="67286" started-at="2019-02-28T12:41:01Z" finished-at="2019-02-28T12:42:08Z">
           <params>
             <param index="0">
               <value>
@@ -28,34 +28,22 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setup -->
-        <test-method status="PASS" signature="NewNoc(java.lang.String, java.lang.String)[pri:0, instance:isoft.etraffic.ctatestcases.NewTLFullCycleExcel@71c8becc]" name="NewNoc" duration-ms="258814" started-at="2019-02-28T08:09:23Z" data-provider="CTA_Activities" finished-at="2019-02-28T08:13:42Z">
-          <params>
-            <param index="0">
-              <value>
-                <![CDATA[325]]>
-              </value>
-            </param>
-            <param index="1">
-              <value>
-                <![CDATA[No]]>
-              </value>
-            </param>
-          </params>
+        <test-method status="PASS" signature="reprintDocument()[pri:0, instance:isoft.etraffic.ctatestcases.ReprintDocumentCases@4d1c00d0]" name="reprintDocument" duration-ms="84162" started-at="2019-02-28T12:42:08Z" finished-at="2019-02-28T12:43:33Z">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- NewNoc -->
-        <test-method status="PASS" signature="tearDown(org.testng.ITestResult)[pri:0, instance:isoft.etraffic.ctatestcases.NewTLFullCycleExcel@71c8becc]" name="tearDown" is-config="true" duration-ms="3212" started-at="2019-02-28T08:13:42Z" finished-at="2019-02-28T08:13:45Z">
+        </test-method> <!-- reprintDocument -->
+        <test-method status="PASS" signature="tearDown(org.testng.ITestResult)[pri:0, instance:isoft.etraffic.ctatestcases.ReprintDocumentCases@4d1c00d0]" name="tearDown" is-config="true" duration-ms="3242" started-at="2019-02-28T12:43:33Z" finished-at="2019-02-28T12:43:36Z">
           <params>
             <param index="0">
               <value>
-                <![CDATA[[TestResult name=NewNoc status=SUCCESS method=NewTLFullCycleExcel.NewNoc(java.lang.String, java.lang.String)[pri:0, instance:isoft.etraffic.ctatestcases.NewTLFullCycleExcel@71c8becc] output={null}]]]>
+                <![CDATA[[TestResult name=reprintDocument status=SUCCESS method=ReprintDocumentCases.reprintDocument()[pri:0, instance:isoft.etraffic.ctatestcases.ReprintDocumentCases@4d1c00d0] output={null}]]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDown -->
-      </class> <!-- isoft.etraffic.ctatestcases.NewTLFullCycleExcel -->
+      </class> <!-- isoft.etraffic.ctatestcases.ReprintDocumentCases -->
     </test> <!-- CTA Smoke Test -->
-  </suite> <!-- Staging -->
+  </suite> <!-- CTA_Staging -->
 </testng-results>

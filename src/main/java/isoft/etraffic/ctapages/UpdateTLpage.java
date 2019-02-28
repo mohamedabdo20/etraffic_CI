@@ -42,6 +42,13 @@ public class UpdateTLpage extends SeleniumWraper {
 		writeToElement(appNo, order);
 		clickElement(searchBtn);
 	}
+	
+	@Step("Update Trade License For Renew")
+	public void updateTLforRenewTradeLicense() throws InterruptedException
+	{
+		writeToElement(TLexpirydate, "20-10-2024");
+		FileInputElement(TLcopy, System.getProperty("user.dir") + "//attachments//Lighthouse.jpg");
+	}
 
 	@Step("Fill company data for new trade license")
 	public void fillTLData(String order, String ArName, String enName, String issuedate, String expirydate,

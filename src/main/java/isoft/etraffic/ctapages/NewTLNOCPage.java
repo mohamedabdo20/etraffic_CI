@@ -46,7 +46,7 @@ public class NewTLNOCPage extends SeleniumWraper {
 	@Step("Create new NOC for new trade license - Fill NOC form data ")
 	public void NewNOCFill(String requestIssuer, String mobileNo, String issueDate)
 			throws InterruptedException, ClassNotFoundException, SQLException {
-
+		
 		clickElement(NewNOCLink);
 		GP.applyForService();
 		writeToElement(requestIssuertxt, requestIssuer);

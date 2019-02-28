@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -15,19 +17,21 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 
-public class TestBase {
+import isoft.etraffic.wrapper.SeleniumWraper;
 
-	protected WebDriver driver = null;
+public class TestBase extends SeleniumWraper{
+
+	protected static WebDriver driver = null;
 	public static final String testDataExcelFileName = System.getProperty("user.dir") + "/Exceldata/testdata.xlsx";
-
+	private By homelink = By.id("goToHomeText");
 	public TestBase() {
-		super();
+		super(driver);
 	}
 
 	@BeforeMethod
 	@Parameters({ "url", "browser", "lang" })
 	public void setup(@Optional("https://tst12c:7793/trfesrv/public_resources/public-access.do") String url,
-			@Optional("CHROME") String browser, @Optional("en") String lang) {
+			@Optional("CHROME") String browser, @Optional("en") String lang) throws InterruptedException {
 
 		switch (browser) {
 		case "CHROME":
@@ -39,6 +43,7 @@ public class TestBase {
 			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 			driver.manage().window().maximize();
 			driver.get(url);
+			waitForElement(homelink);
 			break;
 
 		case "FIREFOX":
@@ -71,6 +76,12 @@ public class TestBase {
 			isoft.etraffic.utils.ScreenCapture.getScreenShot(driver,
 					"./screenshots/Failed/" + test + "_" + datenow + ".png");
 		driver.quit();
+	}
+
+	@Override
+	public boolean isPageLoaded() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

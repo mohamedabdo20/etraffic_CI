@@ -44,6 +44,7 @@ public class NewTLFullCycleExcel extends TestBase {
 	public void NewNoc(String Activity, String Obligation)
 			throws InterruptedException, ClassNotFoundException, SQLException {
 		// Create NOC for New Trade License
+		System.out.println("----------------New NOC Trade License----------------");
 		NewTLNOCPage NOCpage = new NewTLNOCPage(driver);
 		NOCpage.NewNOCFill("Abdo", "12345679", "22-07-2018");
 		AddActivity addactiv = new AddActivity(driver);
@@ -67,6 +68,7 @@ public class NewTLFullCycleExcel extends TestBase {
 		System.out.println("Application No: " + AppNo);
 
 		// Approve EPS
+		System.out.println("----------------Approve EPS and Security permissions----------------");
 		NewNocApprovals approve = new NewNocApprovals();
 		approve.securityapproval(AppNo);
 		approve.EPSapproval(TrxID);
@@ -75,17 +77,18 @@ public class NewTLFullCycleExcel extends TestBase {
 		Thread.sleep(5000);
 
 		// Review TL
+		System.out.println("----------------Review Trade License----------------");
 		driver.get("https://tst12c:7793/trfesrv/public_resources/public-access.do");
 		ReviewTLPage ReviewObject = new ReviewTLPage(driver);
 		ReviewObject.ReviewTL(TrxID, AppNo);
 
 		DeliveryMethod DeliveryObject = new DeliveryMethod(driver);
-		DeliveryObject.delivermethod("0501234657", "04065858585", "test.com", "test.com");
+		DeliveryObject.delivermethod("0501234657", "04065858585", "test@test.com", "test@test.com");
 
-		PaymentCreaditCard payment = new PaymentCreaditCard();
+		PaymentCreaditCard payment = new PaymentCreaditCard(driver);
 		payment.paymentcreaditcard(driver);
 
-		Thread.sleep(50000);
+		Thread.sleep(30000);
 
 		// get certification No
 		GetNo getorderno = new GetNo();
@@ -95,6 +98,7 @@ public class NewTLFullCycleExcel extends TestBase {
 		System.out.println("Application No: " + AppNo);
 
 		// Update TL
+		System.out.println("----------------Update Trade License----------------");
 		driver.get("https://tst12c:7793/trfesrv/public_resources/public-access.do");
 		UpdateTLpage UpdateTLobject = new UpdateTLpage(driver);
 		UpdateTLobject.searchForComp(certificatenumber, AppNo);
@@ -116,6 +120,8 @@ public class NewTLFullCycleExcel extends TestBase {
 		getTFObject.getnewTF(AppNo);
 		String TF = getTFObject.TRF;
 		System.out.println("New Traffic No: " + TF);
-		System.out.println("New Trade license No: " + AppNo);}
+		System.out.println("New Trade license No: " + AppNo);
+		System.out.println("----------------New Trade License cycle finished successfully----------------");
+	}
 
 }

@@ -8,6 +8,7 @@
 
 		<classes>
 			<class name="isoft.etraffic.vhl.sdditest.ClearanceCertificateSDDITest" />
+			
 		</classes>
 	</test> 
 

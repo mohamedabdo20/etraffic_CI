@@ -6,18 +6,17 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-
-import io.qameta.allure.Step;
 import isoft.etraffic.wrapper.SeleniumWraper;
 
-public class PaymentCreaditCard extends SeleniumWraper{
-	private By closeHappiniesbtn = By.xpath("//*[@class='fancybox-item fancybox-close']");
+public class PaymentCreaditCardforRenew extends SeleniumWraper
+{
 	
-	@Step("Make Payment by credit card")	
-	public void paymentcreaditcard(WebDriver driver) throws InterruptedException
-	{ 
-		driver.findElement(By.xpath("//input[@id='payButtonId']")).click();
-		driver.findElement(By.xpath("//button[@id='btnGoToStep4']")).click();
+
+
+	public void paymentcreaditcardforrenew(WebDriver driver) throws InterruptedException
+	{
+		driver.findElement(By.id("payButtonId")).click();
+		Thread.sleep(3000);
 		WebDriverWait wait = new WebDriverWait(driver, 15, 100);
 		WebElement myElement = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[contains(@name,'chkConfirm')]")));
 		myElement.click();
@@ -34,20 +33,19 @@ public class PaymentCreaditCard extends SeleniumWraper{
 		driver.findElement(By.id("txtCvvNo")).sendKeys("123");
 		driver.findElement(By.id("payButton")).click();
 		Thread.sleep(10000);
-		clickElement(closeHappiniesbtn);
 
-		
+
+}
+	
+
+	public PaymentCreaditCardforRenew(WebDriver driver) {
+		super(driver);
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public boolean isPageLoaded() {
 		// TODO Auto-generated method stub
 		return false;
-	}
-	
-
-	public PaymentCreaditCard(WebDriver driver) {
-		super(driver);
-		// TODO Auto-generated constructor stub
 	}
 }
