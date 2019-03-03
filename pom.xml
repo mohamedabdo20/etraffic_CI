@@ -5,7 +5,7 @@
 
 	<groupId>Isoft</groupId>
 	<artifactId>etraffic</artifactId>
-	<version>1.0</version>
+	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>etraffic</name>
@@ -100,11 +100,7 @@
 		<artifactId>aspectjweaver</artifactId>
 		<version>${aspectj.version}</version>
 	</dependency>
-	<dependency>
-    <groupId> org.apache.cassandra</groupId>
-    <artifactId>cassandra-all</artifactId>
-    <version>0.8.1</version>
-  </dependency>
+	
 	  <!-- https://mvnrepository.com/artifact/log4j/log4j -->
 	<dependency>
 	    <groupId>log4j</groupId>
@@ -141,7 +137,6 @@
 				</property>
 			</activation>
 			<properties>
-				<testNGSuite>SmokeTest\VHLSDDISmoke.xml</testNGSuite>
 				<testNGSuite>SmokeTest\CTASDDISmoke.xml</testNGSuite>
 			</properties>
 		</profile>

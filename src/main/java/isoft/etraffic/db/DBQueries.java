@@ -1435,8 +1435,13 @@ public class DBQueries {
 	}
 
 	private void setConnection() throws ClassNotFoundException, SQLException {
-		Class.forName("oracle.jdbc.driver.OracleDriver");
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+		} catch (ClassNotFoundException e) {
 
+			e.printStackTrace();
+			System.out.println("JDBC class not found");
+		}
 		// step2 create the connection object
 		con = DriverManager.getConnection(getDatabaseConnection(), Username, password);
 		System.out.print("connected to DB   --  ");

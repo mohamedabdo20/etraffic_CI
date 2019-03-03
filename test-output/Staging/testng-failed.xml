@@ -2,7 +2,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Staging]">
   <parameter name="browser" value="CHROME"/>
-  <parameter name="url" value="https://tst12c:7791/traffic/faces/jsf/auth/login.jsf"/>
+  <parameter name="url" value="https://tst12c:7793/trfesrv/test_login.jsp"/>
   <test thread-count="5" name="VHL Smoke Test(failed)">
     <classes>
       <class name="isoft.etraffic.vhl.sdditest.ClearanceCertificateSDDITest">
