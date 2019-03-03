@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite guice-stage="DEVELOPMENT" name="Failed suite [CTA_Staging]">
+<suite guice-stage="DEVELOPMENT" name="Failed suite [Staging]">
   <parameter name="browser" value="CHROME"/>
-  <test thread-count="5" name="CTA Smoke Test(failed)">
+  <parameter name="url" value="https://tst12c:7791/traffic/faces/jsf/auth/login.jsf"/>
+  <test thread-count="5" name="VHL Smoke Test(failed)">
     <classes>
-      <class name="isoft.etraffic.ctatestcases.ReprintDocumentCases">
+      <class name="isoft.etraffic.vhl.sdditest.ClearanceCertificateSDDITest">
         <methods>
           <include name="tearDown"/>
           <include name="setup"/>
-          <include name="reprintDocument"/>
+          <include name="beforeClass"/>
+          <include name="clearanceCertificateSDDITest"/>
         </methods>
-      </class> <!-- isoft.etraffic.ctatestcases.ReprintDocumentCases -->
+      </class> <!-- isoft.etraffic.vhl.sdditest.ClearanceCertificateSDDITest -->
     </classes>
-  </test> <!-- CTA Smoke Test(failed) -->
-</suite> <!-- Failed suite [CTA_Staging] -->
+  </test> <!-- VHL Smoke Test(failed) -->
+</suite> <!-- Failed suite [Staging] -->

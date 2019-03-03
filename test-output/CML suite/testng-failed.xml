@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite guice-stage="DEVELOPMENT" name="Failed suite [CML suite]">
+  <parameter name="browser" value="CHROME"/>
+  <test thread-count="5" name="Chrome-Review TL (failed)">
+    <parameter name="order_no" value="60894"/>
+    <parameter name="transaction_No" value="101255487"/>
+    <classes>
+      <class name="isoft.etraffic.ctatestcases.ReviewTradeLicense">
+        <methods>
+          <include name="tearDown"/>
+          <include name="ReviewTL" invocation-numbers="0"/>
+          <include name="setup"/>
+        </methods>
+      </class> <!-- isoft.etraffic.ctatestcases.ReviewTradeLicense -->
+    </classes>
+  </test> <!-- Chrome-Review TL (failed) -->
+</suite> <!-- Failed suite [CML suite] -->

@@ -5,11 +5,11 @@
 	  <test verbose="2" name="CTA Smoke Test">
 
 		<classes>
-			<class name="isoft.etraffic.ctatestcases.NewTLFullCycleExcel" />
-			<class name="isoft.etraffic.ctatestcases.RenewTL" />
+<!-- 			<class name="isoft.etraffic.ctatestcases.NewTLFullCycleExcel" />
+			 <class name="isoft.etraffic.ctatestcases.RenewTL" /> -->
 			<class name="isoft.etraffic.ctatestcases.Smoke" />
-			<class name="isoft.etraffic.ctatestcases.IssueToWhomConcernCertificate" /> 
-			 <class name="isoft.etraffic.ctatestcases.ReprintDocumentCases" /> 
+			<!-- <class name="isoft.etraffic.ctatestcases.IssueToWhomConcernCertificate" /> 
+			 <class name="isoft.etraffic.ctatestcases.ReprintDocumentCases" />  -->
 		</classes>
 	</test> 
 

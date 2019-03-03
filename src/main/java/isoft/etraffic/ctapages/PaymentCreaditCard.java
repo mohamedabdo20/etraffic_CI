@@ -6,37 +6,42 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-
 import io.qameta.allure.Step;
 import isoft.etraffic.wrapper.SeleniumWraper;
 
-public class PaymentCreaditCard extends SeleniumWraper{
-	private By closeHappiniesbtn = By.xpath("//*[@class='fancybox-item fancybox-close']");
-	
-	@Step("Make Payment by credit card")	
-	public void paymentcreaditcard(WebDriver driver) throws InterruptedException
-	{ 
-		driver.findElement(By.xpath("//input[@id='payButtonId']")).click();
-		driver.findElement(By.xpath("//button[@id='btnGoToStep4']")).click();
-		WebDriverWait wait = new WebDriverWait(driver, 15, 100);
-		WebElement myElement = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[contains(@name,'chkConfirm')]")));
-		myElement.click();
-		driver.findElement(By.xpath("//input[@name='btnPay']")).click();
-		
-		Thread.sleep(3000);
-		WebDriverWait waitt = new WebDriverWait(driver, 20, 100);
-		WebElement myElementt = waitt.until(ExpectedConditions.elementToBeClickable(By.id("txtCardNo")));
-		myElementt.sendKeys("4111111111111111");
-		driver.findElement(By.xpath("//select[@ng-model='month']")).click();
-		driver.findElement(By.xpath("//option[@label='January']")).click();
-		driver.findElement(By.xpath("/html/body/div[1]/div/form/div/div/div[2]/div[2]/div[1]/div[2]/table/tbody/tr[3]/td[3]/table/tbody/tr/td[2]/select")).sendKeys("2020");
-		Thread.sleep(5000);
-		driver.findElement(By.id("txtCvvNo")).sendKeys("123");
-		driver.findElement(By.id("payButton")).click();
-		Thread.sleep(10000);
-		clickElement(closeHappiniesbtn);
+public class PaymentCreaditCard extends SeleniumWraper {
+	//private By closeHappiniesbtn = By.xpath("//*[@class='fancybox-item fancybox-close']");
+	private By paybtn = By.xpath("//input[@id='payButtonId']");
+	private By continuebtn = By.xpath("//button[@id='btnGoToStep4']");
+	private By chkConfirm = By.xpath("//input[contains(@name,'chkConfirm')]");
+	private By paybtn2 = By.xpath("//input[@name='btnPay']");
+	private By cardnotxt = By.id("txtCardNo");
+	private By monthdrp = By.xpath("//select[@ng-model='month']");
+	private By yeardrp = By.xpath("//select[@ng-model='selectedYear']");
+	private By cvvtxt = By.id("txtCvvNo");
+	private By confirmpaymentbtn = By.id("payButton");
+	private By homelink = By.id("goToHomeText");
+	WebDriverWait wait;
 
-		
+	@Step("Make Payment by credit card")
+	public void paymentcreaditcard(WebDriver driver) throws InterruptedException {
+
+		clickElement(paybtn);
+		clickElement(continuebtn);
+		clickElement(chkConfirm);
+		clickElement(paybtn2);
+		Thread.sleep(3000);
+		wait = new WebDriverWait(driver, 15, 100);
+		WebElement cardno = wait.until(ExpectedConditions.elementToBeClickable(cardnotxt));
+		cardno.sendKeys("4111111111111111");
+		selectFromListByValue(monthdrp, "1");
+		selectFromListByValue(yeardrp, "number:2023");
+		writeToElement(cvvtxt, "123");
+		clickElement(confirmpaymentbtn);
+		Thread.sleep(10000);
+		waitForElement(homelink);
+		// clickElement(closeHappiniesbtn);
+
 	}
 
 	@Override
@@ -44,7 +49,6 @@ public class PaymentCreaditCard extends SeleniumWraper{
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
 
 	public PaymentCreaditCard(WebDriver driver) {
 		super(driver);

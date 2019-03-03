@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Staging">
+	<parameter name="url"
+		value="https://tst12c:7793/trfesrv/public_resources/public-access.do"></parameter>
+	<parameter name="browser" value="chrome"></parameter>
+
+	  <test verbose="2" name="Chrome-Counter- Activity 5">
+		<parameter name="Activity" value="5"></parameter>
+		<parameter name="Obligation" value="No"></parameter>
+			<parameter name="TF" value="50190685"></parameter>
+		<parameter name="TL" value="60028"></parameter>
+	
+		<classes>
+			<class name="isoft.etraffic.testcases.NewTLCounterFullCycle" />
+		</classes>
+	</test> 
+	<!-- <test verbose="2" name="Chrome-Counter-Activity 325">
+		<parameter name="Activity" value="325"></parameter>
+		<parameter name="Obligation" value="No"></parameter>
+			<parameter name="TF" value="50190673"></parameter>
+		<parameter name="TL" value="60023"></parameter>
+	
+		<classes>
+			<class name="isoft.etraffic.testcases.NewTLCounterFullCycle" />
+		</classes>
+	</test>  
+	
+		  <test verbose="2" name="Chrome-Counter-Activity 25">
+		<parameter name="Activity" value="25"></parameter>
+		<parameter name="Obligation" value="No"></parameter>
+			<parameter name="TF" value="50190682"></parameter>
+		<parameter name="TL" value="60027"></parameter>
+	
+		<classes>
+			<class name="isoft.etraffic.testcases.NewTLCounterFullCycle" />
+		</classes>
+	</test> 
+			  <test verbose="2" name="Chrome-Counter-Activity 170">
+		<parameter name="Activity" value="170"></parameter>
+		<parameter name="Obligation" value="No"></parameter>
+			<parameter name="TF" value="50190688"></parameter>
+		<parameter name="TL" value="60029"></parameter>
+	
+		<classes>
+			<class name="isoft.etraffic.testcases.NewTLCounterFullCycle" />
+		</classes>
+	</test> 
+	
+	<test verbose="2" name="Chrome-Counter-Activity 990075">
+		<parameter name="Activity" value="990075"></parameter>
+		<parameter name="Obligation" value="No"></parameter>
+			<parameter name="TF" value="50190697"></parameter>
+		<parameter name="TL" value="60032"></parameter>
+	
+		<classes>
+			<class name="isoft.etraffic.testcases.NewTLCounterFullCycle" />
+		</classes>
+	</test> 
+	-->
+</suite>
+
+

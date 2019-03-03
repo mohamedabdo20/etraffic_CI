@@ -4,13 +4,13 @@
   <parameter name="browser" value="CHROME"/>
   <test thread-count="5" name="CTA Smoke Test(failed)">
     <classes>
-      <class name="isoft.etraffic.ctatestcases.ReprintDocumentCases">
+      <class name="isoft.etraffic.ctatestcases.NewTLFullCycleExcel">
         <methods>
           <include name="tearDown"/>
           <include name="setup"/>
-          <include name="reprintDocument"/>
+          <include name="NewNoc" invocation-numbers="0"/>
         </methods>
-      </class> <!-- isoft.etraffic.ctatestcases.ReprintDocumentCases -->
+      </class> <!-- isoft.etraffic.ctatestcases.NewTLFullCycleExcel -->
     </classes>
   </test> <!-- CTA Smoke Test(failed) -->
 </suite> <!-- Failed suite [CTA_Staging] -->

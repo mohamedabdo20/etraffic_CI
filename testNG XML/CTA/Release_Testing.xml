@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Staging">
+	<parameter name="url"
+		value="https://tst12c:7793/trfesrv/public_resources/public-access.do"></parameter>
+	<parameter name="browser" value="chrome"></parameter>
+
+	<test verbose="2" name="NewTLForVIP">
+		<parameter name="Activity" value="325"></parameter>
+		<parameter name="Obligation" value="No"></parameter>
+		<classes>
+			<class name="isoft.etraffic.testcases.NewTLFullCycle" />
+		</classes>
+	</test>
+
+	<test verbose="2" name="NewTLForTAXI">
+		<parameter name="Activity" value="25"></parameter>
+		<parameter name="Obligation" value="Yes"></parameter>
+		<classes>
+			<class name="isoft.etraffic.testcases.NewTLFullCycle" />
+		</classes>
+	</test>
+
+	<test verbose="2" name="NewTLForTruc170">
+		<parameter name="Activity" value="170"></parameter>
+		<parameter name="Obligation" value="Yes"></parameter>
+		<classes>
+			<class name="isoft.etraffic.testcases.NewTLFullCycle" />
+		</classes>
+	</test>
+
+	<test verbose="2" name="NewTLForTruc171">
+		<parameter name="Activity" value="171"></parameter>
+		<parameter name="Obligation" value="Yes"></parameter>
+		<classes>
+			<class name="isoft.etraffic.testcases.NewTLFullCycle" />
+		</classes>
+	</test>
+
+	<test verbose="2" name="NewTLForTruc160">
+		<parameter name="Activity" value="160"></parameter>
+		<parameter name="Obligation" value="No"></parameter>
+		<classes>
+			<class name="isoft.etraffic.testcases.NewTLFullCycle" />
+		</classes>
+	</test>
+
+	<test verbose="2" name="NewTLForRentHours">
+		<parameter name="Activity" value="990075"></parameter>
+		<parameter name="Obligation" value="Yes"></parameter>
+		<classes>
+			<class name="isoft.etraffic.testcases.NewTLFullCycle" />
+		</classes>
+	</test>
+
+	<test verbose="2" name="NewTLForRent5">
+		<parameter name="Activity" value="5"></parameter>
+		<parameter name="Obligation" value="Yes"></parameter>
+		<classes>
+			<class name="isoft.etraffic.testcases.NewTLFullCycle" />
+		</classes>
+	</test>
+
+	<test verbose="2" name="CTAServices">
+
+		<classes>
+			<class name="isoft.etraffic.testcases.ModifyTLDB" />
+			<class name="isoft.etraffic.testcases.RenewTL" />
+			<class name="isoft.etraffic.testcases.ReprintDocumentCases" />
+			<class name="isoft.etraffic.testcases.SuspendTradeLicense" />
+			<class name="isoft.etraffic.testcases.ResumeTradeLicenses" />
+			<class name="isoft.etraffic.testcases.PayDepreciationFines" />
+
+
+		</classes>
+	</test>
+
+</suite>
+
+

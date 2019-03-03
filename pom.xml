@@ -141,6 +141,7 @@
 				</property>
 			</activation>
 			<properties>
+				<testNGSuite>SmokeTest\VHLSDDISmoke.xml</testNGSuite>
 				<testNGSuite>SmokeTest\CTASDDISmoke.xml</testNGSuite>
 			</properties>
 		</profile>

@@ -2,16 +2,16 @@
 <testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
   <reporter-output>
   </reporter-output>
-  <suite name="CTA_Staging" duration-ms="155005" started-at="2019-02-28T12:41:01Z" finished-at="2019-02-28T12:43:36Z">
+  <suite name="Staging" duration-ms="215015" started-at="2019-03-03T07:57:53Z" finished-at="2019-03-03T08:01:28Z">
     <groups>
     </groups>
-    <test name="CTA Smoke Test" duration-ms="155005" started-at="2019-02-28T12:41:01Z" finished-at="2019-02-28T12:43:36Z">
-      <class name="isoft.etraffic.ctatestcases.ReprintDocumentCases">
-        <test-method status="PASS" signature="setup(java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:isoft.etraffic.ctatestcases.ReprintDocumentCases@4d1c00d0]" name="setup" is-config="true" duration-ms="67286" started-at="2019-02-28T12:41:01Z" finished-at="2019-02-28T12:42:08Z">
+    <test name="VHL Smoke Test" duration-ms="215015" started-at="2019-03-03T07:57:53Z" finished-at="2019-03-03T08:01:28Z">
+      <class name="isoft.etraffic.vhl.sdditest.ClearanceCertificateSDDITest">
+        <test-method status="PASS" signature="setup(java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:isoft.etraffic.vhl.sdditest.ClearanceCertificateSDDITest@5db45159]" name="setup" is-config="true" duration-ms="68878" started-at="2019-03-03T07:57:53Z" finished-at="2019-03-03T07:59:02Z">
           <params>
             <param index="0">
               <value>
-                <![CDATA[https://tst12c:7793/trfesrv/public_resources/public-access.do]]>
+                <![CDATA[https://tst12c:7793/trfesrv/test_login.jsp]]>
               </value>
             </param>
             <param index="1">
@@ -28,22 +28,26 @@
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setup -->
-        <test-method status="PASS" signature="reprintDocument()[pri:0, instance:isoft.etraffic.ctatestcases.ReprintDocumentCases@4d1c00d0]" name="reprintDocument" duration-ms="84162" started-at="2019-02-28T12:42:08Z" finished-at="2019-02-28T12:43:33Z">
+        <test-method status="PASS" signature="beforeClass()[pri:0, instance:isoft.etraffic.vhl.sdditest.ClearanceCertificateSDDITest@5db45159]" name="beforeClass" is-config="true" duration-ms="2024" started-at="2019-03-03T07:59:02Z" finished-at="2019-03-03T07:59:04Z">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- reprintDocument -->
-        <test-method status="PASS" signature="tearDown(org.testng.ITestResult)[pri:0, instance:isoft.etraffic.ctatestcases.ReprintDocumentCases@4d1c00d0]" name="tearDown" is-config="true" duration-ms="3242" started-at="2019-02-28T12:43:33Z" finished-at="2019-02-28T12:43:36Z">
+        </test-method> <!-- beforeClass -->
+        <test-method status="PASS" signature="clearanceCertificateSDDITest()[pri:0, instance:isoft.etraffic.vhl.sdditest.ClearanceCertificateSDDITest@5db45159]" name="clearanceCertificateSDDITest" duration-ms="124074" started-at="2019-03-03T07:59:04Z" finished-at="2019-03-03T08:01:08Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- clearanceCertificateSDDITest -->
+        <test-method status="PASS" signature="tearDown(org.testng.ITestResult)[pri:0, instance:isoft.etraffic.vhl.sdditest.ClearanceCertificateSDDITest@5db45159]" name="tearDown" is-config="true" duration-ms="19606" started-at="2019-03-03T08:01:08Z" finished-at="2019-03-03T08:01:28Z">
           <params>
             <param index="0">
               <value>
-                <![CDATA[[TestResult name=reprintDocument status=SUCCESS method=ReprintDocumentCases.reprintDocument()[pri:0, instance:isoft.etraffic.ctatestcases.ReprintDocumentCases@4d1c00d0] output={null}]]]>
+                <![CDATA[[TestResult name=clearanceCertificateSDDITest status=SUCCESS method=ClearanceCertificateSDDITest.clearanceCertificateSDDITest()[pri:0, instance:isoft.etraffic.vhl.sdditest.ClearanceCertificateSDDITest@5db45159] output={null}]]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- tearDown -->
-      </class> <!-- isoft.etraffic.ctatestcases.ReprintDocumentCases -->
-    </test> <!-- CTA Smoke Test -->
-  </suite> <!-- CTA_Staging -->
+      </class> <!-- isoft.etraffic.vhl.sdditest.ClearanceCertificateSDDITest -->
+    </test> <!-- VHL Smoke Test -->
+  </suite> <!-- Staging -->
 </testng-results>

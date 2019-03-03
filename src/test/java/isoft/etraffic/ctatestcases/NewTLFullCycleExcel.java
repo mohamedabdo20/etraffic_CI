@@ -89,7 +89,7 @@ public class NewTLFullCycleExcel extends TestBase {
 		PaymentCreaditCard payment = new PaymentCreaditCard(driver);
 		payment.paymentcreaditcard(driver);
 
-		Thread.sleep(30000);
+		//Thread.sleep(30000);
 
 		// get certification No
 		GetNo getorderno = new GetNo();
