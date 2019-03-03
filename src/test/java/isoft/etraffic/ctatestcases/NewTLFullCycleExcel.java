@@ -79,6 +79,7 @@ public class NewTLFullCycleExcel extends TestBase {
 		// Review TL
 		System.out.println("----------------Review Trade License----------------");
 		driver.get("https://tst12c:7793/trfesrv/public_resources/public-access.do");
+		Thread.sleep(2000);
 		ReviewTLPage ReviewObject = new ReviewTLPage(driver);
 		ReviewObject.ReviewTL(TrxID, AppNo);
 
@@ -100,6 +101,7 @@ public class NewTLFullCycleExcel extends TestBase {
 		// Update TL
 		System.out.println("----------------Update Trade License----------------");
 		driver.get("https://tst12c:7793/trfesrv/public_resources/public-access.do");
+		Thread.sleep(2000);
 		UpdateTLpage UpdateTLobject = new UpdateTLpage(driver);
 		UpdateTLobject.searchForComp(certificatenumber, AppNo);
 		UpdateTLobject.fillTLData(AppNo, "شركة جديدة", "New Company", "01-01-2018", "01-01-2020", "0506242628",
