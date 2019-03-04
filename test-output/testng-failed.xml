@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Staging]">
-  <parameter name="browser" value="CHROME"/>
-  <parameter name="url" value="https://tst12c:7793/trfesrv/test_login.jsp"/>
-  <test thread-count="5" name="VHL Smoke Test(failed)">
+  <test thread-count="5" name="Smoke Test(failed)">
     <classes>
-      <class name="isoft.etraffic.vhl.sdditest.ClearanceCertificateSDDITest">
+      <class name="isoft.etraffic.ctatestcases.Smoke">
         <methods>
-          <include name="tearDown"/>
-          <include name="setup"/>
-          <include name="beforeClass"/>
-          <include name="clearanceCertificateSDDITest"/>
+          <include name="FailedTC"/>
         </methods>
-      </class> <!-- isoft.etraffic.vhl.sdditest.ClearanceCertificateSDDITest -->
+      </class> <!-- isoft.etraffic.ctatestcases.Smoke -->
     </classes>
-  </test> <!-- VHL Smoke Test(failed) -->
+  </test> <!-- Smoke Test(failed) -->
 </suite> <!-- Failed suite [Staging] -->

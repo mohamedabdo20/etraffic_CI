@@ -3,14 +3,11 @@
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="isoft.etraffic.vhl.sdditest.ClearanceCertificateSDDITest">
+      <class name="isoft.etraffic.ctatestcases.Smoke">
         <methods>
-          <include name="tearDown"/>
-          <include name="setup"/>
-          <include name="beforeClass"/>
-          <include name="clearanceCertificateSDDITest"/>
+          <include name="FailedTC"/>
         </methods>
-      </class> <!-- isoft.etraffic.vhl.sdditest.ClearanceCertificateSDDITest -->
+      </class> <!-- isoft.etraffic.ctatestcases.Smoke -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->
