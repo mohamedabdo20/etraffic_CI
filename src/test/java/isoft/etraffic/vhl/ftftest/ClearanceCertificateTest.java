@@ -15,7 +15,7 @@ public class ClearanceCertificateTest extends TestBase{
 	String username = "rta13580";// "rta10686";
 	String center = "مؤسسة الترخيص - ديرة";
 	String plateNumber, plateCategory, plateCode, trafficFileNo;
-
+ 
 	//WebDriver driver;
 	DBQueries dbQueries = new DBQueries();
 	CommonPage commonPage;
@@ -48,16 +48,4 @@ public class ClearanceCertificateTest extends TestBase{
 		commonPage.payFTF();
 	}
 
-/*
-	private void startBrowser(String browser) {
-		System.setProperty("webdriver.ie.driver", System.getProperty("user.dir") + "\\drivers\\IEDriverServer.exe");
-		InternetExplorerOptions options =new InternetExplorerOptions();
-		options.setCapability(InternetExplorerDriver.INTRODUCE_FLAKINESS_BY_IGNORING_SECURITY_DOMAINS,true); 
-		driver = new InternetExplorerDriver(options);
-	//	driver.get("https://tst12c:7791/traffic/faces/jsf/auth/login.jsf");
-		driver.get("https://www.google.com");
-		driver.get("javascript:document.getElementById('overridelink').click();");
-		driver.manage().window().maximize();
-	}
-	*/
 }

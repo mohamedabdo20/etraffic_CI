@@ -12,7 +12,7 @@ public class ClearanceCertificatePage extends SeleniumWraper {
 	public void proceedTrs() throws InterruptedException {
 		waitForElement(proceedBtn);
 		clickElementJS(proceedBtn);
-
+ 
 	}
 
 	public ClearanceCertificatePage(WebDriver driver) {

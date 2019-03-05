@@ -29,7 +29,7 @@ import isoft.etraffic.testbase.TestBase;
 public class NewTLFullCycleExcel extends TestBase {
 
 	GeneralPages GP = new GeneralPages(driver);
-
+ 
 	@DataProvider(name = "CTA_Activities")
 	public Object[][] ActivityData() throws IOException {
 		// get data from Excel Reader class
