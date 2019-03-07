@@ -1,21 +1,22 @@
 package isoft.etraffic.vhl.ftftest;
 
-import java.sql.SQLException;
+import static org.testng.Assert.assertTrue;
 
+import java.sql.SQLException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
+import isoft.etraffic.vhl.ftfpages.*;
 import isoft.etraffic.db.DBQueries;
 import isoft.etraffic.testbase.TestBase;
-import isoft.etraffic.vhl.ftfpages.ClearanceCertificatePage;
-import isoft.etraffic.vhl.ftfpages.CommonPage;
-import isoft.etraffic.vhl.ftfpages.LoginFTFPage;
 
 public class ClearanceCertificateTest extends TestBase{
 	String username = "rta13580";// "rta10686";
 	String center = "مؤسسة الترخيص - ديرة";
 	String plateNumber, plateCategory, plateCode, trafficFileNo;
- 
+
 	//WebDriver driver;
 	DBQueries dbQueries = new DBQueries();
 	CommonPage commonPage;
@@ -24,7 +25,8 @@ public class ClearanceCertificateTest extends TestBase{
 
 	@BeforeMethod
 	public void setup() throws ClassNotFoundException, SQLException {
-		//startBrowser("ie");
+		System.out.println("-------------Gowaaaaaaaaaaaaaa-setup- RTA-------------------");
+	//	startBrowser("ie");
 		String[] vehicle = dbQueries.getVehicle();
 		trafficFileNo = vehicle[0];
 		plateNumber = vehicle[1];
@@ -47,5 +49,12 @@ public class ClearanceCertificateTest extends TestBase{
 
 		commonPage.payFTF();
 	}
+
+	@AfterMethod
+	public void after() throws ClassNotFoundException, SQLException, InterruptedException {
+		commonPage.switchToSecondWindow();
+		assertTrue(commonPage.transactionFeesAssertion(130, 140));
+	}
+	
 
 }

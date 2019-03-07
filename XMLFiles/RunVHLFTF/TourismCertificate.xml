@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Staging">
+	<parameter name="browser" value="IE" />
+	<parameter name="url"
+		value="https://tst12c:7791/traffic/faces/jsf/auth/login.jsf" />
+	<test verbose="2" name="شهادة سياحة">
+		<parameter name="trafficFile" value="10017017"></parameter>
+		<parameter name="plateCategory" value="دراجة"></parameter>
+		<parameter name="plateNumber" value="1948"></parameter>
+		<parameter name="plateCode" value="1"></parameter>
+		<parameter name="chassis" value="2BXRDDD29FV003502"></parameter>
+		<parameter name="vehicleWeight" value="200"></parameter>
+		<parameter name="vehicleClass" value="دراجة"></parameter>
+		<classes> <!-- NOC: 101237786 -->
+			<class name="isoft.etraffic.vhl.ftftest.TourismCertificateTest" />
+		</classes>
+	</test>
+</suite>

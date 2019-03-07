@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Staging">
+	<parameter name="browser" value="IE" />
+	<parameter name="url" value="https://tst12c:7791/traffic/faces/jsf/auth/login.jsf" />
+	
+	<!-- <test verbose="2" name="نقل ملكية مركبة خفيفة خصوصي أقل من 3000"> -->
+	<!-- <parameter name="newOwnertrafficFileNoValue" value="10184041"></parameter> -->
+	<!-- <parameter name="vehicleClassValue" value="مركبة خفيفة"></parameter> -->
+	<!-- <parameter name="plateCategoryValue" value="خصوصي"></parameter> -->
+	<!-- <parameter name="vehicleWeightRange" value="وزنها أقل من 3001 كغم"></parameter> -->
+	<!-- <classes> -->
+	<!-- <class name="isoft.etraffic.vhl.ftftest.ChangeVehicleOwnershipTest" /> -->
+	<!-- </classes> -->
+	<!-- </test> -->
+
+	<!-- <test verbose="2" name="نقل ملكية مركبة خفيفة خصوصي 5000"> -->
+	<!-- <parameter name="newOwnertrafficFileNoValue" value="10184041"></parameter> -->
+	<!-- <parameter name="vehicleClassValue" value="مركبة خفيفة"></parameter> -->
+	<!-- <parameter name="plateCategoryValue" value="خصوصي"></parameter> -->
+	<!-- <parameter name="vehicleWeightRange" value="وزنها بين 3000 و 12001 
+		"></parameter> -->
+	<!-- <classes> -->
+	<!-- <class name="isoft.etraffic.vhl.ftftest.ChangeVehicleOwnershipTest" /> -->
+	<!-- </classes> -->
+	<!-- </test> -->
+
+
+	<!-- <test verbose="2" name="نقل ملكية مركبة خفيفة خصوصي 15000"> -->
+	<!-- <parameter name="newOwnertrafficFileNoValue" value="10184041"></parameter> -->
+	<!-- <parameter name="vehicleClassValue" value="مركبة خفيفة"></parameter> -->
+	<!-- <parameter name="plateCategoryValue" value="خصوصي"></parameter> -->
+	<!-- <parameter name="vehicleWeightRange" value="وزنها يزيد عن 12000كغم"></parameter> -->
+	<!-- <classes> -->
+	<!-- <class name="isoft.etraffic.vhl.ftftest.ChangeVehicleOwnershipTest" /> -->
+	<!-- </classes> -->
+	<!-- </test> -->
+
+	<!-- <test verbose="2" name="نقل ملكية مركبة خفيفة نقل أقل من 3000"> -->
+	<!-- <parameter name="newOwnertrafficFileNoValue" value="10184041"></parameter> -->
+	<!-- <parameter name="vehicleClassValue" value="مركبة خفيفة"></parameter> -->
+	<!-- <parameter name="plateCategoryValue" value="نقل"></parameter> -->
+	<!-- <parameter name="vehicleWeightRange" value="وزنها أقل من 3001 كغم"></parameter> -->
+	<!-- <classes> -->
+	<!-- <class name="isoft.etraffic.vhl.ftftest.ChangeVehicleOwnershipTest" /> -->
+	<!-- </classes> -->
+	<!-- </test> -->
+
+	<!-- <test verbose="2" name="نقل ملكية مركبة خفيفة نقل 5000"> -->
+	<!-- <parameter name="newOwnertrafficFileNoValue" value="10184041"></parameter> -->
+	<!-- <parameter name="vehicleClassValue" value="مركبة خفيفة"></parameter> -->
+	<!-- <parameter name="plateCategoryValue" value="نقل"></parameter> -->
+	<!-- <parameter name="vehicleWeightRange" value="وزنها بين 3000 و 12001"></parameter> -->
+	<!-- <classes> -->
+	<!-- <class name="isoft.etraffic.vhl.ftftest.ChangeVehicleOwnershipTest" /> -->
+	<!-- </classes> -->
+	<!-- </test> -->
+
+	<!-- <test verbose="2" name="نقل ملكية مركبة ثقيلة خصوصي 5000"> -->
+	<!-- <parameter name="newOwnertrafficFileNoValue" value="10184041"></parameter> -->
+	<!-- <parameter name="vehicleClassValue" value="مركبة ثقيلة"></parameter> -->
+	<!-- <parameter name="plateCategoryValue" value="خصوصي"></parameter> -->
+	<!-- <parameter name="vehicleWeightRange" value="وزنها بين 3000 و 12001"></parameter> -->
+	<!-- <classes> -->
+	<!-- <class name="isoft.etraffic.vhl.ftftest.ChangeVehicleOwnershipTest" /> -->
+	<!-- </classes> -->
+	<!-- </test> -->
+
+	<!-- <test verbose="2" name="نقل ملكية مركبة ثقيلة خصوصي 15000"> -->
+	<!-- <parameter name="newOwnertrafficFileNoValue" value="10184041"></parameter> -->
+	<!-- <parameter name="vehicleClassValue" value="مركبة ثقيلة"></parameter> -->
+	<!-- <parameter name="plateCategoryValue" value="خصوصي"></parameter> -->
+	<!-- <parameter name="vehicleWeightRange" value="وزنها يزيد عن 12000كغم"></parameter> -->
+	<!-- <classes> -->
+	<!-- <class name="isoft.etraffic.vhl.ftftest.ChangeVehicleOwnershipTest" /> -->
+	<!-- </classes> -->
+	<!-- </test> -->
+
+	<!-- <test verbose="2" name="نقل ملكية مركبة ثقيلة نقل 5000"> -->
+	<!-- <parameter name="newOwnertrafficFileNoValue" value="10184041"></parameter> -->
+	<!-- <parameter name="vehicleClassValue" value="مركبة ثقيلة"></parameter> -->
+	<!-- <parameter name="plateCategoryValue" value="نقل"></parameter> -->
+	<!-- <parameter name="vehicleWeightRange" value="وزنها بين 3000 و 12001"></parameter> -->
+	<!-- <classes> -->
+	<!-- <class name="isoft.etraffic.vhl.ftftest.ChangeVehicleOwnershipTest" /> -->
+	<!-- </classes> -->
+	<!-- </test> -->
+
+	<!-- <test verbose="2" name="نقل ملكية مركبة ثقيلة نقل 5000"> -->
+	<!-- <parameter name="newOwnertrafficFileNoValue" value="10030015"></parameter> -->
+	<!-- <parameter name="vehicleClassValue" value="مركبة ثقيلة"></parameter> -->
+	<!-- <parameter name="plateCategoryValue" value="نقل"></parameter> -->
+	<!-- <parameter name="vehicleWeightRange" value="وزنها بين 3000 و 12001"></parameter> -->
+	<!-- <classes> -->
+	<!-- <class name="isoft.etraffic.vhl.ftftest.ChangeVehicleOwnershipTest" /> -->
+	<!-- </classes> -->
+	<!-- </test> -->
+
+
+	<!-- <test verbose="2" name="نقل ملكية مركبة ثقيلة نقل 15000"> -->
+	<!-- <parameter name="newOwnertrafficFileNoValue" value="10184041"></parameter> -->
+	<!-- <parameter name="vehicleClassValue" value="مركبة ثقيلة"></parameter> -->
+	<!-- <parameter name="plateCategoryValue" value="نقل"></parameter> -->
+	<!-- <parameter name="vehicleWeightRange" value="وزنها يزيد عن 12000كغم"></parameter> -->
+	<!-- <classes> -->
+	<!-- <class name="isoft.etraffic.vhl.ftftest.ChangeVehicleOwnershipTest" /> -->
+	<!-- </classes> -->
+	<!-- </test> -->
+
+<!-- 	<test verbose="2" name="نقل ملكية دراحة نارية"> -->
+<!-- 		<parameter name="newOwnertrafficFileNoValue" -->
+<!-- 			value="10184041"></parameter> -->
+<!-- 		<parameter name="vehicleClassValue" value="دراجة نارية"></parameter> -->
+<!-- 		<parameter name="plateCategoryValue" value="دراجة نارية"></parameter> -->
+<!-- 		<parameter name="vehicleWeightRange" value="Any"></parameter> -->
+<!-- 		<classes> -->
+<!-- 			<class name="isoft.etraffic.vhl.ftftest.ChangeVehicleOwnershipTest" /> -->
+<!-- 		</classes> -->
+<!-- 	</test> -->
+
+	<!-- <test verbose="2" name="نقل ملكية جهاز ميكانيكي ثقيل"> -->
+	<!-- <parameter name="newOwnertrafficFileNoValue" value="10184041"></parameter> -->
+	<!-- <parameter name="vehicleClassValue" value="جهاز ميكانيكى ثقيل"></parameter> -->
+	<!-- <parameter name="plateCategoryValue" value="خصوصي"></parameter> -->
+	<!-- <parameter name="vehicleWeightRange" value="Any"></parameter> -->
+	<!-- <classes> -->
+	<!-- <class name="isoft.etraffic.vhl.ftftest.ChangeVehicleOwnershipTest" /> -->
+	<!-- </classes> -->
+	<!-- </test> -->
+
+</suite>

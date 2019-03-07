@@ -5,5 +5,7 @@ public enum Database {
 	Test1,
 	Test2,
 	Automation,
-	ER
+	ERDB,
+	TRFUAT,
+	TRFUAT2
 }

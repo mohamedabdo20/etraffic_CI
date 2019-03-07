@@ -8,11 +8,8 @@ import java.util.Set;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import isoft.etraffic.enums.PlateDesign;
-import isoft.etraffic.enums.PlateSize;
-import isoft.etraffic.enums.ReplacedPlate;
-import isoft.etraffic.wrapper.SeleniumWraper;
+import isoft.etraffic.enums.*;
+import isoft.etraffic.wrapper.*;
 
 public class CommonPage extends SeleniumWraper {
 
@@ -244,8 +241,7 @@ public class CommonPage extends SeleniumWraper {
 		Thread.sleep(1000);
 		clickElement(serviceLnk);
 		try {
-			Thread.sleep(5000);
-			clickElement(verifyAllBtn);
+			tryClickElement(verifyAllBtn, 5);
 			Thread.sleep(3000);
 		} catch (Exception e) {
 			System.out.println("No Need For confirmation");
@@ -638,6 +634,14 @@ public class CommonPage extends SeleniumWraper {
 		clickElementJS(By.xpath("//*[@class='confirm']"));
 	}
 
+	public void selectNewPlates_PStrategy(PlateSize backPlate) throws InterruptedException {
+		Thread.sleep(2000);
+		selectBackPlate_PStrategy(backPlate, false);
+		Thread.sleep(1000);
+		waitForElement(By.xpath("//*[@class='confirm']"));
+		clickElementJS(By.xpath("//*[@class='confirm']"));
+	}
+
 	private void addLogoStatus(boolean logo) throws InterruptedException {
 		waitForElement(By.linkText("نعم"));
 		if (logo)
@@ -792,5 +796,20 @@ public class CommonPage extends SeleniumWraper {
 		Thread.sleep(2000);
 		clickElementJS(By.xpath("//*[@class='confirm']"));
 		Thread.sleep(4000);
+	}
+
+	public boolean transactionFeesAssertion(int minAmout, int maxAmout) {
+		System.out.println("fees = " + fees);
+		int feesAmount = Integer.parseInt(fees);
+		if (feesAmount >= minAmout && feesAmount <= maxAmout)
+			return true;
+		else if (feesAmount < minAmout) {
+			System.out.println("Actual Fees (" + fees + ") is less than the minimun expected amount (" + minAmout + ")");
+			return false;
+		}
+		else {
+			System.out.println("Actual Fees (" + fees + ") is less than the maximum expected amount (" + maxAmout + ")");
+			return false;
+		}
 	}
 }
