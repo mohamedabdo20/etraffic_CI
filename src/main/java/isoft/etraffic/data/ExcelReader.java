@@ -4,9 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-
-import javax.print.DocFlavor.STRING;
-
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -40,41 +37,41 @@ public class ExcelReader {
 		int TotalNumberOfRows = (sheet.getLastRowNum() + 1);
 
 		String[][] arrayExcelData = new String[TotalNumberOfRows][TotalNumberOfCols];
-		String[][] arrayExcelDataAcrual = null;
+		String[][] arrayExcelDataActual = null;
 
 		boolean stop = false;
 		for (int i = 0; i < TotalNumberOfRows; i++) {
 			for (int j = 0; j < TotalNumberOfCols; j++) {
-				XSSFRow row = sheet.getRow(i);
-				if (!row.getCell(j).toString().equals("")) {
-					arrayExcelData[i][j] = row.getCell(j).toString();
-					//System.out.println("arrayExcelData[i][j]: " + arrayExcelData[i][j]);
-				} else {
+				XSSFRow row = sheet.getRow(i + 1); // to ignore the header row
+				try {
+					if (!row.getCell(j).toString().equals("")) {
+						arrayExcelData[i][j] = row.getCell(j).toString();
+						//System.out.println("arrayExcelData[i][j]: " + arrayExcelData[i][j]);
+					} else {
+						// If There is an empty row inserted, set 'stop' to true then break the column loop
+						stop = true;
+						break;
+					}
+				} catch (NullPointerException e) {
+					// Exception is thrown in case there is no empty row inserted
 					stop = true;
-					//System.out.println("arrayExcelData Length: " + arrayExcelData.length);
-
 				}
 			}
 			if (stop) {
-				arrayExcelDataAcrual = new String[i][TotalNumberOfCols];
-				for (int x = 0; x < i; x++) {
-					for (int y = 0; y < TotalNumberOfCols; y++) {
-						arrayExcelDataAcrual[x][y] = arrayExcelData[x][y];
-					}
-				}
+				// Initialize arrayExcelDataActual with actual no of rows to be tested
+				arrayExcelDataActual = new String[i][TotalNumberOfCols];
 				break;
 			}
 		}
 
 		wb.close();
-		System.out.println("arrayExcelDataAcrual length: " + arrayExcelDataAcrual.length);
-		for (int i = 0; i < arrayExcelDataAcrual.length; i++) {
-			for (int j = 0; j < 2; j++) {
-				//System.out.println("-----------------");
-				//System.out.println("arrayExcelDataAcrual[i][j]: " + arrayExcelDataAcrual[i][j]);
+		// Fill arrayExcelDataActual
+		System.out.println("arrayExcelDataActual length: " + arrayExcelDataActual.length);
+		for (int i = 0; i < arrayExcelDataActual.length; i++) {
+			for (int j = 0; j < TotalNumberOfCols; j++) {
+				arrayExcelDataActual[i][j] = arrayExcelData[i][j];
 			}
 		}
-		return arrayExcelDataAcrual;
-
+		return arrayExcelDataActual;
 	}
 }
