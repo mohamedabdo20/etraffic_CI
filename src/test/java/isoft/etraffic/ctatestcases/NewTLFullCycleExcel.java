@@ -2,10 +2,12 @@ package isoft.etraffic.ctatestcases;
 
 import java.io.IOException;
 import java.sql.SQLException;
-
+import org.openqa.selenium.WebDriver;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
@@ -13,7 +15,6 @@ import io.qameta.allure.Step;
 import isoft.etraffic.ctapages.AddActivity;
 import isoft.etraffic.ctapages.AddPerson;
 import isoft.etraffic.ctapages.DeliveryMethod;
-import isoft.etraffic.ctapages.GeneralPages;
 import isoft.etraffic.ctapages.NewTLNOCPage;
 import isoft.etraffic.ctapages.PaymentCreaditCard;
 import isoft.etraffic.ctapages.ReviewTLPage;
@@ -26,17 +27,28 @@ import isoft.etraffic.testbase.TestBase;
 
 @Epic("Master test cases Execution")
 @Feature("New trade license full cycle")
-public class NewTLFullCycleExcel extends TestBase {
+public class NewTLFullCycleExcel  {
 
-	GeneralPages GP = new GeneralPages(driver);
+	WebDriver driver;
+	//GeneralPages GP = new GeneralPages(driver);
  
+	@BeforeMethod
+	@Parameters({ "url", "browser", "lang" })
+	public void setup(@Optional("https://tst12c:7793/trfesrv/public_resources/public-access.do") String url,
+	@Optional("CHROME") String browser, @Optional("en") String lang) throws Exception {
+		TestBase testBase = new TestBase();
+		testBase.setup(url, browser, lang);
+		driver = testBase.driver;
+	}
+	
 	@DataProvider(name = "CTA_Activities")
 	public Object[][] ActivityData() throws IOException {
 		// get data from Excel Reader class
 		ExcelReader ER = new ExcelReader();
-		ER.TotalNumberOfCols = 2;
-		ER.sheetname = "cta_activities";
-		return ER.getExcelData();}
+		String ExcelfileName = "testdata";
+		int TotalNumberOfCols = 2;
+		String sheetname = "cta_activities";
+		return ER.getExcelData(ExcelfileName, sheetname, TotalNumberOfCols);}
 
 	@Description("Make new trade license cycle for each activity")
 	@Step("This is new trade license for activity {0}, and with obligation flag {1}")
