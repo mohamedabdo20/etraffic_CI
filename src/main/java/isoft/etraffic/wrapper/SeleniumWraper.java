@@ -402,6 +402,19 @@ public abstract class SeleniumWraper {
 		}
 	}
 	
+	public void tryClickElement(By locator, int seconds) throws InterruptedException {
+		int sec=0;
+		while (sec<seconds) {
+			try {
+				clickElementJS(locator);
+				break;
+			} catch (Exception e) {
+				Thread.sleep(1000);
+				sec++;
+			}
+		}
+	}
+	
 	public boolean isElementDisplayed(By by) {
 		if (driver.findElement(by).isDisplayed())
 			return true;
