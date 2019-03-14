@@ -151,8 +151,9 @@ public abstract class SeleniumWraper {
 	}
 	
 	// Wrapper
+
+
 	public void clickElement(By locator) throws InterruptedException {
-		waitForElement(locator);
 		driver.findElement(locator).click();
 	}
 
@@ -365,7 +366,7 @@ public abstract class SeleniumWraper {
 	}
 	public void waitForElement(By by) throws InterruptedException {
 		seconds = 0;
-		while (seconds < 60) {
+		while (seconds < 2) {
 			try {
 				driver.findElement(by).isDisplayed();
 				Exception e = new Exception();
@@ -431,6 +432,18 @@ public abstract class SeleniumWraper {
 		{
 			Thread.sleep(1000);
 			waitTillLoadingFinish();
+		}
+	}
+	public void tryClickElement(By locator, int seconds) throws InterruptedException {
+		int sec=0;
+		while (sec<seconds) {
+			try {
+				clickElementJS(locator);
+				break;
+			} catch (Exception e) {
+				Thread.sleep(1000);
+				sec++;
+			}
 		}
 	}
 }
