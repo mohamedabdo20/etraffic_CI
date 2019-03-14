@@ -5,8 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import javax.print.DocFlavor.STRING;
-
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -37,7 +35,7 @@ public class ExcelReader {
 		XSSFWorkbook wb = new XSSFWorkbook(fis);
 		// XSSFSheet sheet = wb.getSheetAt(0);
 		XSSFSheet sheet = wb.getSheet(sheetname);
-		int TotalNumberOfRows = (sheet.getLastRowNum() + 1);
+		int TotalNumberOfRows = (sheet.getLastRowNum());
 
 		String[][] arrayExcelData = new String[TotalNumberOfRows][TotalNumberOfCols];
 		String[][] arrayExcelDataAcrual = null;
@@ -45,13 +43,13 @@ public class ExcelReader {
 		boolean stop = false;
 		for (int i = 0; i < TotalNumberOfRows; i++) {
 			for (int j = 0; j < TotalNumberOfCols; j++) {
-				XSSFRow row = sheet.getRow(i);
+				XSSFRow row = sheet.getRow(i + 1);
 				if (!row.getCell(j).toString().equals("")) {
 					arrayExcelData[i][j] = row.getCell(j).toString();
-					//System.out.println("arrayExcelData[i][j]: " + arrayExcelData[i][j]);
+
 				} else {
 					stop = true;
-					//System.out.println("arrayExcelData Length: " + arrayExcelData.length);
+					break;
 
 				}
 			}
@@ -67,13 +65,6 @@ public class ExcelReader {
 		}
 
 		wb.close();
-		System.out.println("arrayExcelDataAcrual length: " + arrayExcelDataAcrual.length);
-		for (int i = 0; i < arrayExcelDataAcrual.length; i++) {
-			for (int j = 0; j < 2; j++) {
-				//System.out.println("-----------------");
-				//System.out.println("arrayExcelDataAcrual[i][j]: " + arrayExcelDataAcrual[i][j]);
-			}
-		}
 		return arrayExcelDataAcrual;
 
 	}
