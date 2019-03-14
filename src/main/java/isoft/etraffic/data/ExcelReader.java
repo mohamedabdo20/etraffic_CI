@@ -11,8 +11,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class ExcelReader {
 
 // All static attributes removed for thread running
-	
-	//Modified 
+
+	//Modified
 	public FileInputStream getFileInputStream(String ExcelfileName) {
 		FileInputStream fis = null;
 		String filePath = System.getProperty("user.dir") + "/Exceldata/" + ExcelfileName + ".xlsx";
@@ -34,7 +34,7 @@ public class ExcelReader {
 		XSSFWorkbook wb = new XSSFWorkbook(fis);
 		// XSSFSheet sheet = wb.getSheetAt(0);
 		XSSFSheet sheet = wb.getSheet(sheetname);
-		int TotalNumberOfRows = (sheet.getLastRowNum() + 1);
+		int TotalNumberOfRows = (sheet.getLastRowNum());
 
 		String[][] arrayExcelData = new String[TotalNumberOfRows][TotalNumberOfCols];
 		String[][] arrayExcelDataActual = null;
