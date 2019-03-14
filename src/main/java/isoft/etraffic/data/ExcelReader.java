@@ -10,12 +10,11 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExcelReader {
 
-	static FileInputStream fis = null;
-	public static String ExcelfileName = "testdata";
-	public static String sheetname = null;
-	public static int TotalNumberOfCols;
-
-	public FileInputStream getFileInputStream() {
+// All static attributes removed for thread running
+	
+	//Modified 
+	public FileInputStream getFileInputStream(String ExcelfileName) {
+		FileInputStream fis = null;
 		String filePath = System.getProperty("user.dir") + "/Exceldata/" + ExcelfileName + ".xlsx";
 		File srcFile = new File(filePath);
 
@@ -28,9 +27,10 @@ public class ExcelReader {
 		return fis;
 	}
 
-	public Object[][] getExcelData() throws IOException {
+	// Modified to start reading from Row#1 & Stop reading on finding the empty row
+	public Object[][] getExcelData(String ExcelfileName, String sheetname, int TotalNumberOfCols) throws IOException {
 
-		fis = getFileInputStream();
+		FileInputStream fis = getFileInputStream(ExcelfileName);
 		XSSFWorkbook wb = new XSSFWorkbook(fis);
 		// XSSFSheet sheet = wb.getSheetAt(0);
 		XSSFSheet sheet = wb.getSheet(sheetname);
@@ -66,11 +66,12 @@ public class ExcelReader {
 
 		wb.close();
 		// Fill arrayExcelDataActual
-		System.out.println("arrayExcelDataActual length: " + arrayExcelDataActual.length);
+		System.out.println("arrayExcelDataActual length of sheet ("+ sheetname + ") : " + arrayExcelDataActual.length);
 		for (int i = 0; i < arrayExcelDataActual.length; i++) {
 			for (int j = 0; j < TotalNumberOfCols; j++) {
 				arrayExcelDataActual[i][j] = arrayExcelData[i][j];
 			}
+			System.out.println("------------");
 		}
 		return arrayExcelDataActual;
 	}
