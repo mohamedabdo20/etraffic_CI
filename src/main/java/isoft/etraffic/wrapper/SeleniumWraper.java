@@ -7,6 +7,7 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 import java.util.Set;
 
+import org.apache.cassandra.thrift.Cassandra.system_add_column_family_args;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
@@ -23,7 +24,7 @@ public abstract class SeleniumWraper {
 	WebDriverWait wait;
 	int seconds;
 	By loadingImg = By.xpath("//*[@class='page-loader']");
-	
+
 	public SeleniumWraper(WebDriver driver) {
 		this.driver = driver;
 	}
@@ -40,10 +41,11 @@ public abstract class SeleniumWraper {
 		return true;
 
 	}
+
 	public void FileInputElement(By locator, String text) {
 		driver.findElement(locator).sendKeys(text);
-		;}
-
+		;
+	}
 
 	public void selectFromList(WebElement element, String value) {
 		Actions a = new Actions(driver);
@@ -97,7 +99,7 @@ public abstract class SeleniumWraper {
 		// Copy the image to the clipboard
 		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(imageSelection, null);
 
-		//elem.click();
+		// elem.click();
 
 		// Create object of Robot class for upload the image
 		Robot robot = new Robot();
@@ -122,7 +124,7 @@ public abstract class SeleniumWraper {
 		robot.keyPress(KeyEvent.VK_ENTER);
 		robot.keyRelease(KeyEvent.VK_ENTER);
 	}
-	
+
 	public static void uploadImage(String image) throws AWTException, InterruptedException {
 
 		// Specify the file location with extension
@@ -149,7 +151,7 @@ public abstract class SeleniumWraper {
 		robot.keyPress(KeyEvent.VK_ENTER);
 		robot.keyRelease(KeyEvent.VK_ENTER);
 	}
-	
+
 	// Wrapper
 	public void clickElement(By locator) throws InterruptedException {
 		waitForElement(locator);
@@ -171,10 +173,10 @@ public abstract class SeleniumWraper {
 		((JavascriptExecutor) driver).executeScript("arguments[0].click();", locator);
 	}
 
-	public void clickByLinkTxt(String lnkTxt) throws InterruptedException
-	{
+	public void clickByLinkTxt(String lnkTxt) throws InterruptedException {
 		clickElementJS(By.partialLinkText(lnkTxt));
 	}
+
 	public void scrollToelement(By locator) {
 		WebElement element = driver.findElement(locator);
 		((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true)", element);
@@ -198,9 +200,16 @@ public abstract class SeleniumWraper {
 		listObj.selectByValue(value);
 	}
 
-	public void selectFromFTFList(By locator, String value) {
-		driver.findElement(locator).sendKeys(value);
-		driver.findElement(locator).sendKeys(Keys.chord(Keys.RETURN));
+	public void selectFromFTFList(By locator, String value) throws InterruptedException {
+		try {
+			driver.findElement(locator).sendKeys(value);
+			driver.findElement(locator).sendKeys(Keys.chord(Keys.RETURN));
+		} catch (Exception e) {
+			System.out.println("Exception   selectFromFTFList");
+			Thread.sleep(500);
+			driver.findElement(locator).sendKeys(value);
+			driver.findElement(locator).sendKeys(Keys.chord(Keys.RETURN));
+		}
 	}
 
 	public void selectFirstValue(By locator) {
@@ -213,14 +222,14 @@ public abstract class SeleniumWraper {
 	}
 
 	public String getElementText(By locator) {
-		System.out.println("Element Text: " + driver.findElement(locator).getText());
+		//System.out.println("Element Text: " + driver.findElement(locator).getText());
 		return driver.findElement(locator).getText();
 	}
 
 	public String getElementText(WebElement element) {
 		return element.getText();
 	}
-	
+
 	public void switchToFrame(String frame) {
 		driver.switchTo().frame(frame);
 	}
@@ -247,8 +256,8 @@ public abstract class SeleniumWraper {
 	}
 
 	public String switchToSecondWindow() throws InterruptedException {
-		//waitForNumberofWindowsToEqual(2);//this method to wait for 2nd window
-		
+		// waitForNumberofWindowsToEqual(2);//this method to wait for 2nd window
+
 		Thread.sleep(1000);
 		Set<String> handles;
 
@@ -289,32 +298,28 @@ public abstract class SeleniumWraper {
 	public void waitForNumberofWindowsToEqual(int i) throws InterruptedException {
 		Thread.sleep(1000);
 		Set<String> handles = driver.getWindowHandles();
-		if(handles.size() != i)
-		{
+		if (handles.size() != i) {
 			Thread.sleep(1000);
 			waitForNumberofWindowsToEqual(i);
 		}
-		
+
 	}
 
-	public void closeCurrentWindow() throws InterruptedException
-	{
-		//Thread.sleep(1000);
+	public void closeCurrentWindow() throws InterruptedException {
+		// Thread.sleep(1000);
 		driver.close();
 	}
-	
-	public String getElementAttributeValue(By locator, String attribute)
-	{
+
+	public String getElementAttributeValue(By locator, String attribute) {
 		System.out.println("Attribute value: " + driver.findElement(locator).getAttribute(attribute));
 		return driver.findElement(locator).getAttribute(attribute);
 	}
-	
-	public String getElementAttributeValue(WebElement element, String attribute)
-	{
+
+	public String getElementAttributeValue(WebElement element, String attribute) {
 		System.out.println("Attribute value: " + element.getAttribute(attribute));
 		return element.getAttribute(attribute);
 	}
-	
+
 	public String switchToThirdWindow() throws InterruptedException {
 		// waitForNumberofWindowsToEqual(2);//this method is for wait
 
@@ -359,10 +364,10 @@ public abstract class SeleniumWraper {
 		return secindWinHandle;
 	}
 
-	public void refresh()
-	{
+	public void refresh() {
 		driver.navigate().refresh();
 	}
+
 	public void waitForElement(By by) throws InterruptedException {
 		seconds = 0;
 		while (seconds < 60) {
@@ -400,10 +405,10 @@ public abstract class SeleniumWraper {
 			}
 		}
 	}
-	
+
 	public void tryClickElement(By locator, int seconds) throws InterruptedException {
-		int sec=0;
-		while (sec<seconds) {
+		int sec = 0;
+		while (sec < seconds) {
 			try {
 				clickElementJS(locator);
 				break;
@@ -412,38 +417,57 @@ public abstract class SeleniumWraper {
 				sec++;
 			}
 		}
+		if (sec == seconds)
+			throw new NullPointerException();
 	}
-	
+
 	public boolean isElementDisplayed(By by) {
 		if (driver.findElement(by).isDisplayed())
 			return true;
 		else
 			return false;
 	}
-	
-	public void waitforLoading() throws InterruptedException
-	{
+
+	public void waitforLoading() throws InterruptedException {
 		waitTillLoadingBegins();
 		waitTillLoadingFinish();
 	}
-	
-	private void waitTillLoadingBegins() throws InterruptedException
-	{
+
+	private void waitTillLoadingBegins() throws InterruptedException {
 		System.out.println("waitTillLoadingBegins");
-		if(getElementAttributeValue(loadingImg, "style").contains("none"))
-		{
+		if (getElementAttributeValue(loadingImg, "style").contains("none")) {
 			Thread.sleep(1000);
 			waitTillLoadingBegins();
 		}
 	}
-	
-	private void waitTillLoadingFinish() throws InterruptedException
-	{
+
+	private void waitTillLoadingFinish() throws InterruptedException {
 		System.out.println("waitTillLoadingFinish");
-		if(getElementAttributeValue(loadingImg, "style").contains("block"))
-		{
+		if (getElementAttributeValue(loadingImg, "style").contains("block")) {
 			Thread.sleep(1000);
 			waitTillLoadingFinish();
 		}
+	}
+	
+	public void removeElementAttribute(WebElement element, String attribute)
+	{
+		((JavascriptExecutor)driver).executeScript("arguments[0].removeAttribute('"+ attribute +"')", element);
+	}
+	
+	public void editElementAttributeValue(WebElement element, String attribute, String value)
+	{
+		((JavascriptExecutor)driver).executeScript("arguments[0].setAttribute('"+ attribute +"', '"+ value +"')", element);
+	}
+	
+	public void setElementText(WebElement element, String text)
+	{
+		((JavascriptExecutor)driver).executeScript("arguments[0].innerHTML = arguments[1]", element, text);
+	}
+	
+	public void clickEnterRobot() throws AWTException
+	{
+		Robot robot = new Robot();
+		robot.keyPress(KeyEvent.VK_ENTER);
+		robot.keyRelease(KeyEvent.VK_ENTER);
 	}
 }
