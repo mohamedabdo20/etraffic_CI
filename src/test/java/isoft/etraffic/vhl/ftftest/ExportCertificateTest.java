@@ -81,7 +81,7 @@ public class ExportCertificateTest {
 		else
 			exportCertificatePage.exportToNewOwner("مصر", oldPlateStatus, false, newOwnertrafficFileNo, licenseNumber);
 
-		if (commonPage.IsBRShown()) {
+		if (commonPage.isBRShown()) {
 			transactionsLst.remove(transactionsLst.size() - 1);
 			transactionsLst.add(commonPage.getBRText());
 			assertTrue(false);
