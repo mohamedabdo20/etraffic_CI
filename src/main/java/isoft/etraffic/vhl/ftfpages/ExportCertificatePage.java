@@ -2,6 +2,8 @@ package isoft.etraffic.vhl.ftfpages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.Actions;
+
 import isoft.etraffic.enums.*;
 import isoft.etraffic.wrapper.SeleniumWraper;
 
@@ -60,10 +62,14 @@ public class ExportCertificatePage extends SeleniumWraper {
 			break;
 		case Reserved:
 			selectFromListByVisibleText(oldPlateStatusLst, "يحفظ لدى الإدارة");
+			Thread.sleep(500);
 			hitTabToElement(oldPlateStatusLst);
 			try {
-				selectFromListByVisibleText(reservationPeriodLst, "ثلاثة شهور");
+				if (driver.findElement(reservationPeriodLst).isEnabled())
+					selectFromListByVisibleText(reservationPeriodLst, "ثلاثة شهور");
+				else {removeElementAttribute(driver.findElement(reservationPeriodLst),"disabled");Thread.sleep(500);}
 			} catch (Exception e) {
+				Thread.sleep(1000);
 			}
 			break;
 		case Lost:
@@ -90,6 +96,13 @@ public class ExportCertificatePage extends SeleniumWraper {
 		clickElementJS(proceedTrsId);
 	}
 
+	public void clickProceedBtn() throws InterruptedException {
+		Thread.sleep(500);
+		Actions a = new Actions(driver);
+		a.moveToElement(driver.findElement(By.id("proceedTrsId"))).perform();
+		clickElementJS(proceedTrsId);
+	}
+
 	public void exportToNewOwner(String country, OldPlateStatus oldPlateStatus, boolean withPlates, String newOwnerTrf,
 			String licenseNumber) throws InterruptedException {
 		waitForElement(newOwnerTrfTxt);
@@ -101,13 +114,7 @@ public class ExportCertificatePage extends SeleniumWraper {
 		}
 		hitTabToElement(newOwnerTrfTxt);
 		Thread.sleep(1000);
-		// Always empty
-		// while(true)
-		// {
-		// System.out.print("loop: ---"+getElementText(newOwnerlicenseNo)+"---");
-		// if(!getElementText(newOwnerlicenseNo).equals(""))
-		// break;
-		// }
+
 		proceedTrs(country, oldPlateStatus, withPlates, licenseNumber);
 	}
 
