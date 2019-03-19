@@ -1,5 +1,7 @@
 package isoft.etraffic.vhl.ftfpages;
 
+import java.awt.AWTException;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import isoft.etraffic.wrapper.SeleniumWraper;
@@ -39,7 +41,7 @@ public class ImportCertificatePage extends SeleniumWraper {
 	
 	By proceedBtn = By.id("proceedTrsId");
 	
-	public void proceedTrs(String chassis) throws InterruptedException
+	public void proceedTrs(String chassis) throws InterruptedException, AWTException
 	{
 		waitForElement(sourceNoTxt);
 		writeToElement(sourceNoTxt, "123456789");
@@ -49,13 +51,13 @@ public class ImportCertificatePage extends SeleniumWraper {
 		
 		clickElementJS(insuranceInfoBtn);
 		Thread.sleep(1000);
-		//////////////////////////////////////
+		
 		scrollup();
 		clickButton(fetchChassisBtn);
 		Thread.sleep(1000);
 		fillVehicleInfo();
-		///////////////////////////////////////////////////
-		//clickElement(proceedBtn);
+		clickElementJS(proceedBtn);
+
 	}
 	
 	private void setChassis(String chassis) throws InterruptedException {
@@ -67,16 +69,19 @@ public class ImportCertificatePage extends SeleniumWraper {
 		}
 	}
 	
-	private void fillVehicleInfo() throws InterruptedException
+	private void fillVehicleInfo() throws InterruptedException, AWTException
 	{
 		String firstWinHandle = switchToSecondWindow();
-//		waitForElement(manufacturerTxt);
-//		writeToElement(manufacturerTxt, "تويوتا");
-		Thread.sleep(5000);
+		waitForElement(manufacturerTxt);
+		writeToElement(manufacturerTxt, "TOYOTA");
+		editElementAttributeValue(driver.findElement(manufacturerTxt), "value", "TOYOTA");
 		hitTabToElement(manufacturerTxt);
 		Thread.sleep(500);
+		writeToElement(modelTxt, "PRADO");
+		editElementAttributeValue(driver.findElement(modelTxt), "value", "PRADO");
+		hitTabToElement(modelTxt);
+		Thread.sleep(500);
 		
-		//Thread.sleep(500);
 		selectFromListByVisibleText(classLst, "مركبة خفيفة");
 		
 		writeToElement(descriptionTxt, "مركبة خصوصية");
@@ -96,13 +101,11 @@ public class ImportCertificatePage extends SeleniumWraper {
 		writeToElement(noOfDoorsTxt, "4");
 		selectFromFTFList(color1Lst, "ابيض");
 		selectFromListByVisibleText(globalNumberLst, "نعم");
-		writeToElement(modelTxt, "برادو");
-		hitTabToElement(modelTxt);
 		
 		Thread.sleep(1000);
-//		clickButton(saveBtn);
-//		acceptAlert();
-		Thread.sleep(5000);
+		clickElementJS(saveBtn);
+		Thread.sleep(1000);
+		clickEnterRobot();
 		
 		switchToWindow(firstWinHandle);
 	}

@@ -1,9 +1,17 @@
 package isoft.etraffic.vhl.ftftest;
 
-import java.sql.SQLException;
+import static org.testng.Assert.assertTrue;
 
- 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.openqa.selenium.WebDriver;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import isoft.etraffic.db.DBQueries;
@@ -18,35 +26,43 @@ import isoft.etraffic.vhl.ftfpages.CommonPage;
 import isoft.etraffic.vhl.ftfpages.LoginFTFPage;
 import isoft.etraffic.vhl.ftfpages.ReplacementLostDamagedPlatePage;
 
-public class ReplacementLostDamagedPlateTest extends TestBase{
+public class ReplacementLostDamagedPlateTest {
 
-	String username = "rta13580";// "isabdulrahman";//"rta10686";
-	String center = "مؤسسة الترخيص - ديرة";// "";// "قصيص";//
+	String username = "rta13580";
+	String center = "مؤسسة الترخيص - ديرة";
 	VehicleClass vehicleClass = VehicleClass.LightVehicle;
 	PlateCategory plateCategoryId = PlateCategory.Private;
 	VehicleWeight vehicleWeight = VehicleWeight.Any;
 	OldPlateStatus oldPlateStatus = OldPlateStatus.Lost;
 	boolean isOrganization = false;
 
-	 
 	String trafficFile, plateCategory, plateNumber, plateCode, chassis, weight;
 	DBQueries dbQueries = new DBQueries();
 	LoginFTFPage loginPage;
 	CommonPage commonPage;
 	ReplacementLostDamagedPlatePage replacementPage;
+	WebDriver driver;
+	List<String> transactionsLst = new ArrayList<String>();
 
 	@BeforeMethod
-	public void setup() throws ClassNotFoundException, SQLException {
+	@Parameters({ "url", "browser", "lang" })
+	public void setup(@Optional("https://tst12c:7793/trfesrv/public_resources/public-access.do") String url,
+			@Optional("CHROME") String browser, @Optional("en") String lang)
+			throws ClassNotFoundException, SQLException, InterruptedException {
 		String[] vehicle = dbQueries.getVehicle(vehicleClass, vehicleWeight, plateCategoryId, isOrganization);
 		trafficFile = vehicle[0];
 		plateNumber = vehicle[1];
 		plateCode = vehicle[2];
-		plateCategory =  vehicle[3];//"خصوصي";//
+		plateCategory = vehicle[3];
 		chassis = vehicle[4];
 		weight = vehicle[5];
 		dbQueries.removeBlocker(trafficFile);
-		
-		 
+
+		transactionsLst.add("");
+		System.out.println("transactionsLst.size(): " + transactionsLst.size());
+		TestBase testBase = new TestBase();
+		testBase.setup(url, browser, lang);
+		driver = testBase.driver;
 	}
 
 	@Test
@@ -59,17 +75,44 @@ public class ReplacementLostDamagedPlateTest extends TestBase{
 		commonPage.gotoHomePage();
 		commonPage.gotoSmartServices();
 		commonPage.searchByPlate(plateCategory, plateNumber, plateCode);
-		commonPage.gotoPlateService("رقم بدل فاقد/ تالف");
-		
+		commonPage.gotoPlateService("رقم بدل فاقد");
+
 		replacementPage = new ReplacementLostDamagedPlatePage(driver);
-		//replacementPage.proceedTrs(oldPlateStatus, ReplacedPlate.Front, PlateSize.Short, false);
 		replacementPage.selectOldPlateStatus(oldPlateStatus);
 		replacementPage.clickproceedBtn();
-		
+
+		if (commonPage.isBRShown()) {
+			transactionsLst.remove(transactionsLst.size() - 1);
+			transactionsLst.add(commonPage.getBRText());
+			assertTrue(false);
+		}
+
 		commonPage.selectLostPlate_PStrategy(false, ReplacedPlate.Front, PlateSize.Long, PlateSize.Long);
 		commonPage.waitImmediateDeliveryBtn();
 		commonPage.clickContinue_PStrategy();
-		
+
+		if (commonPage.isBRShown()) {
+			transactionsLst.remove(transactionsLst.size() - 1);
+			transactionsLst.add(commonPage.getBRText());
+			assertTrue(false);
+		}
+
+		transactionsLst.remove(transactionsLst.size() - 1);
+		transactionsLst.add(commonPage.getTransactionId());
+
 		commonPage.payFTF();
+		assertTrue(commonPage.transactionFeesAssertion(130, 130));
+	}
+
+	@AfterMethod
+	public void aftermethod() {
+		driver.quit();
+	}
+
+	@AfterClass
+	public void afterClass() {
+		for (String trns : transactionsLst) {
+			System.out.println("trns: " + trns);
+		}
 	}
 }

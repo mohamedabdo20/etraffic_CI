@@ -1,12 +1,21 @@
 package isoft.etraffic.vhl.ftftest;
 
+import static org.testng.Assert.assertTrue;
 import java.awt.AWTException;
+import java.io.IOException;
 import java.sql.SQLException;
-
- 
+import java.util.ArrayList;
+import java.util.List;
+import org.openqa.selenium.WebDriver;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
+import org.testng.ITestContext;
+import isoft.etraffic.data.ExcelReader;
 import isoft.etraffic.db.DBQueries;
 import isoft.etraffic.enums.OldPlateStatus;
 import isoft.etraffic.enums.PlateCategory;
@@ -19,90 +28,142 @@ import isoft.etraffic.vhl.ftfpages.ChangeVehicleOwnershipPage;
 import isoft.etraffic.vhl.ftfpages.CommonPage;
 import isoft.etraffic.vhl.ftfpages.LoginFTFPage;
 
-public class ChangeVehicleOwnershipTest extends TestBase{
+public class ChangeVehicleOwnershipTest {
 
-	String newOwnertrafficFileNo;// = "10184041";
-	VehicleClass vehicleClass;// = VehicleClass.LightVehicle;
-	PlateCategory plateCategoryId;// = PlateCategory.Private;
-	VehicleWeight vehicleWeight;// = VehicleWeight.LessThan3001;
-	OldPlateStatus oldPlateStatus = OldPlateStatus.Transfered;
-	String username = "rta13580";// "rta10686";
+	String username = "rta13580";
 	String center = "مؤسسة الترخيص - ديرة";
+	
+	String newOwnertrafficFileNo;
+	VehicleClass vehicleClass;
+	PlateCategory plateCategoryId;
+	VehicleWeight vehicleWeight;
+	OldPlateStatus oldPlateStatus = OldPlateStatus.Transfered;
+	WebDriver driver;
+	List<String> transactionsLst = new ArrayList<String>();
 
-	 
-	String trafficFileNo, plateNumber, plateCode, plateCategory, chassis, weight;
-	DBQueries dbQueires = new DBQueries();
+	String trafficFile, plateNumber, plateCode, plateCategory, chassis, weight;
+	DBQueries dbQueries = new DBQueries();
 	LoginFTFPage loginPage;
 	CommonPage commonPage;
 	ChangeVehicleOwnershipPage changeVehicleOwnershipPage;
+	boolean isOrganization;
+	ExcelReader ER = new ExcelReader();
+	int TotalNumberOfCols = 6;
+	String ExcelfileName, sheetname = "ChangeVehicleOwnership";
 
-	@Parameters({ "newOwnertrafficFileNoValue", "vehicleClassValue", "plateCategoryValue", "vehicleWeightRange" })
-	@Test
-	public void changeVehicleOwnership(String newOwnertrafficFileNo, String vehicleClassValue,
-			String plateCategoryValue, String vehicleWeightRange)
+	@DataProvider(name = "ChangeVehicleOwnership")
+	public Object[][] vehicleData(ITestContext context) throws IOException {
+		// get data from Excel Reader class
+		ExcelfileName = context.getCurrentXmlTest().getParameter("filename");
+		return ER.getExcelData(ExcelfileName, sheetname, TotalNumberOfCols);
+		
+	}
+
+	@Test(dataProvider = "ChangeVehicleOwnership")
+	public void changeVehicleOwnership(String vehicleClassValue, String plateCategoryValue, String vehicleWeightRange,
+			String isOrganizationValue, String newOwnertrafficFileNo, String excpectedFees)
 			throws InterruptedException, ClassNotFoundException, SQLException, AWTException {
-		vehicleClass = dbQueires.getVehicleClassEnDescription(vehicleClassValue);
-		vehicleWeight = dbQueires.setVehicleWeightEnum(vehicleWeightRange);
-		plateCategoryId = dbQueires.getPlateCategoryEnum(plateCategoryValue);
-		setup();
+		
+		vehicleClass = dbQueries.getVehicleClassEnDescription(vehicleClassValue);
+		vehicleWeight = dbQueries.setVehicleWeightEnum(vehicleWeightRange);
+		plateCategoryId = dbQueries.getPlateCategoryEnum(plateCategoryValue);
+		isOrganization = Boolean.parseBoolean(isOrganizationValue);
+		
+		getVehicle();
 
 		loginPage = new LoginFTFPage(driver);
-		loginPage.loginFTF(username, dbQueires.getUserPassword(username), center);
+		loginPage.loginFTF(username, dbQueries.getUserPassword(username), center);
 
 		commonPage = new CommonPage(driver);
+		commonPage.gotoHomePage();
 		commonPage.gotoSmartServices();
 		commonPage.searchByTRFFile(newOwnertrafficFileNo);
 
 		commonPage.gotoMainService("نقل ملكية مركبة");
+		
 		changeVehicleOwnershipPage = new ChangeVehicleOwnershipPage(driver);
 		changeVehicleOwnershipPage.searchbyPlate(plateCategory, plateCode, plateNumber);
-		dbQueires.removeBlocker(newOwnertrafficFileNo);
+		dbQueries.removeBlocker(newOwnertrafficFileNo);
+		
 		changeVehicleOwnershipPage.proceedTrs(oldPlateStatus);
 
-		// PlateStrategy
-		//if (plateCode.equals("A") || plateCode.equals("B") || plateCode.equals("C")) {
-			commonPage.selectPlateDesign_PStrategy(PlateDesign.New);
-			
-			if (plateCategoryId == PlateCategory.Private)
-				commonPage.selectNewPlates_PStrategy(false, PlateSize.Long, PlateSize.Short);
-			else {
-				commonPage.skipLogoStep();
-				if(plateCategoryId == PlateCategory.Motorcycle || plateCategoryId == PlateCategory.Trailer)
-					commonPage.selectNewPlates_PStrategy(PlateSize.Short);
-				else commonPage.selectNewPlates_PStrategy(PlateSize.Short, PlateSize.Short);
-			}
-			
-			commonPage.selectCollectionCenter_PStrategy("مركز تسليم - اينوك تسجيل القصيص");
-			commonPage.selectDeliveryDate_PStrategy();
-			commonPage.clickContinue_PStrategy();
-		//}
+		if (commonPage.isBRShown()) {
+			transactionsLst.remove(transactionsLst.size() - 1);
+			transactionsLst.add(commonPage.getBRText());
+			assertTrue(false);
+		}
+		
+		commonPage.selectPlateDesign_PStrategy(PlateDesign.New);
+		if (plateCategoryId == PlateCategory.Private)
+			commonPage.selectNewPlates_PStrategy(false, PlateSize.Long, PlateSize.Short);
+		else {
+			commonPage.skipLogoStep();
+			if (plateCategoryId == PlateCategory.Motorcycle || plateCategoryId == PlateCategory.Trailer)
+				commonPage.selectNewPlates_PStrategy(PlateSize.Short);
+			else
+				commonPage.selectNewPlates_PStrategy(PlateSize.Short, PlateSize.Short);
+		}
 
+		commonPage.selectCollectionCenter_PStrategy("مركز تسليم - اينوك تسجيل القصيص");
+		commonPage.selectDeliveryDate_PStrategy();
+		commonPage.clickContinue_PStrategy();
+
+		
 		commonPage.printApplicationForm();
 		commonPage.goToPayment();
-//		commonPage.waitForElement(By.xpath("//*[@class='dropdown-menu inner selectpicker']/li[2]/a"));
-//		dbQueires.addTestUnRegisteredVehicle(chassis, VehicleClass.HeavyVehicle, weight);
+		
+		transactionsLst.remove(transactionsLst.size()-1);
+		transactionsLst.add(commonPage.getTransactionId());
+		
 		commonPage.payFTF();
+		if (!commonPage.transactionFeesAssertion(Integer.parseInt(excpectedFees), Integer.parseInt(excpectedFees))) {
+			String s = (transactionsLst.get(transactionsLst.size() - 1) + " - Fess Faliure");
+			transactionsLst.remove(transactionsLst.size() - 1);
+			transactionsLst.add(s);
+		}
+	}
+	
+//	@Test
+//	public void testWriteExcell() throws IOException
+//	{
+//		transactionsLst.add("MAwgoooooda");
+//		ER.setTransactions(ExcelfileName, sheetname, TotalNumberOfCols, transactionsLst);
+//	}
+
+	@BeforeMethod
+	@Parameters({ "url", "browser", "lang" })
+	public void setup(String url, String browser, @Optional("en") String lang)
+			throws ClassNotFoundException, SQLException, InterruptedException {
+		transactionsLst.add("");
+		TestBase testBase = new TestBase();
+		testBase.setup(url, browser, lang);
+		driver = testBase.driver;
+	}
+	
+	@AfterMethod
+	public void aftermethod() {
+		driver.quit();
 	}
 
-	private void setup() throws ClassNotFoundException, SQLException {
-		String[] vehicle = dbQueires.getVehicle(vehicleClass, plateCategoryId, vehicleWeight);
-		trafficFileNo = vehicle[0];
+	@AfterClass
+	public void afterClass() throws IOException {
+		for (String trns : transactionsLst) {
+			System.out.println("trns: " + trns);
+		}
+	}
+	
+	private void getVehicle() throws ClassNotFoundException, SQLException {
+		String[] vehicle = dbQueries.getVehicle(vehicleClass, vehicleWeight, plateCategoryId, isOrganization);
+		trafficFile = vehicle[0];
 		plateNumber = vehicle[1];
 		plateCode = vehicle[2];
 		plateCategory = vehicle[3];
 		chassis = vehicle[4];
 		weight = vehicle[5];
 
-		// trafficFileNo = "13965518";
-		// plateNumber = "44213";
-		// plateCode = "نقل";
-		// plateCategory = "نقل";
-		// chassis = "18102018T12450100";
-		// weight = "15000";
+		dbQueries.removeBlocker(trafficFile);
+		dbQueries.addTest(chassis, vehicleClass, weight);
 
-		dbQueires.removeBlocker(trafficFileNo);
-		dbQueires.addTest(chassis, vehicleClass, weight);
-		 
-		dbQueires.addInsurance(chassis, vehicleClass);
+		dbQueries.addInsurance(chassis, vehicleClass);
 	}
 }

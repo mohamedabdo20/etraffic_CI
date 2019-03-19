@@ -83,6 +83,22 @@ public class RegisteredVehicleSelectionPage extends SeleniumWraper {
 
 	public void transferToNewOwner(String country, OldPlateStatus oldPlateStatus, String newOwnerTrf)
 			throws InterruptedException {
+//		waitForElement(newOwnerTrfTxt);
+////		try {
+////			clickElement(newOwnerTrfTxt);
+////			Thread.sleep(1000);
+////			writeToElement(newOwnerTrfTxt, newOwnerTrf);
+////		} catch (Exception e) {
+////			Thread.sleep(1000);
+////			writeToElement(newOwnerTrfTxt, newOwnerTrf);
+////		}
+//
+//		tryClickElement(newOwnerTrfTxt);
+//		writeToElement(newOwnerTrfTxt, newOwnerTrf);
+//		hitTabToElement(newOwnerTrfTxt);
+//		Thread.sleep(1000);
+//		transfer(country, oldPlateStatus);
+		
 		waitForElement(newOwnerTrfTxt);
 		try {
 			clickElement(newOwnerTrfTxt);

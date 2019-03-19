@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
 <suite name="Staging">
 	<parameter name="browser" value="IE" />
 	<parameter name="url" value="https://tst12c:7791/traffic/faces/jsf/auth/login.jsf"/>
+	<parameter name="filename" value="VHLFTF"/>
 	
 	<test verbose="2" name="استيراد مركبة">
 		<classes>

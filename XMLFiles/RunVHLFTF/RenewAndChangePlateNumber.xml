@@ -5,9 +5,11 @@
 	<parameter name="browser" value="IE"/>
 	<parameter name="url" value="https://tst12c:7791/traffic/faces/jsf/auth/login.jsf"/>
 	<parameter name="filename" value="VHLFTF"/>
-	<test name="تسفير بدل فاقد/تالف" verbose="2">
+	
+	<test name="تجديد مركبة" verbose="2">
 		<classes>
-			<class name="isoft.etraffic.vhl.ftftest.ReplacementExportCertificateTest"/>
+			<class name="isoft.etraffic.vhl.ftftest.RenewAndChangePlateNumber">
+			</class>
 		</classes>
 	</test>
 </suite>

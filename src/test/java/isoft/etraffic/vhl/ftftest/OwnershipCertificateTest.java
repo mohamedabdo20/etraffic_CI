@@ -1,9 +1,15 @@
 package isoft.etraffic.vhl.ftftest;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
- 
+import org.openqa.selenium.WebDriver;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import isoft.etraffic.db.DBQueries;
@@ -15,7 +21,7 @@ import isoft.etraffic.vhl.ftfpages.CommonPage;
 import isoft.etraffic.vhl.ftfpages.LoginFTFPage;
 import isoft.etraffic.vhl.ftfpages.OwnerShipCertificatePage;
 
-public class OwnershipCertificateTest extends TestBase{
+public class OwnershipCertificateTest {
 
 	String username = "rta13580";//"rta10686";
 	String center = "مؤسسة الترخيص - ديرة";
@@ -27,9 +33,14 @@ public class OwnershipCertificateTest extends TestBase{
 	LoginFTFPage loginPage;
 	CommonPage commonPage;
 	OwnerShipCertificatePage ownerShipCertificatePage;
-
+	WebDriver driver;
+	List<String> transactionsLst = new ArrayList<String>();
+	
 	@BeforeMethod
-	public void setup() throws ClassNotFoundException, SQLException {
+	@Parameters({ "url", "browser", "lang" })
+	public void setup(@Optional("https://tst12c:7793/trfesrv/public_resources/public-access.do") String url,
+			@Optional("CHROME") String browser, @Optional("en") String lang)
+			throws ClassNotFoundException, SQLException, InterruptedException {
 		String[] vehicle = dbQueries.getVehicle(VehicleClass.LightVehicle, PlateCategory.Private, VehicleWeight.Any);
 		trafficFile = vehicle[0];
 		plateNumber = vehicle[1];
@@ -38,8 +49,13 @@ public class OwnershipCertificateTest extends TestBase{
 		chassis = vehicle[4];
 		weight = vehicle[5];
 		dbQueries.removeBlocker(trafficFile);
-		 
+		
+		transactionsLst.add("");
+		TestBase testBase = new TestBase();
+		testBase.setup(url, browser, lang);
+		driver = testBase.driver;
 	}
+
 
 	@Test
 	public void vehicleOwnerchipCert() throws InterruptedException, ClassNotFoundException, SQLException {
@@ -55,6 +71,21 @@ public class OwnershipCertificateTest extends TestBase{
 		ownerShipCertificatePage = new OwnerShipCertificatePage(driver);
 		ownerShipCertificatePage.proceedTrs();
 		
+		transactionsLst.remove(transactionsLst.size() - 1);
+		transactionsLst.add(commonPage.getTransactionId());
+		
 		commonPage.payFTF();
+	}
+	
+	@AfterMethod
+	public void aftermethod() {
+		driver.quit();
+	}
+
+	@AfterClass
+	public void afterClass() {
+		for (String trns : transactionsLst) {
+			System.out.println("trns: " + trns);
+		}
 	}
 }

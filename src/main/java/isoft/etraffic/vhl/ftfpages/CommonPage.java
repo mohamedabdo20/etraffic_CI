@@ -75,16 +75,22 @@ public class CommonPage extends SeleniumWraper {
 		Thread.sleep(1000);
 		System.out.println("----------- Go to Smart Service ------------");
 		try {
-			waitForElement(smartServicesBtn);
 			clickElementJS(smartServicesBtn);
 		} catch (Exception e) {
-		}
-		try {
-			driver.findElement(smartServicesBtn);
-			System.out.println("smartServicesBtn Found");
+			tryClickElement(By.partialLinkText("نظام الترخيص و المرور الذكى"));
 			gotoSmartServices();
-		} catch (Exception e) {
 		}
+//		try {
+//			waitForElement(smartServicesBtn);
+//			clickElementJS(smartServicesBtn);
+//		} catch (Exception e) {
+//		}
+//		try {
+//			driver.findElement(smartServicesBtn);
+//			System.out.println("smartServicesBtn Found");
+//			gotoSmartServices();
+//		} catch (Exception e) {
+//		}
 	}
 
 	public void gotoDashboard() throws InterruptedException {
@@ -107,7 +113,7 @@ public class CommonPage extends SeleniumWraper {
 		tryClickElement(By.partialLinkText("نظام الترخيص و المرور الذكى"));
 		Thread.sleep(1000);
 		try {
-			driver.findElement(smartServicesBtn);
+			clickElementJS(smartServicesBtn);
 		} catch (Exception e) {
 			tryClickElement(By.partialLinkText("نظام الترخيص و المرور الذكى"));
 		}
@@ -185,6 +191,7 @@ public class CommonPage extends SeleniumWraper {
 	}
 
 	public void searchByTRFFile(String trfFile) throws InterruptedException {
+		System.out.println("----------- Go to SearchByTRFFile ------------");
 		waitForElement(trfFileTxtbox);
 		Thread.sleep(500);
 		writeToElement(trfFileTxtbox, trfFile);
@@ -294,7 +301,7 @@ public class CommonPage extends SeleniumWraper {
 	}
 
 	public void gotoPlatesTab(String plateNumber) throws InterruptedException {
-		
+
 		Thread.sleep(1000);
 		waitForElement(plateTabBtn);
 		try {
@@ -379,10 +386,13 @@ public class CommonPage extends SeleniumWraper {
 			System.out.println("No Need For confirmation");
 		}
 	}
-	
+
 	public void gotoMainService(String service) throws InterruptedException {
 		waitForElement(trafficOwnerNamelbl);
 		Thread.sleep(1000);
+		if (service.equals("تسفير بدل فاقد")) {
+			Thread.sleep(3000);
+		}
 		if (driver.findElement(servicesBtnHolder).getAttribute("class").toString().contains("button-holder"))
 			try {
 				clickElementJS(servicesBtn1);
@@ -392,6 +402,7 @@ public class CommonPage extends SeleniumWraper {
 		else
 			clickElementJS(servicesBtn2);
 		Thread.sleep(1000);
+
 		switchToFrame(availableServisesFrame);
 		Thread.sleep(1000);
 		writeToElement(availableServicesTxtbox, service);
@@ -468,10 +479,13 @@ public class CommonPage extends SeleniumWraper {
 	}
 
 	public String getTransactionId() throws InterruptedException {
-		waitForElement(By.xpath("//*[@class='dropdown-menu inner selectpicker']/li[2]/a"));
-		//waitForElement(By.xpath("//*[@id='mainInvoice']/div[1]/div[2]"));
+		// waitForElement(By.xpath("//*[@class='dropdown-menu inner
+		// selectpicker']/li[2]/a"));
+		waitForElement(By.xpath("//*[@id='mainInvoice']/div[1]/div[2]"));
+		tryClickElement(By.xpath("//*[@id='mainInvoice']/div[1]/div[2]"));
+		Thread.sleep(1000);
 		String elementTxt = getElementText(By.xpath("//*[@id='mainInvoice']/div[1]/div[2]"));
-		System.out.println("Transaction Id = " + elementTxt);
+		//System.out.println("Transaction Id = " + elementTxt);
 		return elementTxt.substring(elementTxt.indexOf('(') + 1, elementTxt.indexOf(')'));
 	}
 
@@ -581,16 +595,16 @@ public class CommonPage extends SeleniumWraper {
 	}
 
 	public void selectPlateDesign_PStrategy(PlateDesign plateDesign) throws InterruptedException {
-		waitForElement(By.linkText("تصميم جديد"));
+		waitForElement(By.linkText("تغيير التصميم"));
 		switch (plateDesign) {
 		case New:
-			clickByLinkTxt("تصميم جديد");
+			clickByLinkTxt("تغيير التصميم");
 			break;
 		case Current:
 			clickByLinkTxt("التصميم الحالي");
 			break;
 		default:
-			clickByLinkTxt("تصميم جديد");
+			clickByLinkTxt("تغيير التصميم");
 			break;
 		}
 	}
@@ -675,7 +689,7 @@ public class CommonPage extends SeleniumWraper {
 	public void selectCollectionCenter_PStrategy(String collectionCenter) throws InterruptedException {
 		waitForElement(By.xpath("//*[@class='plate-collection-center-title animated bounceInUp']"));
 		Thread.sleep(1000);
-		clickByLinkTxt(collectionCenter);
+		tryClickElement(By.partialLinkText(collectionCenter));
 	}
 
 	private void selectFrontPlate_PStrategy(PlateSize frontPlate, boolean logo) throws InterruptedException {
@@ -892,6 +906,18 @@ public class CommonPage extends SeleniumWraper {
 						return isBRShown();
 				}
 			}
+		}
+	}
+
+	public boolean isBRRenewalWithChangePlate() throws InterruptedException {
+		Thread.sleep(1000);
+		if (isAtPlateDesignStep())
+			return false;
+		else {
+			if (isBRFired())
+				return true;
+			else
+				return isBRShown();
 		}
 	}
 

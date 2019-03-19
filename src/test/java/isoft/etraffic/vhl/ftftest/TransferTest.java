@@ -1,13 +1,20 @@
 package isoft.etraffic.vhl.ftftest;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
+import static org.testng.Assert.assertTrue;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import org.openqa.selenium.JavascriptExecutor;
- 
+import org.openqa.selenium.WebDriver;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
+import isoft.etraffic.data.ExcelReader;
 import isoft.etraffic.db.DBQueries;
 import isoft.etraffic.enums.OldPlateStatus;
 import isoft.etraffic.enums.PlateCategory;
@@ -19,9 +26,9 @@ import isoft.etraffic.vhl.ftfpages.LoginFTFPage;
 import isoft.etraffic.vhl.ftfpages.RegisteredVehicleSelectionPage;
 import isoft.etraffic.vhl.ftfpages.RegistrationPage;
 
-public class TransferTest extends TestBase{
+public class TransferTest {
 	// Test Data
-	String username = "rta13580";//"rta10686";
+	String username = "rta13580";
 	String center = "مؤسسة الترخيص - ديرة";
 	VehicleClass vehicleClass;
 	PlateCategory plateCategoryId;
@@ -29,101 +36,146 @@ public class TransferTest extends TestBase{
 	OldPlateStatus oldPlateStatus = OldPlateStatus.Reserved;
 	String electricVehicleOwner = "13965518";
 	boolean isOrganization;
-	
+
 	String trafficFile, plateCategory, plateCode, plateNumber, chassis, weight;
-	 
+
 	JavascriptExecutor js;
 	LoginFTFPage loginPage;
 	CommonPage commonPage;
 	RegistrationPage registrationPage;
 	RegisteredVehicleSelectionPage registeredVehiclePage;
-	DBQueries dbQueries= new DBQueries();
-	
-	
+	DBQueries dbQueries = new DBQueries();
+	WebDriver driver;
+	List<String> transactionsLst = new ArrayList<String>();
+
 	public void setup() throws Exception {
-		String[] vehicle = dbQueries.getVehicle(vehicleClass, plateCategoryId, vehicleWeight);
-		//String[] vehicle = dbQueries.getElectricVehicleByTrf(electricVehicleOwner, vehicleWeight);
+		String[] vehicle = dbQueries.getVehicle(vehicleClass, vehicleWeight, plateCategoryId, isOrganization);
 		trafficFile = vehicle[0];
 		plateNumber = vehicle[1];
 		plateCode = vehicle[2];
 		plateCategory = vehicle[3];
 		chassis = vehicle[4];
 		weight = vehicle[5];
-//		
-//		trafficFile = "13965518";
-//		plateNumber = "44263";
-//		plateCode = "نقل";
-//		plateCategory = "نقل";
-//		chassis = "22102018T08332300";
-//		weight = "15000";
-		
-		 
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy'T'HH:mm:ss");
-		Calendar cal = Calendar.getInstance();
-		chassis =  sdf.format(cal.getTime()).replace("-", "").replace(":", "")+"00";
-		
+
 		dbQueries.addInsurance(chassis, vehicleClass);
 		dbQueries.removeBlocker(trafficFile);
 	}
 
-	@Parameters({"vehicleClassValue", "plateCategoryValue", "vehicleWeightRange", "isOrganizationValue"})
-	@Test
-	public void transfer(String vehicleClassValue, String plateCategoryValue, String vehicleWeightRange, String isOrganizationValue) throws Exception {
-		
-		vehicleClass = dbQueries.getVehicleClassEnDescription(vehicleClassValue);
-		vehicleWeight = dbQueries.setVehicleWeightEnum(vehicleWeightRange);
-		plateCategoryId = dbQueries.getPlateCategoryEnum(plateCategoryValue);
-		isOrganization = Boolean.parseBoolean(isOrganizationValue);
-		setup();
-		
-		loginPage = new LoginFTFPage(driver);
-		loginPage.loginFTF(username, dbQueries.getUserPassword(username), center);
-		
-		commonPage = new CommonPage(driver);
-		commonPage.gotoHomePage();
-		commonPage.gotoSmartServices();
-		commonPage.searchByPlate(plateCategory, plateNumber, plateCode);
-		commonPage.gotoPlateService("شهادة تحويل");
-		
-		
-		registeredVehiclePage = new RegisteredVehicleSelectionPage(driver);
-		registeredVehiclePage.transfer("عجمان", oldPlateStatus);
-		
-		if (oldPlateStatus.equals(OldPlateStatus.ReturntoRTA) || oldPlateStatus.equals(OldPlateStatus.Reserved)) {
-			commonPage.printApplicationForm();
-			commonPage.goToPayment();
-		}
-		commonPage.payFTF();
+	@DataProvider(name = "Transfer")
+	public Object[][] vehicleData() throws IOException {
+		// get data from Excel Reader class
+		ExcelReader ER = new ExcelReader();
+		int TotalNumberOfCols = 6;
+		String ExcelfileName = "vhl";
+		String sheetname = "Transfer";
+		return ER.getExcelData(ExcelfileName, sheetname, TotalNumberOfCols);
 	}
 
-	@Parameters({ "newOwnertrafficFileNo", "vehicleClassValue", "plateCategoryValue", "vehicleWeightRange", "isOrganizationValue" })
-	@Test
-	public void transferToNewOwner(String newOwnertrafficFileNo, String vehicleClassValue, String plateCategoryValue, String vehicleWeightRange, String isOrganizationValue) throws Exception {
-		
+	@Test(dataProvider = "Transfer")
+	public void transferVehicle(String vehicleClassValue, String plateCategoryValue, String vehicleWeightRange,
+			String isOrganizationValue, String newOwnertrafficFileNo, String excpectedFees) throws Exception {
 		vehicleClass = dbQueries.getVehicleClassEnDescription(vehicleClassValue);
 		vehicleWeight = dbQueries.setVehicleWeightEnum(vehicleWeightRange);
 		plateCategoryId = dbQueries.getPlateCategoryEnum(plateCategoryValue);
 		isOrganization = Boolean.parseBoolean(isOrganizationValue);
+
 		setup();
-		
+
 		loginPage = new LoginFTFPage(driver);
 		loginPage.loginFTF(username, dbQueries.getUserPassword(username), center);
-		
+
 		commonPage = new CommonPage(driver);
 		commonPage.gotoHomePage();
 		commonPage.gotoSmartServices();
 		commonPage.searchByPlate(plateCategory, plateNumber, plateCode);
 		commonPage.gotoPlateService("شهادة تحويل");
-		
-		
+
 		registeredVehiclePage = new RegisteredVehicleSelectionPage(driver);
-		registeredVehiclePage.transferToNewOwner("عجمان", oldPlateStatus, newOwnertrafficFileNo);
-		
+		if (newOwnertrafficFileNo.equals("NA"))
+			registeredVehiclePage.transfer("عجمان", oldPlateStatus);
+		else
+			registeredVehiclePage.transferToNewOwner("عجمان", oldPlateStatus, newOwnertrafficFileNo);
+
+		if (commonPage.isBRShown()) {
+			transactionsLst.remove(transactionsLst.size() - 1);
+			transactionsLst.add(commonPage.getBRText());
+			assertTrue(false);
+		}
+
 		if (oldPlateStatus.equals(OldPlateStatus.ReturntoRTA) || oldPlateStatus.equals(OldPlateStatus.Reserved)) {
 			commonPage.printApplicationForm();
 			commonPage.goToPayment();
 		}
+
+		transactionsLst.remove(transactionsLst.size() - 1);
+		transactionsLst.add(commonPage.getTransactionId());
+
 		commonPage.payFTF();
-		//Assert.assertTrue(commonPage.assertPaymentSuccess("المبالغ المستلمة"));
+
+		if (!commonPage.transactionFeesAssertion(Integer.parseInt(excpectedFees), Integer.parseInt(excpectedFees))) {
+			String s = (transactionsLst.get(transactionsLst.size() - 1) + " - Fess Faliure");
+			transactionsLst.remove(transactionsLst.size() - 1);
+			transactionsLst.add(s);
+		}
+	}
+
+	// @Parameters({ "newOwnertrafficFileNo", "vehicleClassValue",
+	// "plateCategoryValue", "vehicleWeightRange", "isOrganizationValue" })
+	// @Test
+	// public void transferToNewOwner(String newOwnertrafficFileNo, String
+	// vehicleClassValue, String plateCategoryValue, String vehicleWeightRange,
+	// String isOrganizationValue) throws Exception {
+	//
+	// vehicleClass = dbQueries.getVehicleClassEnDescription(vehicleClassValue);
+	// vehicleWeight = dbQueries.setVehicleWeightEnum(vehicleWeightRange);
+	// plateCategoryId = dbQueries.getPlateCategoryEnum(plateCategoryValue);
+	// isOrganization = Boolean.parseBoolean(isOrganizationValue);
+	// setup();
+	//
+	// loginPage = new LoginFTFPage(driver);
+	// loginPage.loginFTF(username, dbQueries.getUserPassword(username), center);
+	//
+	// commonPage = new CommonPage(driver);
+	// commonPage.gotoHomePage();
+	// commonPage.gotoSmartServices();
+	// commonPage.searchByPlate(plateCategory, plateNumber, plateCode);
+	// commonPage.gotoPlateService("شهادة تحويل");
+	//
+	//
+	// registeredVehiclePage = new RegisteredVehicleSelectionPage(driver);
+	//
+	// registeredVehiclePage.transferToNewOwner("عجمان", oldPlateStatus,
+	// newOwnertrafficFileNo);
+	//
+	// if (oldPlateStatus.equals(OldPlateStatus.ReturntoRTA) ||
+	// oldPlateStatus.equals(OldPlateStatus.Reserved)) {
+	// commonPage.printApplicationForm();
+	// commonPage.goToPayment();
+	// }
+	// commonPage.payFTF();
+	// }
+	//
+
+	@BeforeMethod
+	@Parameters({ "url", "browser", "lang" })
+	public void setup(@Optional("https://tst12c:7793/trfesrv/public_resources/public-access.do") String url,
+			@Optional("CHROME") String browser, @Optional("en") String lang)
+			throws ClassNotFoundException, SQLException, InterruptedException {
+		transactionsLst.add("");
+		TestBase testBase = new TestBase();
+		testBase.setup(url, browser, lang);
+		driver = testBase.driver;
+	}
+
+	 @AfterMethod
+	 public void aftermethod() {
+	 driver.quit();
+	 }
+
+	@AfterClass
+	public void afterClass() {
+		for (String trns : transactionsLst) {
+			System.out.println("trns: " + trns);
+		}
 	}
 }

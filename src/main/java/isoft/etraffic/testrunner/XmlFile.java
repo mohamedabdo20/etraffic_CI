@@ -18,7 +18,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class XmlFile {
-	public void editURL(String filePath, String envUrl) {
+	public void updateXmlParameters(String filePath, String envUrl, String filename) {
 		File xmlFile = new File(filePath);
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder;
@@ -28,7 +28,8 @@ public class XmlFile {
 			doc.getDocumentElement().normalize();
 
 			// update attribute value
-			updateAttributeValue(doc, envUrl);
+			updateAttributeValue(doc, "url", envUrl);
+			updateAttributeValue(doc, "filename", filename);
 
 			// update Element value
 			// updateElementValue(doc);
@@ -53,7 +54,7 @@ public class XmlFile {
 			transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 			transformer.setOutputProperty(OutputKeys.DOCTYPE_SYSTEM, "http://testng.org/testng-1.0.dtd");
 			transformer.transform(source, result);
-			System.out.println("XML file updated successfully");
+			System.out.println("XML parameters 'url' & 'filename' were updated successfully.");
 
 		} catch (SAXException | ParserConfigurationException | IOException | TransformerException e1) {
 			e1.printStackTrace();
@@ -96,26 +97,20 @@ public class XmlFile {
 		}
 	}
 
-	public static void updateAttributeValue(Document doc, String envUrl) {
+	public static void updateAttributeValue(Document doc, String attribute, String value) {
 		NodeList parameters = doc.getElementsByTagName("parameter");
 		Element param = null;
 		
 		// loop for each employee
 		for (int i = 0; i < parameters.getLength(); i++) {
 			param = (Element) parameters.item(i);
-			if (param.getAttribute("name").equalsIgnoreCase("url")) {
-				System.out.println("envUrl : ----" + envUrl);
-				param.setAttribute("value", envUrl);
+			if (param.getAttribute("name").equalsIgnoreCase(attribute)) {
+				System.out.println("Attribute found:");
+				param.setAttribute("value", value);
 //				NodeList suites = doc.getElementsByTagName("suite");
 //				Element suite = (Element) suites.item(0);
 //				suite.removeAttribute("allow-return-values");
-//				suite.removeAttribute("configfailurepolicy");
-//				suite.removeAttribute("data-provider-thread-coun");
-//				suite.removeAttribute("group-by-instances");
-//				suite.removeAttribute("guice-stage");
-//				suite.removeAttribute("junit");
 			}
 		}
-		System.out.println("Url updated successfully");
 	}
 }
