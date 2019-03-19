@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -47,6 +48,9 @@ public class TransferTest {
 	DBQueries dbQueries = new DBQueries();
 	WebDriver driver;
 	List<String> transactionsLst = new ArrayList<String>();
+	ExcelReader ER = new ExcelReader();
+	int TotalNumberOfCols = 6;
+	String ExcelfileName, sheetname = "ChangeVehicleOwnership";
 
 	public void setup() throws Exception {
 		String[] vehicle = dbQueries.getVehicle(vehicleClass, vehicleWeight, plateCategoryId, isOrganization);
@@ -62,6 +66,12 @@ public class TransferTest {
 	}
 
 	@DataProvider(name = "Transfer")
+	public Object[][] vehicleData(ITestContext context) throws IOException {
+		// get data from Excel Reader class
+		ExcelfileName = context.getCurrentXmlTest().getParameter("filename");
+		return ER.getExcelData(ExcelfileName, sheetname, TotalNumberOfCols);
+		
+	}
 	public Object[][] vehicleData() throws IOException {
 		// get data from Excel Reader class
 		ExcelReader ER = new ExcelReader();

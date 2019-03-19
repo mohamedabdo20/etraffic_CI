@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -39,6 +40,9 @@ public class RegistrationTestExcel
 	String chassis, sourceDate;
 	List<String> transactionsLst = new ArrayList<String>();
 	DBQueries dbQuery = new DBQueries();
+	ExcelReader ER = new ExcelReader();
+	int TotalNumberOfCols = 13;
+	String ExcelfileName, sheetname = "registration";
 
 	@BeforeMethod
 	@Parameters({ "url", "browser", "lang" })
@@ -58,12 +62,10 @@ public class RegistrationTestExcel
 	}
 
 	@DataProvider(name = "Registration")
-	public Object[][] vehicleData() throws IOException {
+	public Object[][] vehicleData(ITestContext context) throws IOException {
 		// get data from Excel Reader class
-		ExcelReader ER = new ExcelReader();
-		int TotalNumberOfCols = 13;
-		String ExcelfileName = "vhl";
-		String sheetname = "registration";
+		
+		ExcelfileName = context.getCurrentXmlTest().getParameter("filename");
 		return ER.getExcelData(ExcelfileName, sheetname, TotalNumberOfCols);
 	}
 
