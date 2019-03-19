@@ -29,7 +29,7 @@ public class WindowApp {
 	private JTable table;
 	JComboBox<String> scopeLst, modulesLst, transactionsLst, channelsLst, sddiChannelsLst, environmentsLst, databaseLst;
 	DefaultTableModel model;
-
+ 
 	/** Launch the application */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -123,7 +123,7 @@ public class WindowApp {
 			public void itemStateChanged(ItemEvent e) {
 				enableListBasedOnValue(scopeLst, transactionsLst, "By Selected Transaction");
 				transactionsLst.removeAllItems();
-				addBtn.setEnabled(false);
+				//addBtn.setEnabled(false);
 			}
 		});
 
@@ -131,13 +131,21 @@ public class WindowApp {
 			public void itemStateChanged(ItemEvent e) {
 				enableListBasedOnValue(channelsLst, sddiChannelsLst, "SDDI");
 				transactionsLst.removeAllItems();
-				addBtn.setEnabled(false);
+				//addBtn.setEnabled(false);
+			}
+		});
+		
+		sddiChannelsLst.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				transactionsLst.removeAllItems();
+				//addBtn.setEnabled(false);
 			}
 		});
 
 		environmentsLst.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				databaseLst.removeAllItems();
+				addBtn.setEnabled(true);
 				int x = environmentsLst.getSelectedIndex();
 				for (int i = 0; i < databaseArray[x].length; i++) {
 					databaseLst.addItem(databaseArray[x][i]);
@@ -148,7 +156,7 @@ public class WindowApp {
 		getTrnsBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				setFilePath();
-				addBtn.setEnabled(true);
+				//addBtn.setEnabled(false);
 			}
 		});
 		addBtn.addActionListener(new ActionListener() {
@@ -286,10 +294,10 @@ public class WindowApp {
 				folderName = System.getProperty("user.dir") + "\\XMLFiles" + "\\Run" + modulesLst.getSelectedItem().toString() + "FTF";
 				fileList = getXmlFile(folderName);
 			} else {
-				folderName = System.getProperty("user.dir") + "\\Run" + modulesLst.getSelectedItem().toString()
+				folderName = System.getProperty("user.dir") + "\\XMLFiles" + "\\Run" + modulesLst.getSelectedItem().toString()
 						+ "SDDI";
 				List<String> fileListtemp = getXmlFile(folderName);
-				// fileList.clear();
+				//fileList.clear();
 				for (String name : fileListtemp) {
 					if (name.contains(sddiChannelsLst.getSelectedItem().toString())) {
 						fileList.add(name);
@@ -297,8 +305,9 @@ public class WindowApp {
 				}
 			}
 		System.out.println("folderName: " + folderName);
-		fillTransactionList(fileList);
-
+		if(fileList.size()==0)
+			JOptionPane.showMessageDialog(null, "No Transactions found!");
+		else fillTransactionList(fileList);
 	}
 
 	private void fillTransactionList(List<String> fileList) {
@@ -320,7 +329,7 @@ public class WindowApp {
 				fileList.add(name);
 			}
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, "No Transactions found!");
+			//JOptionPane.showMessageDialog(null, "No Transactions found!");
 		}
 		return fileList;
 	}

@@ -1,37 +1,71 @@
 package isoft.etraffic.vhl.ftftest;
 
- 
+import static org.testng.Assert.assertTrue;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import org.openqa.selenium.WebDriver;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-
+import isoft.etraffic.data.ExcelReader;
 import isoft.etraffic.db.DBQueries;
+import isoft.etraffic.enums.PlateCategory;
+import isoft.etraffic.enums.VehicleClass;
+import isoft.etraffic.enums.VehicleWeight;
 import isoft.etraffic.testbase.TestBase;
 import isoft.etraffic.vhl.ftfpages.CommonPage;
 import isoft.etraffic.vhl.ftfpages.LoginFTFPage;
 import isoft.etraffic.vhl.ftfpages.RegistrationPage;
 import isoft.etraffic.vhl.ftfpages.TourismPage;
+import isoft.etraffic.vhl.sdditest.TourismIssueNOCCertficate;
 
-public class TourismCertificateTest extends TestBase{
+public class TourismCertificateTest {
 
 	String username = "rta13580", center = "مؤسسة الترخيص - ديرة";
-	 
+	VehicleClass vehicleClass;
+	PlateCategory plateCategoryId;
+	VehicleWeight vehicleWeight;
+	boolean isOrganization;
 	LoginFTFPage loginPage;
 	CommonPage commonPage;
 	RegistrationPage registrationPage;
-
 	TourismPage tourismPage;
-	DBQueries dbQuery = new DBQueries();
+	WebDriver driver;
+	String trafficFile, plateCategory, plateNumber, plateCode, chassis, weight, url;
+	DBQueries dbQueries = new DBQueries();
+	List<String> transactionsLst = new ArrayList<String>();
+	TourismIssueNOCCertficate tourismIssueNOCCertficate;
 
-	@Parameters({ "trafficFile", "plateCategory", "plateNumber", "plateCode", "chassis", "vehicleWeight", "vehicleClass" })
-	@Test
-	public void getTourismCertificate(String trafficFile, String plateCategory, String plateNumber, String plateCode, String chassis, String vehicleWeight, String vehicleClass) throws Exception {
+	@DataProvider(name = "TourismCertificate")
+	public Object[][] vehicleData() throws IOException {
+		// get data from Excel Reader class
+		ExcelReader ER = new ExcelReader();
+		int TotalNumberOfCols = 5;
+		String ExcelfileName = "vhl";
+		String sheetname = "TourismCertificate"; 
+		return ER.getExcelData(ExcelfileName, sheetname, TotalNumberOfCols);
+	}
 
-		dbQuery.addInsurance(chassis, dbQuery.getVehicleClassEnDescription(vehicleClass));
-		dbQuery.removeBlocker(trafficFile);
-		 
-		System.out.println("plateCode = " + plateCode);
+	@Test(dataProvider = "TourismCertificate")
+	public void getTourismCertificate(String vehicleClassValue, String plateCategoryValue, String vehicleWeightValue,
+			String isOrganizationValue, String excpectedFees) throws Exception {
+
+		vehicleClass = dbQueries.getVehicleClassEnDescription(vehicleClassValue);
+		vehicleWeight = dbQueries.setVehicleWeightEnum(vehicleWeightValue);
+		plateCategoryId = dbQueries.getPlateCategoryEnum(plateCategoryValue);
+		isOrganization = Boolean.parseBoolean(isOrganizationValue);
+
+		getVehicle();
+		getNOCCertificate();
+
 		loginPage = new LoginFTFPage(driver);
-		loginPage.loginFTF(username, dbQuery.getUserPassword(username), center);
+		loginPage.loginFTF(username, dbQueries.getUserPassword(username), center);
 
 		commonPage = new CommonPage(driver);
 		commonPage.gotoHomePage();
@@ -41,6 +75,68 @@ public class TourismCertificateTest extends TestBase{
 
 		tourismPage = new TourismPage(driver);
 		tourismPage.proceedTrs("مصر");
+
+		if (commonPage.isBRShown()) {
+			transactionsLst.remove(transactionsLst.size() - 1);
+			transactionsLst.add(commonPage.getBRText());
+			assertTrue(false);
+		}
+
+		transactionsLst.remove(transactionsLst.size() - 1);
+		transactionsLst.add(commonPage.getTransactionId());
+
 		commonPage.payFTF();
+		assertTrue(commonPage.transactionFeesAssertion(Integer.parseInt(excpectedFees), Integer.parseInt(excpectedFees)));
+	}
+
+	private void getNOCCertificate() throws Exception {
+		tourismIssueNOCCertficate = new TourismIssueNOCCertficate(chassis, trafficFile,
+				dbQueries.getPlateCategoryEnDesc(plateCategory), plateNumber, plateCode, weight);
+		tourismIssueNOCCertficate.startBrowser("chrome", getServerURL());
+		try{tourismIssueNOCCertficate.issueNOCCertificate();}
+		catch(Exception e) {System.out.println("Failed on adding add NOC for :" + plateNumber + dbQueries.getPlateCategoryEnDesc(plateCategory) + plateCode);}
+		tourismIssueNOCCertficate.closeDriver();
+	}
+
+	private String getServerURL() {
+		if (url.contains("tst12"))
+			return "https://tst12c:7793/trfesrv/test_login.jsp";
+		else // (url.contains("er12"))
+			return "https://er12cr2:7784/trfesrv/test_login.jsp";
+	}
+
+	@BeforeMethod
+	@Parameters({ "url", "browser", "lang" })
+	public void setup(String url, String browser, @Optional("en") String lang)
+			throws ClassNotFoundException, SQLException, InterruptedException {
+		transactionsLst.add("");
+		TestBase testBase = new TestBase();
+		testBase.setup(url, browser, lang);
+		driver = testBase.driver;
+		this.url = url;
+	}
+
+	@AfterMethod
+	public void aftermethod() {
+		driver.quit();
+	}
+
+	@AfterClass
+	public void afterClass() {
+		for (String trns : transactionsLst) {
+			System.out.println("trns: " + trns);
+		}
+	}
+
+	private void getVehicle() throws ClassNotFoundException, SQLException {
+		String[] vehicle = dbQueries.getVehicle(vehicleClass, vehicleWeight, plateCategoryId, isOrganization);
+		trafficFile = vehicle[0];
+		plateNumber = vehicle[1];
+		plateCode = vehicle[2];
+		plateCategory = vehicle[3];
+		chassis = vehicle[4];
+		weight = vehicle[5];
+		dbQueries.removeBlocker(trafficFile);
+		dbQueries.addInsurance(chassis, vehicleClass);
 	}
 }

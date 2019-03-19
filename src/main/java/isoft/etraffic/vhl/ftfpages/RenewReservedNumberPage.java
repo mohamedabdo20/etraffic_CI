@@ -19,10 +19,9 @@ public class RenewReservedNumberPage extends SeleniumWraper {
 	By proceedTrsBtn = By.id("proceedTrsId");
 
 	public void proceedTrs(ReservationPeriod period) throws InterruptedException {
-
+		System.out.println("----------- proceedTrs Renew Booking ------------ ");
 		waitForElement(proceedTrsBtn);
-		switch(period)
-		{
+		switch (period) {
 		case ThreeMonths:
 			clickButton(threeMonthBtn);
 		case SixMonths:
@@ -32,12 +31,12 @@ public class RenewReservedNumberPage extends SeleniumWraper {
 		default:
 			clickButton(threeMonthBtn);
 		}
-		
-		while(isElementDisplayed(popUp))
+
+		while (isElementDisplayed(popUp))
 			Thread.sleep(1000);
-		
+
 		clickButton(proceedTrsBtn);
-		
+
 	}
 
 	public void proceedTrs() throws InterruptedException {
@@ -51,4 +50,3 @@ public class RenewReservedNumberPage extends SeleniumWraper {
 		return false;
 	}
 }
-

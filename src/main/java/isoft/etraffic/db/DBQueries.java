@@ -10,15 +10,20 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
-import isoft.etraffic.enums.*;
+import isoft.etraffic.enums.Database;
+import isoft.etraffic.enums.PlateCategory;
+import isoft.etraffic.enums.VehicleClass;
+import isoft.etraffic.enums.VehicleWeight;
 
 public class DBQueries {
 
 	Connection con;
 	String Username, password;
 	public static Database database = Database.Test1;
-	
+	public static List<String> selectedVehiclesList = new ArrayList<String>();
+	public static int rownum = 2;
+	public static boolean vehicleSelectedBefor = false;
+
 	public void addInsurance(String chassis, VehicleClass vehicleClass) throws ClassNotFoundException, SQLException {
 		setConnection();
 		String vehicleClassId = getVehicleClassId(vehicleClass);
@@ -136,138 +141,126 @@ public class DBQueries {
 		setConnection();
 
 		Statement stmt = con.createStatement();
-		stmt.execute("DECLARE\r\n" + 
-				"   v_seqvalue              NUMBER;\r\n" + 
-				"   v_seqvalue1             NUMBER;\r\n" + 
-				"   v_engin                 VARCHAR2 (30);\r\n" + 
-				"   v_seq_value             NUMBER;\r\n" + 
-				"   v_new_chass_number      VARCHAR2 (30);\r\n" + 
-				"   v_policy_no             VARCHAR2 (30);\r\n" + 
-				"   v_VSM_ID                NUMBER;\r\n" + 
-				"   v_VMK_ID                NUMBER;\r\n" + 
-				"   v_VDS_ID                NUMBER;\r\n" + 
-				"   V_USR_NAME              VARCHAR2 (20) := 'esam';\r\n" + 
-				"   v_chass_number          VARCHAR2 (30) := '"+ chassis +"';\r\n" + 
-				"   v_test_type             NUMBER := 5;\r\n" + 
-				"   v_new_unloaded_weight   NUMBER := "+ weight +";\r\n" + 
-				"   v_new_no_of_seats       NUMBER;\r\n" + 
-				"   V_VCL_ID                NUMBER;\r\n" + 
-				"BEGIN\r\n" + 
-				"   SELECT traffic.vht_seq.NEXTVAL INTO v_seqvalue FROM DUAL;\r\n" + 
-				"   SELECT traffic.vps_seq.NEXTVAL INTO v_seqvalue1 FROM DUAL;\r\n" + 
-				"   SELECT traffic.eir_seq.NEXTVAL INTO v_seq_value FROM DUAL;\r\n" + 
-				"   SELECT VMK.ID, VLE.NO_OF_SEATS, VLE.VCL_ID, VLE.VDS_ID, VLE.VSM_ID\r\n" + 
-				"     INTO v_VMK_ID, v_new_no_of_seats, V_VCL_ID, V_VDS_ID, V_VSM_ID\r\n" + 
-				"     FROM TF_VHL_VEHICLES VLE, TRAFFIC.TF_VHL_VEHICLE_MODEL VSM, TRAFFIC.TF_VHL_MANUFACTURERS VMK\r\n" + 
-				"    WHERE VLE.VSM_ID = VSM.ID AND VSM.VMK_ID = VMK.ID AND CHASISS_NO = v_chass_number;\r\n" + 
-				"   V_NEW_CHASS_NUMBER := NULL;\r\n" + 
-				"   V_ENGIN := NULL;\r\n" + 
-				"   V_POLICY_NO := '123456';\r\n" + 
-				"   DELETE FROM TRAFFIC.TF_VHL_TRANSACTION_VEHICLES\r\n" + 
-				"         WHERE CHASISS_NO = v_chass_number\r\n" + 
-				"               AND CREATION_DATE = TRUNC (SYSDATE)\r\n" + 
-				"               AND USR_ID = (SELECT ID FROM traffic.SF_INF_USERS WHERE NAME = V_USR_NAME);\r\n" + 
-				"   INSERT INTO traffic.tf_stp_vehicle_tests \r\n" + 
-				"   (chasiss_no, test_date, ID, emi_code, ctr_id, created_by,\r\n" + 
-				"    creation_date, insurance_ref_no, new_vds_id, new_cnt_id,\r\n" + 
-				"    current_meter_reading, status_date, test_type, meter_unit,\r\n" + 
-				"    new_unloaded_weight, new_no_of_doors, new_wheel_drive,\r\n" + 
-				"    new_eng_power, new_fuel_code, status, new_vsm_id,\r\n" + 
-				"    need_fees_calculated, new_axes_no, test_result,\r\n" + 
-				"    new_vcl_id, new_myr_id, new_chassis_no, new_no_of_seats,\r\n" + 
-				"    new_eng_capacity, failed_count, current_meter_reading_km,\r\n" + 
-				"    new_cylinders, new_carry_weight, new_engine_no, cis_id, trs_type)\r\n" + 
-				"    VALUES (v_chass_number, SYSDATE, v_seqvalue, 'DXB', 1215,'rta4730',\r\n" + 
-				"            SYSDATE, '234567', V_VDS_ID, NULL, 4545, SYSDATE, 1, 1, v_new_unloaded_weight,\r\n" + 
-				"            NULL, NULL, NULL, NULL, 1, V_VSM_ID, 2, 12, 2, V_VCL_ID, 2017, v_new_chass_number,\r\n" + 
-				"            v_new_no_of_seats, NULL, 0, 4545, NULL, 121, v_engin, v_test_type, 1);\r\n" + 
-				"   INSERT INTO traffic.tf_stp_vht_pass_services (ID,cis_id, vht_id, update_date, updated_by,\r\n" + 
-				"                                                 creation_date, created_by)\r\n" + 
-				"        VALUES (v_seqvalue1, v_test_type, v_seqvalue, SYSDATE, 'rta4730', SYSDATE, 'rta4730');\r\n" + 
-				"   COMMIT;\r\n" + 
-				"END;");
+		stmt.execute("DECLARE\r\n" + "   v_seqvalue              NUMBER;\r\n" + "   v_seqvalue1             NUMBER;\r\n"
+				+ "   v_engin                 VARCHAR2 (30);\r\n" + "   v_seq_value             NUMBER;\r\n"
+				+ "   v_new_chass_number      VARCHAR2 (30);\r\n" + "   v_policy_no             VARCHAR2 (30);\r\n"
+				+ "   v_VSM_ID                NUMBER;\r\n" + "   v_VMK_ID                NUMBER;\r\n"
+				+ "   v_VDS_ID                NUMBER;\r\n" + "   V_USR_NAME              VARCHAR2 (20) := 'esam';\r\n"
+				+ "   v_chass_number          VARCHAR2 (30) := '" + chassis + "';\r\n"
+				+ "   v_test_type             NUMBER := 5;\r\n" + "   v_new_unloaded_weight   NUMBER := " + weight
+				+ ";\r\n" + "   v_new_no_of_seats       NUMBER;\r\n" + "   V_VCL_ID                NUMBER;\r\n"
+				+ "BEGIN\r\n" + "   SELECT traffic.vht_seq.NEXTVAL INTO v_seqvalue FROM DUAL;\r\n"
+				+ "   SELECT traffic.vps_seq.NEXTVAL INTO v_seqvalue1 FROM DUAL;\r\n"
+				+ "   SELECT traffic.eir_seq.NEXTVAL INTO v_seq_value FROM DUAL;\r\n"
+				+ "   SELECT VMK.ID, VLE.NO_OF_SEATS, VLE.VCL_ID, VLE.VDS_ID, VLE.VSM_ID\r\n"
+				+ "     INTO v_VMK_ID, v_new_no_of_seats, V_VCL_ID, V_VDS_ID, V_VSM_ID\r\n"
+				+ "     FROM TF_VHL_VEHICLES VLE, TRAFFIC.TF_VHL_VEHICLE_MODEL VSM, TRAFFIC.TF_VHL_MANUFACTURERS VMK\r\n"
+				+ "    WHERE VLE.VSM_ID = VSM.ID AND VSM.VMK_ID = VMK.ID AND CHASISS_NO = v_chass_number;\r\n"
+				+ "   V_NEW_CHASS_NUMBER := NULL;\r\n" + "   V_ENGIN := NULL;\r\n" + "   V_POLICY_NO := '123456';\r\n"
+				+ "   DELETE FROM TRAFFIC.TF_VHL_TRANSACTION_VEHICLES\r\n"
+				+ "         WHERE CHASISS_NO = v_chass_number\r\n"
+				+ "               AND CREATION_DATE = TRUNC (SYSDATE)\r\n"
+				+ "               AND USR_ID = (SELECT ID FROM traffic.SF_INF_USERS WHERE NAME = V_USR_NAME);\r\n"
+				+ "   INSERT INTO traffic.tf_stp_vehicle_tests \r\n"
+				+ "   (chasiss_no, test_date, ID, emi_code, ctr_id, created_by,\r\n"
+				+ "    creation_date, insurance_ref_no, new_vds_id, new_cnt_id,\r\n"
+				+ "    current_meter_reading, status_date, test_type, meter_unit,\r\n"
+				+ "    new_unloaded_weight, new_no_of_doors, new_wheel_drive,\r\n"
+				+ "    new_eng_power, new_fuel_code, status, new_vsm_id,\r\n"
+				+ "    need_fees_calculated, new_axes_no, test_result,\r\n"
+				+ "    new_vcl_id, new_myr_id, new_chassis_no, new_no_of_seats,\r\n"
+				+ "    new_eng_capacity, failed_count, current_meter_reading_km,\r\n"
+				+ "    new_cylinders, new_carry_weight, new_engine_no, cis_id, trs_type)\r\n"
+				+ "    VALUES (v_chass_number, SYSDATE, v_seqvalue, 'DXB', 1215,'rta4730',\r\n"
+				+ "            SYSDATE, '234567', V_VDS_ID, NULL, 4545, SYSDATE, 1, 1, v_new_unloaded_weight,\r\n"
+				+ "            NULL, NULL, NULL, NULL, 1, V_VSM_ID, 2, 12, 2, V_VCL_ID, 2017, v_new_chass_number,\r\n"
+				+ "            v_new_no_of_seats, NULL, 0, 4545, NULL, 121, v_engin, v_test_type, 1);\r\n"
+				+ "   INSERT INTO traffic.tf_stp_vht_pass_services (ID,cis_id, vht_id, update_date, updated_by,\r\n"
+				+ "                                                 creation_date, created_by)\r\n"
+				+ "        VALUES (v_seqvalue1, v_test_type, v_seqvalue, SYSDATE, 'rta4730', SYSDATE, 'rta4730');\r\n"
+				+ "   COMMIT;\r\n" + "END;");
 
 		System.out.println(("Vehicle Test was added successfully."));
 		con.close();
 	}
 
 	public void addTestUnRegisteredVehicle(String chassis, VehicleClass vehicleClass, String weight)
-				throws ClassNotFoundException, SQLException {
-			setConnection();
+			throws ClassNotFoundException, SQLException {
+		setConnection();
 
-//			String chassis = "21012019T09000000";
-//			VehicleClass vehicleClass =VehicleClass.LightVehicle;
-//			String weight = "2500";
+		// String chassis = "21012019T09000000";
+		// VehicleClass vehicleClass =VehicleClass.LightVehicle;
+		// String weight = "2500";
 
-			String vehicleClassId = getVehicleClassId(vehicleClass);
-			String noOfSeats = getNoOfSeats(vehicleClass);
-	
-			String manufacturerId;
-			if (vehicleClass.equals(VehicleClass.Trailer))
-				manufacturerId = "7"; // Trailer
-			else if (vehicleClass.equals(VehicleClass.EntertainmentMotorcycle))
-				manufacturerId = "10203"; // Trailer
-			else
-				manufacturerId = "10251"; // TOYOTA
+		String vehicleClassId = getVehicleClassId(vehicleClass);
+		String noOfSeats = getNoOfSeats(vehicleClass);
 
-			Statement stmt = con.createStatement();
-			stmt.execute("DECLARE\r\n" + "   v_seqvalue           NUMBER;\r\n" + "   v_seqvalue1          NUMBER;\r\n"
-					+ "\r\n" + "   v_engin              VARCHAR2 (30);\r\n" + "   v_seq_value          NUMBER;\r\n"
-					+ "   v_new_chass_number   VARCHAR2 (30);\r\n" + "   v_policy_no          VARCHAR2 (30);\r\n"
-					+ "   v_VSM_ID             NUMBER;\r\n" + "   v_VMK_ID                NUMBER;\r\n"
-					+ "   v_VDS_ID               NUMBER;\r\n" + "\r\n" + "\r\n" + "    ---------------SECRIPT CRITERIAS\r\n"
-					+ "    V_USR_NAME                 varchar2(20):='esam';\r\n"
-					+ "    v_chass_number           VARCHAR2 (30) :='" + chassis + "';\r\n"
-					+ "       v_test_type                 NUMBER:=5 ;  -- 5 ---->> Registration , 19------>> Classis\r\n"
-					+ "\r\n" + "       v_new_unloaded_weight     NUMBER:= " + weight
-					+ "; ---->> in case vehcile class is Light vehcile (1-3000), Heavy Vehcile (3001-10000000);\r\n"
-					+ "       v_new_no_of_seats         Number:= " + noOfSeats
-					+ ";  ------->> in case vehcile class is Havey Bus (27-1000), Light buss (14-26)\r\n" + "\r\n"
-					+ "       V_VCL_ID                 NUMBER:= " + vehicleClassId
-					+ "; --->> to add the vehcile classs     as below classes :\r\n" + "\r\n" + "BEGIN\r\n"
-					+ "   SELECT traffic.vht_seq.NEXTVAL\r\n" + "     INTO v_seqvalue\r\n" + "     FROM DUAL;\r\n" + "\r\n"
-					+ "   SELECT traffic.vps_seq.NEXTVAL\r\n" + "     INTO v_seqvalue1\r\n" + "     FROM DUAL;\r\n" + "\r\n"
-					+ "   SELECT traffic.eir_seq.NEXTVAL\r\n" + "     INTO v_seq_value\r\n" + "     FROM DUAL;\r\n" + "\r\n"
-					+ "   V_NEW_CHASS_NUMBER := NULL;\r\n" + "   V_ENGIN := NULL;\r\n" + "   V_POLICY_NO := '123456';\r\n"
-					+ "   --V_TEST_TYPE NUMBER:=  5;  -- 5 ---->> REGISTRATION , 19------>> CLASSIS\r\n" + "   V_VMK_ID := "
-					+ manufacturerId + ";\r\n" + "        DELETE from TRAFFIC.TF_VHL_TRANSACTION_VEHICLES\r\n"
-					+ "        where CHASISS_NO =v_chass_number\r\n" + "        AND    CREATION_DATE = TRUNC(SYSDATE)\r\n"
-					+ "        AND    USR_ID = (SELECT ID FROM traffic.SF_INF_USERS WHERE NAME = V_USR_NAME);\r\n" + "\r\n"
-					+ "        select ID\r\n" + "        into    V_VSM_ID\r\n"
-					+ "        from     traffic.tf_vhl_vehicle_model\r\n" + "        where     vcl_id = v_vcl_id\r\n"
-					+ "        and        VMK_ID = " + manufacturerId + "\r\n" + "        and        status = 2\r\n"
-					+ "        AND    ROWNUM< 2;\r\n" + "\r\n" + "        select ID\r\n" + "        into    V_VDS_ID\r\n"
-					+ "        from traffic.tf_vhl_vehicle_DESCRIPTIONS\r\n" + "        where vcl_id = v_vcl_id\r\n"
-					+ "        --and    status = 2\r\n" + "        AND    ROWNUM < 2;\r\n" + "\r\n" + "\r\n"
-					+ "   INSERT INTO traffic.tf_stp_vehicle_tests\r\n"
-					+ "               (chasiss_no, test_date, ID, emi_code, ctr_id, created_by,\r\n"
-					+ "                creation_date, insurance_ref_no, new_vds_id, new_cnt_id,\r\n"
-					+ "                current_meter_reading, status_date, test_type, meter_unit,\r\n"
-					+ "                new_unloaded_weight, new_no_of_doors, new_wheel_drive,\r\n"
-					+ "                new_eng_power, new_fuel_code, status, new_vsm_id,\r\n"
-					+ "                need_fees_calculated, new_axes_no, test_result, new_vcl_id,\r\n"
-					+ "                new_myr_id, new_chassis_no, new_no_of_seats,\r\n"
-					+ "                new_eng_capacity, failed_count, current_meter_reading_km,\r\n"
-					+ "                new_cylinders, new_carry_weight, new_engine_no, cis_id,\r\n"
-					+ "                trs_type\r\n" + "               )\r\n"
-					+ "        VALUES (v_chass_number, SYSDATE, v_seqvalue, 'DXB', 1215, 'rta4730',\r\n"
-					+ "                SYSDATE, '234567', V_VDS_ID, null,\r\n" + "                4545, SYSDATE, 1, 1,\r\n"
-					+ "                v_new_unloaded_weight, null, null,\r\n"
-					+ "                null, null, 1, V_VSM_ID,\r\n" + "                2, 12, 2,V_VCL_ID,\r\n"
-					+ "                2017, v_new_chass_number, v_new_no_of_seats,\r\n"
-					+ "                null, 0, 4545,\r\n" + "                null, 121, v_engin, v_test_type,\r\n"
-					+ "                1\r\n" + "               );\r\n" + "\r\n"
-					+ "   INSERT INTO traffic.tf_stp_vht_pass_services\r\n"
-					+ "               (ID, cis_id, vht_id, update_date, updated_by, creation_date,\r\n"
-					+ "                created_by\r\n" + "               )\r\n"
-					+ "        VALUES (v_seqvalue1,v_test_type, v_seqvalue, SYSDATE, 'rta4730', SYSDATE,\r\n"
-					+ "                'rta4730'\r\n" + "               );\r\n" + "\r\n" + "\r\n" + "   COMMIT;\r\n"
-					+ "END;");
+		String manufacturerId;
+		if (vehicleClass.equals(VehicleClass.Trailer))
+			manufacturerId = "7"; // Trailer
+		else if (vehicleClass.equals(VehicleClass.EntertainmentMotorcycle))
+			manufacturerId = "10203"; // Trailer
+		else
+			manufacturerId = "10251"; // TOYOTA
 
-			System.out.println(("Vehicle Test was added successfully"));
-			con.close();
-		}
-		
+		Statement stmt = con.createStatement();
+		stmt.execute("DECLARE\r\n" + "   v_seqvalue           NUMBER;\r\n" + "   v_seqvalue1          NUMBER;\r\n"
+				+ "\r\n" + "   v_engin              VARCHAR2 (30);\r\n" + "   v_seq_value          NUMBER;\r\n"
+				+ "   v_new_chass_number   VARCHAR2 (30);\r\n" + "   v_policy_no          VARCHAR2 (30);\r\n"
+				+ "   v_VSM_ID             NUMBER;\r\n" + "   v_VMK_ID                NUMBER;\r\n"
+				+ "   v_VDS_ID               NUMBER;\r\n" + "\r\n" + "\r\n" + "    ---------------SECRIPT CRITERIAS\r\n"
+				+ "    V_USR_NAME                 varchar2(20):='esam';\r\n"
+				+ "    v_chass_number           VARCHAR2 (30) :='" + chassis + "';\r\n"
+				+ "       v_test_type                 NUMBER:=5 ;  -- 5 ---->> Registration , 19------>> Classis\r\n"
+				+ "\r\n" + "       v_new_unloaded_weight     NUMBER:= " + weight
+				+ "; ---->> in case vehcile class is Light vehcile (1-3000), Heavy Vehcile (3001-10000000);\r\n"
+				+ "       v_new_no_of_seats         Number:= " + noOfSeats
+				+ ";  ------->> in case vehcile class is Havey Bus (27-1000), Light buss (14-26)\r\n" + "\r\n"
+				+ "       V_VCL_ID                 NUMBER:= " + vehicleClassId
+				+ "; --->> to add the vehcile classs     as below classes :\r\n" + "\r\n" + "BEGIN\r\n"
+				+ "   SELECT traffic.vht_seq.NEXTVAL\r\n" + "     INTO v_seqvalue\r\n" + "     FROM DUAL;\r\n" + "\r\n"
+				+ "   SELECT traffic.vps_seq.NEXTVAL\r\n" + "     INTO v_seqvalue1\r\n" + "     FROM DUAL;\r\n" + "\r\n"
+				+ "   SELECT traffic.eir_seq.NEXTVAL\r\n" + "     INTO v_seq_value\r\n" + "     FROM DUAL;\r\n" + "\r\n"
+				+ "   V_NEW_CHASS_NUMBER := NULL;\r\n" + "   V_ENGIN := NULL;\r\n" + "   V_POLICY_NO := '123456';\r\n"
+				+ "   --V_TEST_TYPE NUMBER:=  5;  -- 5 ---->> REGISTRATION , 19------>> CLASSIS\r\n" + "   V_VMK_ID := "
+				+ manufacturerId + ";\r\n" + "        DELETE from TRAFFIC.TF_VHL_TRANSACTION_VEHICLES\r\n"
+				+ "        where CHASISS_NO =v_chass_number\r\n" + "        AND    CREATION_DATE = TRUNC(SYSDATE)\r\n"
+				+ "        AND    USR_ID = (SELECT ID FROM traffic.SF_INF_USERS WHERE NAME = V_USR_NAME);\r\n" + "\r\n"
+				+ "        select ID\r\n" + "        into    V_VSM_ID\r\n"
+				+ "        from     traffic.tf_vhl_vehicle_model\r\n" + "        where     vcl_id = v_vcl_id\r\n"
+				+ "        and        VMK_ID = " + manufacturerId + "\r\n" + "        and        status = 2\r\n"
+				+ "        AND    ROWNUM< 2;\r\n" + "\r\n" + "        select ID\r\n" + "        into    V_VDS_ID\r\n"
+				+ "        from traffic.tf_vhl_vehicle_DESCRIPTIONS\r\n" + "        where vcl_id = v_vcl_id\r\n"
+				+ "        --and    status = 2\r\n" + "        AND    ROWNUM < 2;\r\n" + "\r\n" + "\r\n"
+				+ "   INSERT INTO traffic.tf_stp_vehicle_tests\r\n"
+				+ "               (chasiss_no, test_date, ID, emi_code, ctr_id, created_by,\r\n"
+				+ "                creation_date, insurance_ref_no, new_vds_id, new_cnt_id,\r\n"
+				+ "                current_meter_reading, status_date, test_type, meter_unit,\r\n"
+				+ "                new_unloaded_weight, new_no_of_doors, new_wheel_drive,\r\n"
+				+ "                new_eng_power, new_fuel_code, status, new_vsm_id,\r\n"
+				+ "                need_fees_calculated, new_axes_no, test_result, new_vcl_id,\r\n"
+				+ "                new_myr_id, new_chassis_no, new_no_of_seats,\r\n"
+				+ "                new_eng_capacity, failed_count, current_meter_reading_km,\r\n"
+				+ "                new_cylinders, new_carry_weight, new_engine_no, cis_id,\r\n"
+				+ "                trs_type\r\n" + "               )\r\n"
+				+ "        VALUES (v_chass_number, SYSDATE, v_seqvalue, 'DXB', 1215, 'rta4730',\r\n"
+				+ "                SYSDATE, '234567', V_VDS_ID, null,\r\n" + "                4545, SYSDATE, 1, 1,\r\n"
+				+ "                v_new_unloaded_weight, null, null,\r\n"
+				+ "                null, null, 1, V_VSM_ID,\r\n" + "                2, 12, 2,V_VCL_ID,\r\n"
+				+ "                2017, v_new_chass_number, v_new_no_of_seats,\r\n"
+				+ "                null, 0, 4545,\r\n" + "                null, 121, v_engin, v_test_type,\r\n"
+				+ "                1\r\n" + "               );\r\n" + "\r\n"
+				+ "   INSERT INTO traffic.tf_stp_vht_pass_services\r\n"
+				+ "               (ID, cis_id, vht_id, update_date, updated_by, creation_date,\r\n"
+				+ "                created_by\r\n" + "               )\r\n"
+				+ "        VALUES (v_seqvalue1,v_test_type, v_seqvalue, SYSDATE, 'rta4730', SYSDATE,\r\n"
+				+ "                'rta4730'\r\n" + "               );\r\n" + "\r\n" + "\r\n" + "   COMMIT;\r\n"
+				+ "END;");
+
+		System.out.println(("Vehicle Test was added successfully"));
+		con.close();
+	}
+
 	public String getUserPassword(String username) throws ClassNotFoundException, SQLException {
 		setConnection();
 		Statement stmt = con.createStatement();
@@ -827,8 +820,11 @@ public class DBQueries {
 		return vehilce;
 	}
 
-	public String[] getVehicle(VehicleClass vehicleClass, VehicleWeight vehicleWeight, PlateCategory plateCategory,
-			boolean isOrganization) throws ClassNotFoundException, SQLException {
+	// diiiiiiiiiiii
+	synchronized public String[] getVehicle(VehicleClass vehicleClass, VehicleWeight vehicleWeight,
+			PlateCategory plateCategory, boolean isOrganization) throws ClassNotFoundException, SQLException {
+		vehicleSelectedBefor = false;
+		String plateNumber = "";
 		String vehicleClassId = getVehicleClassId(vehicleClass);
 		int[] weight = new int[2];
 		weight = getWeightIntervals(vehicleWeight);
@@ -845,11 +841,11 @@ public class DBQueries {
 			personFlag = "IS NOT NULL";
 		}
 
-		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.MONTH, 1);
-		String newDate = sdf.format(cal.getTime());
-		System.out.println("Date after Addition: " + newDate);
+//		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+//		Calendar cal = Calendar.getInstance();
+//		cal.add(Calendar.MONTH, 1);
+//		String newDate = sdf.format(cal.getTime());
+//		System.out.println("Date after Addition: " + newDate);
 
 		Statement stmt = con.createStatement();
 
@@ -864,16 +860,16 @@ public class DBQueries {
 				+ "AND PLT_ID IN (SELECT PLT.ID FROM TF_VHL_PLATES PLT WHERE PCD_ID in (Select PCD.ID FROM tf_vhl_plate_codes PCD WHERE plc_emi_code = 'DXB'AND PCD.plc_code = "
 				+ plateCategoryId + "))\r\n" + "AND VCL.ID = " + vehicleClassId + "\r\n"
 				+ "AND TRS_END_DATE IS NULL \r\n" + "AND EXPIRY_DATE IS NOT NULL\r\n" + "AND BKT.WEIGHT BETWEEN "
-				+ weight[0] + " AND " + weight[1] + "\r\n"
-				+ "AND   BKT.IS_MORTGAGED = 1\r\n"
-				+ "AND F_GET_TRF_NUMBER_2(BKT.TRF_ID) NOT IN (50041551, 10026148, 10018551,  10003535)\r\n" //10001821, 10001047, 10013648, 10011962, 10001370, 10001354, 10001151, 10001096,
+				+ weight[0] + " AND " + weight[1] + "\r\n" + "AND   BKT.IS_MORTGAGED = 1\r\n"
+				+ "AND F_GET_TRF_NUMBER_2(BKT.TRF_ID) NOT IN (10001142, 10001047, 50041551, 10026148, 10018551,  10003535)\r\n"
 				+ "AND F_GET_TRF_NUMBER_2(BKT.TRF_ID) NOT LIKE '%10000%'\r\n" + "AND BKT.TRF_ID NOT IN "
-				+ unwantedTrafficFiles + "\r\n" + "AND ROWNUM < 4");
+				+ unwantedTrafficFiles + "\r\n" + "AND ROWNUM < " + rownum);
 
 		int countrow = 0;
 		while (rs.next()) {
 			countrow++;
 			vehilce[0] = rs.getString(1);
+			plateNumber =  rs.getString(2);
 			String[] plate = rs.getString(2).split("\\s+");
 
 			vehilce[1] = plate[0];
@@ -890,17 +886,36 @@ public class DBQueries {
 			vehilce[4] = rs.getString(3);
 			vehilce[5] = rs.getString(4);
 			vehilce[6] = rs.getString(5);
-			System.out.println(" TRF_NO = " + vehilce[0] + "  --- PLATE_NO = " + vehilce[1] + "  --- Plate_Code = "
-					+ vehilce[2] + " PlateCategory = " + vehilce[3] + " Chassis = " + vehilce[4] + " Weight = "
-					+ vehilce[5]);
+			
 		}
 		if (countrow == 0) {
 			System.out.println(" There is No available expired vehicles in DB tables.");
+			con.close();
+			return null;
 		}
 
 		// closing DB Connection
 		con.close();
-		return vehilce;
+		for (int i = 0; i < selectedVehiclesList.size(); i++) {
+			if (selectedVehiclesList.get(i).equals(plateNumber)) {
+				{
+					vehicleSelectedBefor = true;
+					break;
+				}
+			}
+		}
+		if (vehicleSelectedBefor) {
+			rownum++;
+			con.close();
+			return getVehicle(vehicleClass, vehicleWeight, plateCategory, isOrganization);
+		} else {
+			selectedVehiclesList.add(plateNumber);
+			System.out.println(" TRF_NO = " + vehilce[0] + "  --- PLATE_NO = " + vehilce[1] + "  --- Plate_Code = "
+					+ vehilce[2] + " PlateCategory = " + vehilce[3] + " Chassis = " + vehilce[4] + " Weight = "
+					+ vehilce[5]);
+			System.out.println("-------------------------------");
+			return vehilce;
+		}
 	}
 
 	public String[][] getExpiredVehiclesByTrafficFile(String trafficFile) throws ClassNotFoundException, SQLException {
@@ -916,9 +931,8 @@ public class DBQueries {
 				+ "WHERE TRF.ID = BKT.TRF_ID\r\n" + "AND BKT.VLE_ID = VLE.ID\r\n" + "AND VLE.VCL_ID = VCL.ID\r\n"
 				+ "AND EXPIRY_DATE <= TRUNC(SYSDATE)\r\n"
 				+ "AND PLT_ID IN (SELECT PLT.ID FROM TF_VHL_PLATES PLT WHERE PCD_ID in (Select PCD.ID FROM tf_vhl_plate_codes PCD WHERE plc_emi_code = 'DXB'AND PCD.plc_code = 2))\r\n"
-				+ "AND VCL.id = 3\r\n" //+ "AND TRS_END_DATE IS NOT NULL \r\n" 
-				+ "AND F_GET_TRF_NUMBER_2(BKT.TRF_ID) = "
-				+ trafficFile);
+				+ "AND VCL.id = 3\r\n" // + "AND TRS_END_DATE IS NOT NULL \r\n"
+				+ "AND F_GET_TRF_NUMBER_2(BKT.TRF_ID) = " + trafficFile);
 
 		int countrow = 0;
 		while (rs.next() && countrow < 2) {
@@ -1345,8 +1359,7 @@ public class DBQueries {
 		Statement stmt = con.createStatement();
 
 		List<String> foundEvents = new ArrayList<String>();
-		ResultSet rs = stmt.executeQuery("Select CASE_DESCRIOTION From TF_STP_KEDB_SUPPORT_CASES \r\n"
-				+ "Where CASE_DESCRIOTION IN (" + eventListString + ")\r\n" + "AND CREATION_DATE >= to_date('"
+		ResultSet rs = stmt.executeQuery("Select CASE_DESCRIOTION From TF_STP_KEDB_SUPPORT_CASES Where CASE_DESCRIOTION IN (" + eventListString + ")\r\n" + "AND CREATION_DATE >= to_date('"
 				+ testDateTime + "' , 'dd/mm/yyyy hh24:mi:ss')");
 
 		int countrow = 0;
@@ -1865,23 +1878,23 @@ public class DBQueries {
 		con.close();
 		return trafficFile;
 	}
-	
-	public String getTradePlate() throws ClassNotFoundException, SQLException
-	{
+
+	public String getTradePlate() throws ClassNotFoundException, SQLException {
 		setConnection();
 		Statement stmt = con.createStatement();
 
 		String plateNumber = "";
 
-		ResultSet rs = stmt.executeQuery("Select PLATE_NO from TRAFFIC.TF_VHL_BOOKLETS bkt, TRAFFIC.TF_VHL_PLATES plt\r\n" + 
-				"Where BKT.PLT_ID = plt.id And plt.PCD_ID = 10 AND rownum <2");
+		ResultSet rs = stmt
+				.executeQuery("Select PLATE_NO from TRAFFIC.TF_VHL_BOOKLETS bkt, TRAFFIC.TF_VHL_PLATES plt\r\n"
+						+ "Where BKT.PLT_ID = plt.id And plt.PCD_ID = 10 AND rownum <2");
 
 		int countrow = 0;
 		while (rs.next()) {
 			countrow++;
 			plateNumber = rs.getString(1);
 
-			System.out.println(" Trade plateNumber =     " + plateNumber);
+			System.out.println(" Renew Trade plateNumber =     " + plateNumber);
 		}
 		if (countrow == 0) {
 			System.out.println(" There are no Trade plates in DB.");
@@ -1890,5 +1903,101 @@ public class DBQueries {
 		// closing DB Connection
 		con.close();
 		return plateNumber;
+	}
+
+	public String getTradePlateCancel() throws ClassNotFoundException, SQLException {
+		setConnection();
+		Statement stmt = con.createStatement();
+
+		String plateNumber = "";
+
+		ResultSet rs = stmt
+				.executeQuery("Select PLATE_NO from TRAFFIC.TF_VHL_BOOKLETS bkt, TRAFFIC.TF_VHL_PLATES plt\r\n"
+						+ "Where BKT.PLT_ID = plt.id And plt.PCD_ID = 10 AND rownum <3");
+
+		int countrow = 0;
+		while (rs.next()) {
+			countrow++;
+			plateNumber = rs.getString(1);
+
+			System.out.println(" Cancel Trade plateNumber =     " + plateNumber);
+		}
+		if (countrow == 0) {
+			System.out.println(" There are no Trade plates in DB.");
+		}
+
+		// closing DB Connection
+		con.close();
+		return plateNumber;
+	}
+	
+	public String getPossessionCertificateNo(String execludedTrafficFile) throws ClassNotFoundException, SQLException
+	{
+		setConnection();
+		Statement stmt = con.createStatement();
+
+		String CertificateNo = "";
+
+		ResultSet rs = stmt
+				.executeQuery("Select CERTIFICATE_NO\r\n" + 
+						"FROM TF_VHL_BOOKLETS BKT, TF_STP_TRAFFIC_FILES TRF, TF_VHL_VEHICLES vle\r\n" + 
+						"WHERE TRF.ID = BKT.TRF_ID\r\n" + 
+						"AND bkt.vle_id = vle.id\r\n" + 
+						"AND bkt.trs_type = 8 \r\n" + 
+						"AND trs_start_date >= (select max(bkt2.trs_start_date) from TF_VHL_BOOKLETS BKT2 where	bkt.vle_id = bkt2.vle_id )\r\n" + 
+						"AND trs_start_date >= to_date('1/1/2019','dd/mm/yyyy')\r\n" + 
+						"AND F_GET_TRF_NUMBER_2(BKT.TRF_ID) <> '" + execludedTrafficFile + "'\r\n" + 
+						"AND ROWNUM < 2\r\n" + 
+						"ORDER BY BKT.TRS_START_DATE Desc");
+
+		int countrow = 0;
+		while (rs.next()) {
+			countrow++;
+			CertificateNo = rs.getString(1);
+
+			System.out.println(" Possesion Certificate Number =     " + CertificateNo);
+		}
+		if (countrow == 0) {
+			System.out.println(" There are no Certificates in DB.");
+		}
+
+		// closing DB Connection
+		con.close();
+		return CertificateNo;
+	}
+	
+	public String[] getExportCertificateData() throws ClassNotFoundException, SQLException
+	{
+		setConnection();
+		Statement stmt = con.createStatement();
+
+		String[] certificateData = new String[2];
+
+		ResultSet rs = stmt
+				.executeQuery("Select CERTIFICATE_NO, F_GET_TRF_NUMBER_2(BKT.TRF_ID)\r\n" + 
+						"FROM TF_VHL_BOOKLETS BKT, TF_STP_TRAFFIC_FILES TRF, TF_VHL_VEHICLES vle\r\n" + 
+						"WHERE TRF.ID = BKT.TRF_ID\r\n" + 
+						"AND bkt.vle_id = vle.id\r\n" + 
+						"AND bkt.trs_type = 9 \r\n" + 
+						"AND trs_start_date >= (select max(bkt2.trs_start_date) from TF_VHL_BOOKLETS BKT2 where	bkt.vle_id = bkt2.vle_id )\r\n" + 
+						"AND trs_start_date >= to_date('1/1/2019','dd/mm/yyyy')\r\n" + 
+						"AND ROWNUM < 2\r\n" + 
+						"ORDER BY BKT.TRS_START_DATE Desc");
+
+		int countrow = 0;
+		while (rs.next()) {
+			countrow++;
+			certificateData[0] = rs.getString(1);
+			certificateData[1] = rs.getString(2);
+
+			System.out.println(" Export CertificateNo = " + certificateData[0] + "   TrafficFile= " + certificateData[1]);
+		}
+		if (countrow == 0) {
+			System.out.println(" There are no Certificates in DB.");
+		}
+
+		// closing DB Connection
+		con.close();
+		return certificateData;
 	}
 }

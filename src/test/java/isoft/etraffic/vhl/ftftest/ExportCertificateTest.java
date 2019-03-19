@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import org.openqa.selenium.WebDriver;
+import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -42,15 +43,15 @@ public class ExportCertificateTest {
 	ExportCertificatePage exportCertificatePage;
 	WebDriver driver;
 	List<String> transactionsLst = new ArrayList<String>();
+	ExcelReader ER = new ExcelReader();
+	int TotalNumberOfCols = 5;
+	String ExcelfileName, sheetname = "Export";
 
 	@DataProvider(name = "ExportVehicle")
-	public Object[][] vehicleData(String url) throws IOException {
-		System.out.println("URL Dataprovider: " + url);
+	public Object[][] vehicleData(ITestContext context) throws IOException {
 		// get data from Excel Reader class
-		ExcelReader ER = new ExcelReader();
-		int TotalNumberOfCols = 5;
-		String ExcelfileName = "vhl";
-		String sheetname = "Export";
+		
+		ExcelfileName = context.getCurrentXmlTest().getParameter("filename");
 		return ER.getExcelData(ExcelfileName, sheetname, TotalNumberOfCols);
 	}
 

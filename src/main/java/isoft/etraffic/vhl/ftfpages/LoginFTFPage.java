@@ -18,6 +18,7 @@ public class LoginFTFPage extends SeleniumWraper {
 	By loginLnk = By.id("dataForm:loginLink");
 
 	public void loginFTF(String username, String password, String centerName) throws InterruptedException {
+		System.out.println("----------- Login: FTF ------------");
 		writeToElement(usernameTxt, username);
 		writeToElement(passwordTxt, password);
 		clickElementJS(loginLnk);

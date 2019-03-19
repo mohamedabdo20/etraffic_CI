@@ -80,9 +80,9 @@ public class TradePlatePage extends SeleniumWraper {
 	}
 
 	public void fillInsuranceDetails(boolean renew) throws InterruptedException {
-
+		waitForElement(proceedTrsBtn);
 		if (renew) {
-			waitForElement(RenewInsuranceCompLst);
+			//waitForElement(RenewInsuranceCompLst);
 			selectFromFTFList(RenewInsuranceCompLst, "شركة");
 			selectFromFTFList(RenewInsuranceTypeLst, "شامل");
 			writeToElement(RenewInsuranceRefTxt, "123456789");

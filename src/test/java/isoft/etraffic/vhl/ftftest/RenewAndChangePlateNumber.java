@@ -32,13 +32,13 @@ import isoft.etraffic.vhl.ftfpages.CommonPage;
 import isoft.etraffic.vhl.ftfpages.LoginFTFPage;
 import isoft.etraffic.vhl.ftfpages.RenewPage;
 
-public class RenewTest {
+public class RenewAndChangePlateNumber {
 
 	/////////////////// Test Data ////////////////////
 	VehicleClass vehicleClass;
 	VehicleWeight vehicleWeight;
 	PlateCategory plateCategoryId;
-	OldPlateStatus oldPlateStatus;
+	OldPlateStatus oldPlateStatus = OldPlateStatus.Reserved;
 	boolean isOrganization;
 	WebDriver driver;
 	///////////////////////////////////////////////////
@@ -55,19 +55,19 @@ public class RenewTest {
 	List<String> transactionsLst = new ArrayList<String>();
 	ExcelReader ER = new ExcelReader();
 	int TotalNumberOfCols = 5;
-	String ExcelfileName, sheetname = "Renew";
+	String ExcelfileName, sheetname = "RenewAndChangePlateNumber";
 
-	@DataProvider(name = "RenewVehicle")
+	@DataProvider(name = "RenewAndChangePlateNumber")
 	public Object[][] vehicleData(ITestContext context) throws IOException {
 		// get data from Excel Reader class
 		ExcelfileName = context.getCurrentXmlTest().getParameter("filename");
 		return ER.getExcelData(ExcelfileName, sheetname, TotalNumberOfCols);
 	}
 
-	@Test(dataProvider = "RenewVehicle")
-	public void renewVehicle(String vehicleClassValue, String plateCategoryValue, String vehicleWeightRange,
+	@Test(dataProvider = "RenewAndChangePlateNumber")
+	public void renewAndChangePlateNumber(String vehicleClassValue, String plateCategoryValue, String vehicleWeightRange,
 			String isOrganizationValue, String newPlatesDesign)
-			throws ClassNotFoundException, SQLException, InterruptedException {
+			throws ClassNotFoundException, SQLException, InterruptedException, AWTException {
 
 		vehicleClass = dbQueries.getVehicleClassEnDescription(vehicleClassValue);
 		vehicleWeight = dbQueries.setVehicleWeightEnum(vehicleWeightRange);
@@ -86,70 +86,14 @@ public class RenewTest {
 		commonPage.gotoRenewl();
 
 		renewPage = new RenewPage(driver);
-		renewPage.proceedTrs();
-
+		renewPage.changePlateNumber(oldPlateStatus, PlateSource.Reserved, true);
+		
 		if (commonPage.isBRShown()) {
 			transactionsLst.remove(transactionsLst.size() - 1);
 			transactionsLst.add(commonPage.getBRText());
 			assertTrue(false);
 		}
-
-		switch (newPlatesDesign) {
-		case "Current":
-			renewVehicleWithCurrentDesign();
-			break;
-		case "NewDesign":
-			renewVehicleAndSelectNewDesign();
-			break;
-
-		}
-	}
-
-	private void renewVehicleWithCurrentDesign() throws InterruptedException, ClassNotFoundException, SQLException {
-		commonPage.selectPlateDesign_PStrategy(PlateDesign.Current);
-
-		transactionsLst.remove(transactionsLst.size() - 1);
-		transactionsLst.add(commonPage.getTransactionId());
-
-		commonPage.payFTF();
-	}
-
-	private void renewVehicleAndSelectNewDesign() throws InterruptedException, ClassNotFoundException, SQLException {
-		commonPage.selectPlateDesign_PStrategy(PlateDesign.New);
-		if (plateCategoryId == PlateCategory.Private)
-			commonPage.selectNewPlates_PStrategy(false, PlateSize.Long, PlateSize.Short);
-		else {
-			commonPage.skipLogoStep();
-			if (plateCategoryId == PlateCategory.Motorcycle || plateCategoryId == PlateCategory.Trailer)
-				commonPage.selectNewPlates_PStrategy(PlateSize.Short);
-			else
-				commonPage.selectNewPlates_PStrategy(PlateSize.Short, PlateSize.Short);
-		}
-		commonPage.selectCollectionCenter_PStrategy("مركز تسليم");
-		commonPage.selectDeliveryDate_PStrategy();
-		commonPage.clickContinue_PStrategy();
-
-		transactionsLst.remove(transactionsLst.size() - 1);
-		transactionsLst.add(commonPage.getTransactionId());
 		
-		commonPage.payFTF();
-	}
-
-	// @Test
-	public void renewAndChangePlate() throws InterruptedException, ClassNotFoundException, SQLException, AWTException {
-
-		getExpiredVehicle();
-		loginPage = new LoginFTFPage(driver);
-		loginPage.loginFTF(username, dbQueries.getUserPassword(username), center);
-
-		commonPage = new CommonPage(driver);
-		commonPage.gotoHomePage();
-		commonPage.gotoSmartServices();
-		commonPage.searchByPlate(plateCategory, plateNumber, plateCode);
-		commonPage.gotoRenewl();
-
-		renewPage = new RenewPage(driver);
-		renewPage.changePlateNumber(oldPlateStatus, PlateSource.Reserved, true);
 		renewPage.clickproceedBtn();
 
 		commonPage.selectPlateDesign_PStrategy(PlateDesign.New);
@@ -162,15 +106,20 @@ public class RenewTest {
 			else
 				commonPage.selectNewPlates_PStrategy(PlateSize.Short, PlateSize.Short);
 		}
+		
 		commonPage.waitImmediateDeliveryBtn();
 		commonPage.clickContinue_PStrategy();
 
 		commonPage.printApplicationForm();
 		commonPage.goToPayment();
+		
+		transactionsLst.remove(transactionsLst.size() - 1);
+		transactionsLst.add(commonPage.getTransactionId());
+		
 		commonPage.payFTF();
 	}
-
-	// @Test
+	
+	@Test
 	public void renewAndChangePlateWithPreservedAndAddLogo()
 			throws InterruptedException, ClassNotFoundException, SQLException, AWTException {
 
@@ -199,6 +148,13 @@ public class RenewTest {
 
 		renewPage = new RenewPage(driver);
 		renewPage.changePlateNumber(oldPlateStatus, PlateSource.Reserved, true);
+		
+		if (commonPage.isBRShown()) {
+			transactionsLst.remove(transactionsLst.size() - 1);
+			transactionsLst.add(commonPage.getBRText());
+			assertTrue(false);
+		}
+		
 		renewPage.clickproceedBtn();
 
 		commonPage.selectNewPlates_PStrategy(true, PlateSize.Long, PlateSize.Short);
@@ -207,6 +163,10 @@ public class RenewTest {
 
 		commonPage.printApplicationForm();
 		commonPage.goToPayment();
+		
+		transactionsLst.remove(transactionsLst.size() - 1);
+		transactionsLst.add(commonPage.getTransactionId());
+		
 		commonPage.payFTF();
 	}
 

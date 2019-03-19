@@ -15,19 +15,17 @@ class ThreadRun extends Thread {
 	}
 
 	public void run() {
-		System.out.println(tableRow.length);
-
 		TestNG runner = new TestNG();
 		List<String> suitefiles = new ArrayList<String>();
+		String channel = tableRow[3];
 		if (tableRow[0].equals("By Selected Transaction")) {
 			if (tableRow[3].contains("-")) {
 				tableRow[3] = tableRow[3].substring(0, tableRow[3].indexOf('-'));
-				System.out.println("tableRow[3]" + tableRow[3]);
 			}
-			filePath = System.getProperty("user.dir") + "\\XMLFiles" +"\\Run" + tableRow[1] + tableRow[3] + "\\" + tableRow[2]
-					+ ".xml";
-			suitefiles.add(
-					System.getProperty("user.dir") + "\\XMLFiles" +"\\Run" + tableRow[1] + tableRow[3] + "\\" + tableRow[2] + ".xml");
+			filePath = System.getProperty("user.dir") + "\\XMLFiles" + "\\Run" + tableRow[1] + tableRow[3] + "\\"
+					+ tableRow[2] + ".xml";
+			suitefiles.add(System.getProperty("user.dir") + "\\XMLFiles" + "\\Run" + tableRow[1] + tableRow[3] + "\\"
+					+ tableRow[2] + ".xml");
 		}
 
 		if (tableRow[0].equals("Smoke")) {
@@ -35,10 +33,10 @@ class ThreadRun extends Thread {
 			filePath = System.getProperty("user.dir") + "\\SmokeTest\\" + tableRow[1] + tableRow[3] + ".xml";
 		}
 		xmlFile = new XmlFile();
-		System.out.println("Generated Url: " + getEnvURL(tableRow[3], tableRow[4]));
-		xmlFile.editURL(filePath, getEnvURL(tableRow[3], tableRow[4]));
-		 runner.setTestSuites(suitefiles);
-		 runner.run();
+		//System.out.println("Generated Url: " + getEnvURL(tableRow[3], tableRow[4]));
+		xmlFile.updateXmlParameters(filePath, getEnvURL(channel, tableRow[4]), tableRow[1] + tableRow[3]);
+		runner.setTestSuites(suitefiles);
+		runner.run();
 	}
 
 	private String getEnvURL(String channel, String environment) {
@@ -63,5 +61,4 @@ class ThreadRun extends Thread {
 		}
 		return "";
 	}
-
 }

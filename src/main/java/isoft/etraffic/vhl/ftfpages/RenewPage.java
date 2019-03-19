@@ -34,14 +34,14 @@ public class RenewPage extends SeleniumWraper {
 		waitForElement(changePlateNumberBtn);
 		System.out.println("Found");
 //		refresh();
-//		Thread.sleep(1000);
-////		String firstWindow = switchToSecondWindow();
-////		//driver.close();
-////		switchToWindow(firstWindow);
-////		System.out.println("Afal w rege3");
+		Thread.sleep(1000);
+		String firstWindow = switchToSecondWindow();
+		driver.close();
+		switchToWindow(firstWindow);
+//		System.out.println("Afal w rege3");
 //		refresh();
 //		Thread.sleep(1000);
-		System.out.println("da5el 3l try");
+		//System.out.println("da5el 3l try");
 		tryClickElement(vehicleRenewalBtn);
 	}
 	

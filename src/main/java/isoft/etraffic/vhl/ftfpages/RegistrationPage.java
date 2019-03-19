@@ -104,7 +104,7 @@ public class RegistrationPage extends SeleniumWraper {
 
 	public void clickProceedBtn() throws InterruptedException
 	{
-		Thread.sleep(2000);
+		Thread.sleep(1000);
 		clickElementJS(proceedTrsBtn);
 		Thread.sleep(1000);
 	}
@@ -139,7 +139,19 @@ public class RegistrationPage extends SeleniumWraper {
 			Thread.sleep(1000);
 //			selectFromFTFList(vehicleManufacturerLst, vehicleManufacturer);
 //			Thread.sleep(500);
-//			selectFirstValue(vehicleModelLst);
+//			selectFromFTFList(vehicleManufacturerLst, vehicleManufacturer);
+//			editElementAttributeValue(driver.findElement(vehicleManufacturerLst), "value", "TOYOTA");
+//			hitTabToElement(vehicleManufacturerLst);
+//			Thread.sleep(500);
+//			selectFirstValue(vehicleManufacturerLst);
+			editElementAttributeValue(driver.findElement(vehicleManufacturerLst), "onfocus", "KeyBoard1.ConvertToEnglish()");
+			selectFromFTFList(vehicleManufacturerLst, vehicleManufacturer);
+			//editElementAttributeValue(driver.findElement(By.xpath("//*[@id='vehicleManufacturerId']/option")), "value", "10251");
+			//setElementText(driver.findElement(By.xpath("//*[@class='selectize-input items has-options full has-items']/div")), vehicleManufacturer);
+			Thread.sleep(500);
+			waitForElement(vehicleModelLst);
+			selectFirstValue(vehicleModelLst);
+			
 			selectFromFTFList(madeInCountryLst, madeInCountry);
 			selectFromFTFList(modelYearTxt, modelYear);
 			writeToElement(engineNoTxt, engineNo);

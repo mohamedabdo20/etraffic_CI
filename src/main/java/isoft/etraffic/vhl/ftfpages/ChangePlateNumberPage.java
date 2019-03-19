@@ -42,29 +42,25 @@ public class ChangePlateNumberPage extends SeleniumWraper {
 	
 	By proceedTrsBtn = By.id("proceedTrsId");
 
-	public void proceedTrs(OldPlateStatus oldPlateStatus, PlateSize frontPlate, PlateSize backPlate, PlateSource plateSource, boolean dubaiLogo) throws InterruptedException {
+	public void proceedTrs(OldPlateStatus oldPlateStatus, PlateSource plateSource) throws InterruptedException {
 		
 		waitForElement(reservedBtn);
 		Thread.sleep(1000);
 		selectOldPlateStatus(oldPlateStatus);
 		
-		changePlateNumber(frontPlate, backPlate, plateSource, dubaiLogo);
+		changePlateNumber(plateSource);
 		
 		clickElementJS(proceedTrsBtn);
 	}
 	
-	private void changePlateNumber(PlateSize frontPlate, PlateSize backPlate, PlateSource  plateSource, boolean dubaiLogo) throws InterruptedException
+	private void changePlateNumber(PlateSource  plateSource) throws InterruptedException
 	{
 		clickElement(openSelectPlateBtn);
 		Thread.sleep(1000);
 		String parentHandle = driver.getWindowHandle();
 		switchToFrame("plateSelectionIframeId");
 		
-//		selectFrontPlate(frontPlate);
-//		selectBackPlate(backPlate);
 		selectNewPlateSource(plateSource);
-		
-//		if(dubaiLogo){clickElement(dubaiLogoCheckbox);}
 		
 		clickElement(changePlateSubmitBtn);
 		driver.switchTo().window(parentHandle);
