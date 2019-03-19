@@ -28,9 +28,10 @@ class ThreadRun extends Thread {
 					+ tableRow[2] + ".xml");
 		}
 
-		if (tableRow[0].equals("Smoke")) {
-			suitefiles.add(System.getProperty("user.dir") + "\\SmokeTest\\" + tableRow[1] + tableRow[3] + ".xml");
-			filePath = System.getProperty("user.dir") + "\\SmokeTest\\" + tableRow[1] + tableRow[3] + ".xml";
+		else{
+			suitefiles.add(System.getProperty("user.dir") + "\\XMLFiles" + "\\"+tableRow[0]+ "\\" +tableRow[1]+ "\\" + tableRow[2] + ".xml");
+			filePath = System.getProperty("user.dir") + "\\XMLFiles" + "\\"+tableRow[0]+ "\\" +tableRow[1]+ "\\" + tableRow[2] + ".xml";
+			System.out.println("filePath filePath filePath:  " + filePath);
 		}
 		xmlFile = new XmlFile();
 		//System.out.println("Generated Url: " + getEnvURL(tableRow[3], tableRow[4]));
