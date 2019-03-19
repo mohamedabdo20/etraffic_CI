@@ -5,10 +5,7 @@ import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
-import java.util.Set;
-
-import org.apache.cassandra.thrift.Cassandra.system_add_column_family_args;
-import org.openqa.selenium.By;
+import java.util.Set;import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -371,7 +368,7 @@ public abstract class SeleniumWraper {
 
 	public void waitForElement(By by) throws InterruptedException {
 		seconds = 0;
-		while (seconds < 2) {
+		while (seconds < 60) {
 			try {
 				driver.findElement(by).isDisplayed();
 				Exception e = new Exception();
