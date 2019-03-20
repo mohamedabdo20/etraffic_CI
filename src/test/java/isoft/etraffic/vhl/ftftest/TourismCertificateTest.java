@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import org.openqa.selenium.WebDriver;
+import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -41,14 +42,15 @@ public class TourismCertificateTest {
 	DBQueries dbQueries = new DBQueries();
 	List<String> transactionsLst = new ArrayList<String>();
 	TourismIssueNOCCertficate tourismIssueNOCCertficate;
+	ExcelReader ER = new ExcelReader();
+	int TotalNumberOfCols = 5;
+	String ExcelfileName = "vhl";
+	String sheetname = "TourismCertificate";
 
 	@DataProvider(name = "TourismCertificate")
-	public Object[][] vehicleData() throws IOException {
+	public Object[][] vehicleData(ITestContext context) throws IOException {
 		// get data from Excel Reader class
-		ExcelReader ER = new ExcelReader();
-		int TotalNumberOfCols = 5;
-		String ExcelfileName = "vhl";
-		String sheetname = "TourismCertificate"; 
+		ExcelfileName = context.getCurrentXmlTest().getParameter("filename");
 		return ER.getExcelData(ExcelfileName, sheetname, TotalNumberOfCols);
 	}
 

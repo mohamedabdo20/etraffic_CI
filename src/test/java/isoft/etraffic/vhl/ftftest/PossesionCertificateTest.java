@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.WebDriver;
+import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -42,14 +43,16 @@ public class PossesionCertificateTest {
 	LoginFTFPage loginPage;
 	CommonPage commonPage;
 	PossessionPage possessionPage;
+	ExcelReader ER = new ExcelReader();
+	int TotalNumberOfCols = 5;
+	String ExcelfileName;
+	String sheetname = "PossessionCertificate";
 
 	@DataProvider(name = "PossessionCertificate")
-	public Object[][] vehicleData() throws IOException {
+	public Object[][] vehicleData(ITestContext context) throws IOException {
 		// get data from Excel Reader class
-		ExcelReader ER = new ExcelReader();
-		int TotalNumberOfCols = 5;
-		String ExcelfileName = "vhl";
-		String sheetname = "PossessionCertificate";
+		
+		ExcelfileName = context.getCurrentXmlTest().getParameter("filename");
 		return ER.getExcelData(ExcelfileName, sheetname, TotalNumberOfCols);
 	}
 

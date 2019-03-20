@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Staging" parallel="classes" thread-count="2">
+	<parameter name="browser" value="IE"/>
+	<parameter name="url" value="https://tst12c:7791/traffic/faces/jsf/auth/login.jsf"/>
+	<parameter name="filename" value="VHLFTF"/>
+	<test name="All VHL Transactions" verbose="2">
+		<classes>
+<!-- 			<class name="isoft.etraffic.vhl.ftftest.ChangePlateNumberTest"/> -->
+			<class name="isoft.etraffic.vhl.ftftest.TransferTest"/>
+			<class name="isoft.etraffic.vhl.ftftest.ExportCertificateTest"/>
+		</classes>
+	</test>
+</suite>

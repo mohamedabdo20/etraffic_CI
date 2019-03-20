@@ -29,7 +29,7 @@ public class WindowApp {
 	private JTable table;
 	JComboBox<String> scopeLst, modulesLst, transactionsLst, channelsLst, sddiChannelsLst, environmentsLst, databaseLst;
 	DefaultTableModel model;
- 
+
 	/** Launch the application */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -38,7 +38,8 @@ public class WindowApp {
 					WindowApp window = new WindowApp();
 					window.frame.setTitle("E-Traffic Test Automation");
 					window.frame.setIconImage(
-							new ImageIcon(System.getProperty("user.dir") + "\\attachments\\projectavatar.jpg").getImage());
+							new ImageIcon(System.getProperty("user.dir") + "\\attachments\\projectavatar.jpg")
+									.getImage());
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -60,14 +61,13 @@ public class WindowApp {
 				{ "DEVDB" } };
 
 		scopeLst = new JComboBox<String>();
-		scopeLst.setModel(new DefaultComboBoxModel<String>(
-				new String[] { "Smoke", "Regression", "System", "By Selected Transaction" }));
+		scopeLst.setModel(
+				new DefaultComboBoxModel<String>(new String[] { "Smoke", "Regression", "By Selected Transaction" }));
 		scopeLst.setBounds(50, 20, 180, 20);
 		frame.getContentPane().add(scopeLst);
 
 		modulesLst = new JComboBox<String>();
-		modulesLst
-				.setModel(new DefaultComboBoxModel<String>(new String[] { "All Modules", "VHL", "DRL", "CTA", "SPL" }));
+		modulesLst.setModel(new DefaultComboBoxModel<String>(new String[] { "Modules", "VHL", "DRL", "CTA", "SPL" }));
 		modulesLst.setBounds(50, 60, 110, 20);
 		frame.getContentPane().add(modulesLst);
 
@@ -123,7 +123,7 @@ public class WindowApp {
 			public void itemStateChanged(ItemEvent e) {
 				enableListBasedOnValue(scopeLst, transactionsLst, "By Selected Transaction");
 				transactionsLst.removeAllItems();
-				//addBtn.setEnabled(false);
+				// addBtn.setEnabled(false);
 			}
 		});
 
@@ -131,14 +131,14 @@ public class WindowApp {
 			public void itemStateChanged(ItemEvent e) {
 				enableListBasedOnValue(channelsLst, sddiChannelsLst, "SDDI");
 				transactionsLst.removeAllItems();
-				//addBtn.setEnabled(false);
+				// addBtn.setEnabled(false);
 			}
 		});
-		
+
 		sddiChannelsLst.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
 				transactionsLst.removeAllItems();
-				//addBtn.setEnabled(false);
+				// addBtn.setEnabled(false);
 			}
 		});
 
@@ -156,7 +156,7 @@ public class WindowApp {
 		getTrnsBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				setFilePath();
-				//addBtn.setEnabled(false);
+				// addBtn.setEnabled(false);
 			}
 		});
 		addBtn.addActionListener(new ActionListener() {
@@ -278,36 +278,56 @@ public class WindowApp {
 		transactionsLst.removeAll();
 		List<String> fileList = new ArrayList<String>();
 
-		if (scopeLst.getSelectedItem().toString().equals("Smoke"))
-			if (modulesLst.getSelectedItem().toString().equals("FTF")) {
-				folderName = System.getProperty("user.dir") + "\\Smoke\\" + modulesLst.getSelectedItem().toString()
-						+ "FTF";
-				fileList = getXmlFile(folderName);
-			} else {
-				folderName = System.getProperty("user.dir") + "\\Smoke\\" + modulesLst.getSelectedItem().toString()
-						+ sddiChannelsLst.getSelectedItem().toString();
-				fileList = getXmlFile(folderName);
-			}
+		// if (scopeLst.getSelectedItem().toString().equals("Smoke"))
+		// if (modulesLst.getSelectedItem().toString().equals("FTF")) {
+		// folderName = System.getProperty("user.dir") + "\\Smoke\\" +
+		// modulesLst.getSelectedItem().toString()
+		// + "FTF";
+		// fileList = getXmlFile(folderName);
+		// } else {
+		// folderName = System.getProperty("user.dir") + "\\Smoke\\" +
+		// modulesLst.getSelectedItem().toString()
+		// + sddiChannelsLst.getSelectedItem().toString();
+		// fileList = getXmlFile(folderName);
+		// }
+		//
+		// if (scopeLst.getSelectedItem().toString().equals("Regression")) {
+		// if (channelsLst.getSelectedItem().toString().equals("FTF"))
+		// fileList.add(modulesLst.getSelectedItem().toString() +
+		// channelsLst.getSelectedItem().toString());
+		// else
+		// fileList.add(modulesLst.getSelectedItem().toString() +
+		// sddiChannelsLst.getSelectedItem().toString());
+		// }
 
-		if (scopeLst.getSelectedItem().toString().equals("By Selected Transaction"))
+		if (scopeLst.getSelectedItem().toString().equals("By Selected Transaction")) {
 			if (channelsLst.getSelectedItem().toString().equals("FTF")) {
-				folderName = System.getProperty("user.dir") + "\\XMLFiles" + "\\Run" + modulesLst.getSelectedItem().toString() + "FTF";
+				folderName = System.getProperty("user.dir") + "\\XMLFiles" + "\\Run"
+						+ modulesLst.getSelectedItem().toString() + "FTF";
 				fileList = getXmlFile(folderName);
 			} else {
-				folderName = System.getProperty("user.dir") + "\\XMLFiles" + "\\Run" + modulesLst.getSelectedItem().toString()
-						+ "SDDI";
+				folderName = System.getProperty("user.dir") + "\\XMLFiles" + "\\Run"
+						+ modulesLst.getSelectedItem().toString() + "SDDI";
 				List<String> fileListtemp = getXmlFile(folderName);
-				//fileList.clear();
+				// fileList.clear();
 				for (String name : fileListtemp) {
 					if (name.contains(sddiChannelsLst.getSelectedItem().toString())) {
 						fileList.add(name);
 					}
 				}
 			}
+		} else {
+			if (channelsLst.getSelectedItem().toString().equals("FTF"))
+				fileList.add(modulesLst.getSelectedItem().toString() + channelsLst.getSelectedItem().toString());
+			else
+				fileList.add(modulesLst.getSelectedItem().toString() + sddiChannelsLst.getSelectedItem().toString());
+
+		}
 		System.out.println("folderName: " + folderName);
-		if(fileList.size()==0)
+		if (fileList.size() == 0)
 			JOptionPane.showMessageDialog(null, "No Transactions found!");
-		else fillTransactionList(fileList);
+		else
+			fillTransactionList(fileList);
 	}
 
 	private void fillTransactionList(List<String> fileList) {
@@ -329,7 +349,7 @@ public class WindowApp {
 				fileList.add(name);
 			}
 		} catch (Exception e) {
-			//JOptionPane.showMessageDialog(null, "No Transactions found!");
+			// JOptionPane.showMessageDialog(null, "No Transactions found!");
 		}
 		return fileList;
 	}
