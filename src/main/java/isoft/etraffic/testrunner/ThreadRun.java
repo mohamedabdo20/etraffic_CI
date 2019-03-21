@@ -29,6 +29,9 @@ class ThreadRun extends Thread {
 		}
 
 		else{
+			if (tableRow[3].contains("-")) {
+				tableRow[3] = tableRow[3].substring(0, tableRow[3].indexOf('-'));
+			}
 			suitefiles.add(System.getProperty("user.dir") + "\\XMLFiles" + "\\"+tableRow[0]+ "\\" +tableRow[1]+ "\\" + tableRow[2] + ".xml");
 			filePath = System.getProperty("user.dir") + "\\XMLFiles" + "\\"+tableRow[0]+ "\\" +tableRow[1]+ "\\" + tableRow[2] + ".xml";
 			System.out.println("filePath filePath filePath:  " + filePath);
