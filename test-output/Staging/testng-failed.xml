@@ -4,15 +4,15 @@
   <parameter name="filename" value="CTASDDI"/>
   <parameter name="browser" value="CHROME"/>
   <parameter name="url" value="https://tst12c:7793/trfesrv/public_resources/public-access.do"/>
-  <test thread-count="5" name="ModifyTLChangeNameTest(failed)">
+  <test thread-count="5" name="ModifyTLChangeLegalTest(failed)">
     <classes>
-      <class name="isoft.etraffic.cta.sdditest.ModifyTLChangeNameTest">
+      <class name="isoft.etraffic.cta.sdditest.ModifyTLChangeLegalTest">
         <methods>
-          <include name="setup"/>
+          <include name="ModifyTLChangelegalclass" invocation-numbers="0"/>
           <include name="tearDown"/>
-          <include name="ModifyTLChangeCompName" invocation-numbers="0"/>
+          <include name="setup"/>
         </methods>
-      </class> <!-- isoft.etraffic.cta.sdditest.ModifyTLChangeNameTest -->
+      </class> <!-- isoft.etraffic.cta.sdditest.ModifyTLChangeLegalTest -->
     </classes>
-  </test> <!-- ModifyTLChangeNameTest(failed) -->
+  </test> <!-- ModifyTLChangeLegalTest(failed) -->
 </suite> <!-- Failed suite [Staging] -->
