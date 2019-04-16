@@ -4,9 +4,7 @@ import java.awt.AWTException;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.remote.RemoteWebElement;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
@@ -19,7 +17,6 @@ import org.testng.annotations.Test;
 import io.qameta.allure.Description;
 import io.qameta.allure.Epic;
 import io.qameta.allure.Feature;
-import isoft.etraffic.cta.sddipages.AddPersonPage;
 import isoft.etraffic.cta.sddipages.AddPersonModifyPage;
 import isoft.etraffic.cta.sddipages.CtaCommonPages;
 import isoft.etraffic.cta.sddipages.DeliveryMethodPage;
@@ -30,7 +27,6 @@ import isoft.etraffic.cta.sddipages.ReviewTLPage;
 import isoft.etraffic.cta.sddipages.UpdateTLpage;
 import isoft.etraffic.data.ExcelReader;
 import isoft.etraffic.db.CtaDBQueries;
-import isoft.etraffic.db.DBQueries;
 import isoft.etraffic.testbase.TestBase;
 
 @Epic("Master test cases Execution")
@@ -54,7 +50,7 @@ public class ModifyTLChangeLegalTest  {
 		// get data from Excel Reader class
 		ExcelReader ER = new ExcelReader();
 		System.out.println(ExcelfileName);
-		int TotalNumberOfCols = 1;
+		int TotalNumberOfCols = 3;
 		String sheetname = "ModifyLegalClass";
 		return ER.getExcelData(ExcelfileName, sheetname, TotalNumberOfCols);
 	}
@@ -63,14 +59,14 @@ public class ModifyTLChangeLegalTest  {
 	
 	@Description("Modify tarde license change legal class ")
 	@Test(dataProvider = "modifydata")
-	public void ModifyTLChangelegalclass(String legalclass)
+	public void ModifyTLChangelegalclass(String act_code , String srvFee , String legalclass)
 			throws ClassNotFoundException, SQLException, InterruptedException, AWTException {
 		System.out.println("----------------ModifyTLChangelegalclass----------------");
 		ModifyTLNOCPage modifyTLObject = new ModifyTLNOCPage(driver);
 		NewTLNOCPage NOCpage = new NewTLNOCPage(driver);
 		CtaDBQueries dbqueries = new CtaDBQueries();
 		// get traffic file and trade license to modify
-		dbqueries.getTFandTLForModify();
+		dbqueries.getTFandTLForModify(act_code);
 
 		String Traffic_file = dbqueries.TRF;
 		String Trade_license = dbqueries.TL;
@@ -102,7 +98,16 @@ public class ModifyTLChangeLegalTest  {
 		ReviewObject.ReviewTL(TrxID, AppNo);
 
 		DeliveryMethodPage DeliveryObject = new DeliveryMethodPage(driver);
-		DeliveryObject.delivermethodwithoutpay("0501234657", "04065858585", "test@test.com", "test@test.com");
+		if (srvFee=="0") {
+			DeliveryObject.delivermethodwithoutpay("0501234657", "04065858585", "test@test.com", "test@test.com");
+		} else {
+			DeliveryObject.delivermethod("0501234657", "04065858585", "test@test.com", "test@test.com");
+			PaymentCreaditCard payment = new PaymentCreaditCard(driver);
+			payment.paymentcreaditcard(driver);
+			Thread.sleep(5000);
+		}
+	
+		
 
 		Thread.sleep(5000);
 		// get certification No
@@ -132,13 +137,13 @@ public class ModifyTLChangeLegalTest  {
 
 	@Description("Modify tarde license change legal class and add new member")
 	@Test(dataProvider = "modifydata", groups = "legalClass")
-	public void ModifyTLChangelegalclassWithAddMember( String legalclass) throws ClassNotFoundException, SQLException, InterruptedException, AWTException {
+	public void ModifyTLChangelegalclassWithAddMember( String act_code , String srvFee , String legalclass) throws ClassNotFoundException, SQLException, InterruptedException, AWTException {
 
 		ModifyTLNOCPage modifyTLObject = new ModifyTLNOCPage(driver);
 		NewTLNOCPage NOCpage = new NewTLNOCPage(driver);
 		CtaDBQueries dbqueries = new CtaDBQueries();
 		// get traffic file and trade license to modify
-		dbqueries.getTFandTLForModify();
+		dbqueries.getTFandTLForModify(act_code);
 
 		String Traffic_file = dbqueries.TRF;
 		String Trade_license = dbqueries.TL;

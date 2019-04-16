@@ -104,7 +104,7 @@ public class ModifyTLChangeNameTest {
 		if (srvFee=="0") {
 			DeliveryObject.delivermethodwithoutpay("0501234657", "04065858585", "test@test.com", "test@test.com");
 		} else {
-			DeliveryObject.delivermethod("0501234657", "04065858585", "test@test.com", "test@test.com");
+			//DeliveryObject.delivermethod("0501234657", "04065858585", "test@test.com", "test@test.com");
 			PaymentCreaditCard payment = new PaymentCreaditCard(driver);
 			payment.paymentcreaditcard(driver);
 			Thread.sleep(5000);

@@ -49,7 +49,7 @@ public class ModifyTLTest {
 	CtaCommonPages common = new CtaCommonPages(driver);
 
 	@Test()
-	public void ModifyTLChangeCompName()
+	public void ModifyTLChangeCompName(String act_id)
 			throws ClassNotFoundException, SQLException, InterruptedException, AWTException {
 
 		ModifyTLNOCPage modifyTLObject = new ModifyTLNOCPage(driver);
@@ -58,7 +58,7 @@ public class ModifyTLTest {
 		CtaDBQueries dbqueries = new CtaDBQueries();
 
 		System.out.println("----------------Modify Trade License----------------");
-		dbqueries.getTFandTLForModify();
+		dbqueries.getTFandTLForModify(act_id);
 
 		String Traffic_file = dbqueries.TRF;
 		String Trade_license = dbqueries.TL;

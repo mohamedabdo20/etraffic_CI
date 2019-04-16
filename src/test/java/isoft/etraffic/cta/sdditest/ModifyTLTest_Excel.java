@@ -70,7 +70,7 @@ public class ModifyTLTest_Excel {
 		CtaDBQueries dbqueries = new CtaDBQueries();
 
 		System.out.println("----------------Modify Trade License----------------");
-		dbqueries.getTFandTLForModify();
+		dbqueries.getTFandTLForModify(TF);
 
 
 		modifyTLObject.ModifyTLInitiate(TF, TL);

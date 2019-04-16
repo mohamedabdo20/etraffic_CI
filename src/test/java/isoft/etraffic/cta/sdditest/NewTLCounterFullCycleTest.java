@@ -49,14 +49,14 @@ public class NewTLCounterFullCycleTest{
 		return ER.getExcelData(ExcelfileName, sheetname, TotalNumberOfCols);}
 
 	@Test
-	public void NewNocForCounter()
+	public void NewNocForCounter(String act_id)
 			throws InterruptedException, ClassNotFoundException, SQLException {
 		//String Activity , String Obligation , String TF, String TL
 		// Create NOC for New Trade License
 		NewTLNOCPage NOCpage = new NewTLNOCPage(driver); 
 		// get traffic file and trade license 
 		CtaDBQueries dbqueries = new CtaDBQueries();
-		dbqueries.getTFandTLForModify();
+		dbqueries.getTFandTLForModify(act_id);
 		
 		/*String Traffic_file = dbqueries.TRF;
 		String Trade_license = dbqueries.TL;
