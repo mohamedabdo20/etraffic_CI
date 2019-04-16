@@ -17,7 +17,7 @@ public class CheckDRLEventsTest
 		dbqueries.checkEventsLog("DLD", "SYSDATE");
 		int eventsCount = dbqueries.checkEventsLog("DLD", "SYSDATE").size();
 		System.out.println("Events found in log table : "+eventsCount);
-		Assert.assertEquals(eventsCount,0);
+		Assert.assertEquals(eventsCount,1);
 		
 		
 		
