@@ -56,36 +56,7 @@ public class RenewPage extends SeleniumWraper {
 		clickElementJS(changePlateNumberBtn);
 		String parentHandle = driver.getWindowHandle();
 		switchToFrame("changePlateNumberIframeId");
-//		waitForElement(frontPlateLst);
-//		switch (frontPlate) {
-//		case Long:
-//			selectFromListByVisibleText(frontPlateLst, "طويل");
-//			break;
-//		case Short:
-//			selectFromListByVisibleText(frontPlateLst, "قصير");
-//			break;
-//		case Luxury:
-//			selectFromListByVisibleText(frontPlateLst, "فخمة");
-//			break;
-//		default:
-//			selectFromListByVisibleText(frontPlateLst, "طويل");
-//			break;
-//		}
-//		hitTabToElement(frontPlateLst);
-//		Thread.sleep(1000);
-//		waitForElement(backPlateLst);
-//		switch (backPlate) {
-//		case Long:
-//			hitArrowDownToElement(backPlateLst);
-//			break;
-//		case Short:
-//			hitArrowDownToElement(backPlateLst);
-//			hitArrowDownToElement(backPlateLst);
-//			break;
-//		default:
-//			selectFromListByVisibleText(frontPlateLst, "طويل");
-//			break;
-//		}
+
 		Thread.sleep(1000);
 		waitForElement(oldPlateStatusLst);
 		if(oldPlateStatus.equals(OldPlateStatus.ReturntoRTA))

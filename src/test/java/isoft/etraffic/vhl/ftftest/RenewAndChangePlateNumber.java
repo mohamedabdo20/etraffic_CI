@@ -25,6 +25,7 @@ import isoft.etraffic.enums.PlateCategory;
 import isoft.etraffic.enums.PlateDesign;
 import isoft.etraffic.enums.PlateSize;
 import isoft.etraffic.enums.PlateSource;
+import isoft.etraffic.enums.VHLTransaction;
 import isoft.etraffic.enums.VehicleClass;
 import isoft.etraffic.enums.VehicleWeight;
 import isoft.etraffic.testbase.TestBase;
@@ -54,7 +55,7 @@ public class RenewAndChangePlateNumber {
 	RenewPage renewPage;
 	List<String> transactionsLst = new ArrayList<String>();
 	ExcelReader ER = new ExcelReader();
-	int TotalNumberOfCols = 5;
+	int TotalNumberOfCols = 6;
 	String ExcelfileName, sheetname = "RenewAndChangePlateNumber";
 
 	@DataProvider(name = "RenewAndChangePlateNumber")
@@ -65,62 +66,65 @@ public class RenewAndChangePlateNumber {
 	}
 
 	@Test(dataProvider = "RenewAndChangePlateNumber")
-	public void renewAndChangePlateNumber(String vehicleClassValue, String plateCategoryValue, String vehicleWeightRange,
-			String isOrganizationValue, String newPlatesDesign)
+	public void renewAndChangePlateNumber(String vehicleClassValue, String plateCategoryValue,
+			String vehicleWeightRange, String isOrganizationValue, String newPlatesDesign,
+			String changeWithPreservedPlate)
 			throws ClassNotFoundException, SQLException, InterruptedException, AWTException {
 
-		vehicleClass = dbQueries.getVehicleClassEnDescription(vehicleClassValue);
-		vehicleWeight = dbQueries.setVehicleWeightEnum(vehicleWeightRange);
-		plateCategoryId = dbQueries.getPlateCategoryEnum(plateCategoryValue);
-		isOrganization = Boolean.parseBoolean(isOrganizationValue);
+		if (Boolean.parseBoolean(changeWithPreservedPlate)) {
+			renewAndChangePlateWithPreservedAndAddLogo();
+		} else {
+			vehicleClass = dbQueries.getVehicleClassEnDescription(vehicleClassValue);
+			vehicleWeight = dbQueries.setVehicleWeightEnum(vehicleWeightRange);
+			plateCategoryId = dbQueries.getPlateCategoryEnum(plateCategoryValue);
+			isOrganization = Boolean.parseBoolean(isOrganizationValue);
 
-		getExpiredVehicle();
+			getExpiredVehicle();
 
-		loginPage = new LoginFTFPage(driver);
-		loginPage.loginFTF(username, dbQueries.getUserPassword(username), center);
+			loginPage = new LoginFTFPage(driver);
+			loginPage.loginFTF(username, dbQueries.getUserPassword(username), center);
 
-		commonPage = new CommonPage(driver);
-		commonPage.gotoHomePage();
-		commonPage.gotoSmartServices();
-		commonPage.searchByPlate(plateCategory, plateNumber, plateCode);
-		commonPage.gotoRenewl();
+			commonPage = new CommonPage(driver);
+			commonPage.gotoHomePage();
+			commonPage.gotoSmartServices();
+			commonPage.searchByPlate(plateCategory, plateNumber, plateCode);
+			commonPage.gotoRenewl();
 
-		renewPage = new RenewPage(driver);
-		renewPage.changePlateNumber(oldPlateStatus, PlateSource.Reserved, true);
-		
-		if (commonPage.isBRShown()) {
+			renewPage = new RenewPage(driver);
+			renewPage.changePlateNumber(oldPlateStatus, PlateSource.Reserved, true);
+
+			if (commonPage.isBRShown()) {
+				transactionsLst.remove(transactionsLst.size() - 1);
+				transactionsLst.add(commonPage.getBRText());
+				assertTrue(false);
+			}
+
+			renewPage.clickproceedBtn();
+
+			commonPage.selectPlateDesign_PStrategy(PlateDesign.New);
+			if (plateCategoryId == PlateCategory.Private)
+				commonPage.selectNewPlates_PStrategy(false, PlateSize.Long, PlateSize.Short);
+			else {
+				commonPage.skipLogoStep();
+				if (plateCategoryId == PlateCategory.Motorcycle || plateCategoryId == PlateCategory.Trailer)
+					commonPage.selectNewPlates_PStrategy(PlateSize.Short);
+				else
+					commonPage.selectNewPlates_PStrategy(PlateSize.Short, PlateSize.Short);
+			}
+			commonPage.waitImmediateDeliveryBtn();
+			commonPage.clickContinue_PStrategy();
+
+			commonPage.printApplicationForm();
+			commonPage.goToPayment();
+
 			transactionsLst.remove(transactionsLst.size() - 1);
-			transactionsLst.add(commonPage.getBRText());
-			assertTrue(false);
-		}
-		
-		renewPage.clickproceedBtn();
+			transactionsLst.add(commonPage.getTransactionId());
 
-		commonPage.selectPlateDesign_PStrategy(PlateDesign.New);
-		if (plateCategoryId == PlateCategory.Private)
-			commonPage.selectNewPlates_PStrategy(false, PlateSize.Long, PlateSize.Short);
-		else {
-			commonPage.skipLogoStep();
-			if (plateCategoryId == PlateCategory.Motorcycle || plateCategoryId == PlateCategory.Trailer)
-				commonPage.selectNewPlates_PStrategy(PlateSize.Short);
-			else
-				commonPage.selectNewPlates_PStrategy(PlateSize.Short, PlateSize.Short);
+			commonPage.payFTF();
 		}
-		
-		commonPage.waitImmediateDeliveryBtn();
-		commonPage.clickContinue_PStrategy();
-
-		commonPage.printApplicationForm();
-		commonPage.goToPayment();
-		
-		transactionsLst.remove(transactionsLst.size() - 1);
-		transactionsLst.add(commonPage.getTransactionId());
-		
-		commonPage.payFTF();
 	}
-	
-	@Test
-	public void renewAndChangePlateWithPreservedAndAddLogo()
+
+	private void renewAndChangePlateWithPreservedAndAddLogo()
 			throws InterruptedException, ClassNotFoundException, SQLException, AWTException {
 
 		String[] vehicle = dbQueries.getVehicleOfTRFHasPreservedPlate();
@@ -132,10 +136,10 @@ public class RenewAndChangePlateNumber {
 		weight = vehicle[5];
 
 		dbQueries.makeVehicleExpired(chassis);
-		dbQueries.removeBlocker(trafficFileNo);
+		//dbQueries.addFines(trafficFileNo, chassis);
 
-		dbQueries.addInsurance(chassis, vehicleClass);
-		dbQueries.addTest(chassis, vehicleClass, weight);
+		dbQueries.addInsurance(chassis, VehicleClass.LightVehicle);
+		dbQueries.addTest(chassis, VehicleClass.LightVehicle, weight);
 
 		loginPage = new LoginFTFPage(driver);
 		loginPage.loginFTF(username, dbQueries.getUserPassword(username), center);
@@ -147,14 +151,14 @@ public class RenewAndChangePlateNumber {
 		commonPage.gotoRenewl();
 
 		renewPage = new RenewPage(driver);
-		renewPage.changePlateNumber(oldPlateStatus, PlateSource.Reserved, true);
-		
+		renewPage.changePlateNumber(oldPlateStatus, PlateSource.Preserved, true);
+
 		if (commonPage.isBRShown()) {
 			transactionsLst.remove(transactionsLst.size() - 1);
 			transactionsLst.add(commonPage.getBRText());
 			assertTrue(false);
 		}
-		
+
 		renewPage.clickproceedBtn();
 
 		commonPage.selectNewPlates_PStrategy(true, PlateSize.Long, PlateSize.Short);
@@ -163,10 +167,10 @@ public class RenewAndChangePlateNumber {
 
 		commonPage.printApplicationForm();
 		commonPage.goToPayment();
-		
+
 		transactionsLst.remove(transactionsLst.size() - 1);
 		transactionsLst.add(commonPage.getTransactionId());
-		
+
 		commonPage.payFTF();
 	}
 
@@ -206,26 +210,24 @@ public class RenewAndChangePlateNumber {
 		driver = testBase.driver;
 	}
 
-	@AfterMethod
-	public void aftermethod() {
-		driver.quit();
-	}
+//	@AfterMethod
+//	public void aftermethod() {
+//		driver.quit();
+//	}
 
 	@BeforeClass
-	public void beforeClass() {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-mm-yyyy HH:mm:ss");
+	public void beforeClass() throws ClassNotFoundException, SQLException {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		Calendar cal = Calendar.getInstance();
 		testDateTime = sdf.format(cal.getTime());
 	}
 
 	@AfterClass
-	public void AfterTest() throws ClassNotFoundException, SQLException {
-		
+	public void AfterClass() throws ClassNotFoundException, SQLException {
+
 		for (String trns : transactionsLst) {
-			System.out.println("trns: " + trns);
+			System.out.println("RenewAndChangePlateNumber FTF trns: " + trns);
 		}
-		List<String> eventsList = dbQueries.checkEvents(events, testDateTime);
-		assertTrue(eventsList.size() == 0);
-		
+		assertTrue(dbQueries.checkVLDFeesEvent(VHLTransaction.VLD_RENEWAL_WITH_NO, testDateTime));
 	}
 }

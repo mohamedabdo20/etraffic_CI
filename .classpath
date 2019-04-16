@@ -22,5 +22,9 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="drivers/ojdbc7.jar"/>
+	<classpathentry kind="lib" path="main.jar"/>
+	<classpathentry kind="lib" path="C:/bin/testng-6.14.3.jar"/>
+	<classpathentry kind="lib" path="testjar.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

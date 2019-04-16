@@ -51,7 +51,7 @@ public class RegistrationPage extends SeleniumWraper {
 	By confirmManfactorBtn = By.id("confirmManfactorButton");
 	By validateChassisBtn = By.id("validateChassisButton");
 	By closeBtn = By.xpath("//*[@id='accordion']/p/button");
-	
+
 	public void setChassis(String chassis) throws InterruptedException {
 		String id = "ch1";
 		waitForElement(By.id(id));
@@ -102,25 +102,22 @@ public class RegistrationPage extends SeleniumWraper {
 		selectFromFTFList(plateCategoryLst, plateCategory);
 	}
 
-	public void clickProceedBtn() throws InterruptedException
-	{
+	public void clickProceedBtn() throws InterruptedException {
 		Thread.sleep(1000);
 		clickElementJS(proceedTrsBtn);
 		Thread.sleep(1000);
 	}
-	
-	public void clickChassisValidationBtn() throws InterruptedException
-	{
+
+	public void clickChassisValidationBtn() throws InterruptedException {
 		Thread.sleep(2000);
 		clickElementJS(chassisValidationBtn);
 		Thread.sleep(1000);
 	}
-	
-	public void clickChassisExceptionBtn() throws InterruptedException
-	{
+
+	public void clickChassisExceptionBtn() throws InterruptedException {
 		clickElement(chassisValidationExceptionBtn);
 	}
-	
+
 	public void setVehicleDetails(String chassis, String vehicleManufacturer, String vehicleModel, String madeInCountry,
 			String modelYear, String engineNo, String vehicleSource, String fuelSource, String fuelSubType,
 			String vehicleWeight, String noOfDoors, String noOfSeats, String color1, String vehicleClass)
@@ -130,28 +127,17 @@ public class RegistrationPage extends SeleniumWraper {
 		if (vehicleClass.equals("مقطورة")) {
 			selectFromFTFList(madeInCountryLst, madeInCountry);
 			selectFromFTFList(vehicleSourceLst, vehicleSource);
-			writeToElement(vehicleWeightTxt, vehicleWeight);
-			// writeToElement(carryWeightsTxt, noOfSeats);
-			// writeToElement(axesNoTxt, noOfDoors);
 			Thread.sleep(500);
 		} else {
 			setChassis(chassis);
 			Thread.sleep(1000);
-//			selectFromFTFList(vehicleManufacturerLst, vehicleManufacturer);
-//			Thread.sleep(500);
-//			selectFromFTFList(vehicleManufacturerLst, vehicleManufacturer);
-//			editElementAttributeValue(driver.findElement(vehicleManufacturerLst), "value", "TOYOTA");
-//			hitTabToElement(vehicleManufacturerLst);
-//			Thread.sleep(500);
-//			selectFirstValue(vehicleManufacturerLst);
-			editElementAttributeValue(driver.findElement(vehicleManufacturerLst), "onfocus", "KeyBoard1.ConvertToEnglish()");
+			editElementAttributeValue(driver.findElement(vehicleManufacturerLst), "onfocus",
+					"KeyBoard1.ConvertToEnglish()");
 			selectFromFTFList(vehicleManufacturerLst, vehicleManufacturer);
-			//editElementAttributeValue(driver.findElement(By.xpath("//*[@id='vehicleManufacturerId']/option")), "value", "10251");
-			//setElementText(driver.findElement(By.xpath("//*[@class='selectize-input items has-options full has-items']/div")), vehicleManufacturer);
 			Thread.sleep(500);
 			waitForElement(vehicleModelLst);
 			selectFirstValue(vehicleModelLst);
-			
+
 			selectFromFTFList(madeInCountryLst, madeInCountry);
 			selectFromFTFList(modelYearTxt, modelYear);
 			writeToElement(engineNoTxt, engineNo);
@@ -174,45 +160,58 @@ public class RegistrationPage extends SeleniumWraper {
 		Thread.sleep(1000);
 		hitTabToElement(engineNoTxt);
 		selectFromFTFList(vehicleSourceLst, vehicleSource);
+		
+	}
 
+	public void setTrailerDetails(String madeInCountry, String color1) throws InterruptedException {
+		waitForElement(madeInCountryLst);
+		Thread.sleep(1000);
+		selectFromFTFList(madeInCountryLst, madeInCountry);
+		Thread.sleep(500);
+		selectFromFTFList(color1Lst, color1);
 	}
 	
-	public void validateChassis(String chassis) throws InterruptedException
-	{
+	public void validateChassis(String chassis) throws InterruptedException {
 		String firstWindow = switchToSecondWindow();
 		waitForElement(manufacturerLst);
 		selectFromListByVisibleText(manufacturerLst, "جي ام سي");
 		selectFromListByVisibleText(yearLst, "2018");
 		clickElementJS(confirmManfactorBtn);
-		
+
 		waitForElement(By.xpath("//*[@id='chassisInfoBody']/div/table/tbody/tr[2]/td[1]/input"));
-		writeToElement(By.xpath("//*[@id='chassisInfoBody']/div/table/tbody/tr[2]/td[1]/input"), chassis.substring(0, 3));
+		writeToElement(By.xpath("//*[@id='chassisInfoBody']/div/table/tbody/tr[2]/td[1]/input"),
+				chassis.substring(0, 3));
 		hitEnterToElement(By.xpath("//*[@id='chassisInfoBody']/div/table/tbody/tr[2]/td[1]/input"));
 		hitTabToElement(By.xpath("//*[@id='chassisInfoBody']/div/table/tbody/tr[2]/td[1]/input"));
-	
-		writeToElement(By.xpath("//*[@id='chassisInfoBody']/div/table/tbody/tr[2]/td[3]/input"), chassis.substring(3, 5));
+
+		writeToElement(By.xpath("//*[@id='chassisInfoBody']/div/table/tbody/tr[2]/td[3]/input"),
+				chassis.substring(3, 5));
 		hitEnterToElement(By.xpath("//*[@id='chassisInfoBody']/div/table/tbody/tr[2]/td[3]/input"));
 		hitTabToElement(By.xpath("//*[@id='chassisInfoBody']/div/table/tbody/tr[2]/td[3]/input"));
 
-		writeToElement(By.xpath("//*[@id='chassisInfoBody']/div/table/tbody/tr[2]/td[5]/input"), chassis.substring(8, 11));
+		writeToElement(By.xpath("//*[@id='chassisInfoBody']/div/table/tbody/tr[2]/td[5]/input"),
+				chassis.substring(8, 11));
 		hitEnterToElement(By.xpath("//*[@id='chassisInfoBody']/div/table/tbody/tr[2]/td[5]/input"));
 		hitTabToElement(By.xpath("//*[@id='chassisInfoBody']/div/table/tbody/tr[2]/td[5]/input"));
-		
-		writeToElement(By.xpath("//*[@id='chassisInfoBody']/div/table/tbody/tr[2]/td[7]/input"), chassis.substring(11, 14));
+
+		writeToElement(By.xpath("//*[@id='chassisInfoBody']/div/table/tbody/tr[2]/td[7]/input"),
+				chassis.substring(11, 14));
 		hitEnterToElement(By.xpath("//*[@id='chassisInfoBody']/div/table/tbody/tr[2]/td[7]/input"));
 		hitTabToElement(By.xpath("//*[@id='chassisInfoBody']/div/table/tbody/tr[2]/td[7]/input"));
 
-		writeToElement(By.xpath("//*[@id='chassisInfoBody']/div/table/tbody/tr[2]/td[9]/input"), chassis.substring(14, chassis.length()));
+		writeToElement(By.xpath("//*[@id='chassisInfoBody']/div/table/tbody/tr[2]/td[9]/input"),
+				chassis.substring(14, chassis.length()));
 		hitEnterToElement(By.xpath("//*[@id='chassisInfoBody']/div/table/tbody/tr[2]/td[9]/input"));
 		hitTabToElement(By.xpath("//*[@id='chassisInfoBody']/div/table/tbody/tr[2]/td[9]/input"));
-		
+
 		clickElementJS(validateChassisBtn);
-		
+
 		waitForElement(By.xpath("//*[@id='plateInfoBody']/div/table/tbody/tr/td[2]"));
-		System.out.println("Chassis Validated By Manufacturer --> "+ getElementAttributeValue(By.xpath("//*[@id='plateInfoBody']/div/table/tbody/tr/td[2]"), "value"));
-	
+		System.out.println("Chassis Validated By Manufacturer --> "
+				+ getElementAttributeValue(By.xpath("//*[@id='plateInfoBody']/div/table/tbody/tr/td[2]"), "value"));
+
 		clickElementJS(closeBtn);
-		
+
 		switchToWindow(firstWindow);
 	}
 

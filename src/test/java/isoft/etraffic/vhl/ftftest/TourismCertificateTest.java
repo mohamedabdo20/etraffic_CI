@@ -3,12 +3,15 @@ package isoft.etraffic.vhl.ftftest;
 import static org.testng.Assert.assertTrue;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Optional;
@@ -17,6 +20,7 @@ import org.testng.annotations.Test;
 import isoft.etraffic.data.ExcelReader;
 import isoft.etraffic.db.DBQueries;
 import isoft.etraffic.enums.PlateCategory;
+import isoft.etraffic.enums.VHLTransaction;
 import isoft.etraffic.enums.VehicleClass;
 import isoft.etraffic.enums.VehicleWeight;
 import isoft.etraffic.testbase.TestBase;
@@ -38,7 +42,7 @@ public class TourismCertificateTest {
 	RegistrationPage registrationPage;
 	TourismPage tourismPage;
 	WebDriver driver;
-	String trafficFile, plateCategory, plateNumber, plateCode, chassis, weight, url;
+	String trafficFile, plateCategory, plateNumber, plateCode, chassis, weight, url, testDateTime;
 	DBQueries dbQueries = new DBQueries();
 	List<String> transactionsLst = new ArrayList<String>();
 	TourismIssueNOCCertficate tourismIssueNOCCertficate;
@@ -88,7 +92,7 @@ public class TourismCertificateTest {
 		transactionsLst.add(commonPage.getTransactionId());
 
 		commonPage.payFTF();
-		assertTrue(commonPage.transactionFeesAssertion(Integer.parseInt(excpectedFees), Integer.parseInt(excpectedFees)));
+		assertTrue(commonPage.transactionFeesAssertion(Integer.parseInt(excpectedFees)));
 	}
 
 	private void getNOCCertificate() throws Exception {
@@ -123,15 +127,24 @@ public class TourismCertificateTest {
 		driver.quit();
 	}
 
+	@BeforeClass
+	public void beforeClass() throws ClassNotFoundException, SQLException {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+		testDateTime = sdf.format(cal.getTime());
+	}
+
 	@AfterClass
-	public void afterClass() {
+	public void AfterClass() throws ClassNotFoundException, SQLException {
+
 		for (String trns : transactionsLst) {
-			System.out.println("trns: " + trns);
+			System.out.println("TourismCertificateT FTF trns: " + trns);
 		}
+		assertTrue(dbQueries.checkVLDFeesEvent(VHLTransaction.VLD_TOURISM_CERT, testDateTime));
 	}
 
 	private void getVehicle() throws ClassNotFoundException, SQLException {
-		String[] vehicle = dbQueries.getVehicle(vehicleClass, vehicleWeight, plateCategoryId, isOrganization);
+		String[] vehicle = dbQueries.getVehicle(vehicleClass, vehicleWeight, plateCategoryId, isOrganization, false);
 		trafficFile = vehicle[0];
 		plateNumber = vehicle[1];
 		plateCode = vehicle[2];

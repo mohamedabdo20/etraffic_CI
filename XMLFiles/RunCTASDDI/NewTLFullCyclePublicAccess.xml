@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="CTA Public Access">
+	<parameter name="browser" value="CHROME"></parameter>
+	<parameter name="filename" value="CTASDDI"></parameter>
+
+	<test verbose="2" name="New Trade License">
+
+		<classes>
+			<class name="isoft.etraffic.cta.sdditest.NewTLFullCycleTest" />
+
+		</classes>
+	</test>
+
+
+</suite>
+
+
+

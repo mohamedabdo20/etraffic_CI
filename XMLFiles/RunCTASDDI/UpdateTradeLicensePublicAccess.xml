@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite allow-return-values="false" configfailurepolicy="skip"
+	data-provider-thread-count="10" group-by-instances="false"
+	guice-stage="DEVELOPMENT" junit="false" name="Staging" parallel="none"
+	preserve-order="true" skipfailedinvocationcounts="false"
+	thread-count="5">
+	<parameter name="browser" value="CHROME" />
+	<parameter name="url"
+		value="https://tst12c:7793/trfesrv/public_resources/public-access.do" />
+	<parameter name="filename" value="CTASDDI" />
+	<test verbose="2" name="Chrome-Update TL ">
+		<classes>
+			<class name="isoft.etraffic.cta.sdditest.UpdateTLTest" />
+
+
+		</classes>
+	</test>
+
+</suite>
+
+

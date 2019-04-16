@@ -77,20 +77,13 @@ public class CommonPage extends SeleniumWraper {
 		try {
 			clickElementJS(smartServicesBtn);
 		} catch (Exception e) {
-			tryClickElement(By.partialLinkText("نظام الترخيص و المرور الذكى"));
-			gotoSmartServices();
+			Thread.sleep(2000);
+			try {
+				if (driver.findElement(smartServicesBtn).isDisplayed()) {
+					gotoSmartServices();
+					}
+			} catch (Exception ex) {}
 		}
-//		try {
-//			waitForElement(smartServicesBtn);
-//			clickElementJS(smartServicesBtn);
-//		} catch (Exception e) {
-//		}
-//		try {
-//			driver.findElement(smartServicesBtn);
-//			System.out.println("smartServicesBtn Found");
-//			gotoSmartServices();
-//		} catch (Exception e) {
-//		}
 	}
 
 	public void gotoDashboard() throws InterruptedException {
@@ -109,13 +102,20 @@ public class CommonPage extends SeleniumWraper {
 
 	public void gotoHomePage() throws InterruptedException {
 		System.out.println("----------- Go To Home Page ------------");
-		waitForElement(By.partialLinkText("نظام الترخيص و المرور الذكى"));
-		tryClickElement(By.partialLinkText("نظام الترخيص و المرور الذكى"));
+		waitForElement(By.partialLinkText("نظام الترخيص و المرور"));
+		tryClickElement(By.partialLinkText("نظام الترخيص و المرور"));
 		Thread.sleep(1000);
-		try {
-			clickElementJS(smartServicesBtn);
-		} catch (Exception e) {
-			tryClickElement(By.partialLinkText("نظام الترخيص و المرور الذكى"));
+		boolean smartServicesBtnIsShown = false;
+		while(!smartServicesBtnIsShown)
+		{
+			try{Thread.sleep(1000);
+				driver.findElement(smartServicesBtn).isDisplayed();
+				//System.out.println("try Go To Home w la2i smartservice");
+				smartServicesBtnIsShown = true;
+				break;
+			}
+			catch(Exception ex) {//System.out.println("catch msh la2a smartservice");
+			tryClickElement(By.partialLinkText("نظام الترخيص و المرور"));}
 		}
 	}
 
@@ -390,7 +390,7 @@ public class CommonPage extends SeleniumWraper {
 	public void gotoMainService(String service) throws InterruptedException {
 		waitForElement(trafficOwnerNamelbl);
 		Thread.sleep(1000);
-		if (service.equals("تسفير بدل فاقد")) {
+		if (service.equals("تسفير بدل فاقد") || service.contains("ممانعة من نقل ملف")) {
 			Thread.sleep(3000);
 		}
 		if (driver.findElement(servicesBtnHolder).getAttribute("class").toString().contains("button-holder"))
@@ -485,7 +485,7 @@ public class CommonPage extends SeleniumWraper {
 		tryClickElement(By.xpath("//*[@id='mainInvoice']/div[1]/div[2]"));
 		Thread.sleep(1000);
 		String elementTxt = getElementText(By.xpath("//*[@id='mainInvoice']/div[1]/div[2]"));
-		//System.out.println("Transaction Id = " + elementTxt);
+		// System.out.println("Transaction Id = " + elementTxt);
 		return elementTxt.substring(elementTxt.indexOf('(') + 1, elementTxt.indexOf(')'));
 	}
 
@@ -628,7 +628,10 @@ public class CommonPage extends SeleniumWraper {
 	}
 
 	public void clickCertifyBtn() throws InterruptedException {
+		Thread.sleep(1000);
+		System.out.println("Click Proceed After Plate Source Selection");
 		clickElement(certifyLnk);
+		Thread.sleep(1000);
 	}
 
 	// public void selectNewPlates_PStrategy(boolean logo, PlateSize frontPlate,
@@ -649,7 +652,7 @@ public class CommonPage extends SeleniumWraper {
 	// }
 	public void selectNewPlates_PStrategy(boolean logo, PlateSize frontPlate, PlateSize backPlate)
 			throws InterruptedException {
-		System.out.println("----------- Select New Plates ------------");
+		System.out.println("----------- Select New Plates Design------------");
 		addLogoStatus(logo);
 
 		Thread.sleep(2000);
@@ -811,20 +814,14 @@ public class CommonPage extends SeleniumWraper {
 
 	public void payFTFCashDRL() throws InterruptedException {
 		waitForElement(By.xpath("//*[@class='dropdown-menu inner selectpicker']/li[2]/a"));
-		System.out.println("Trs ID: " + getElementText(By.xpath("//*[@id='mainInvoice']/div[1]/div[2]")));
 		try {
-			System.out.println("Payment: "
-					+ getElementText(By.xpath("//*[@class='dropdown-menu inner selectpicker']/li[4]/a/span[1]")));
 			clickElementJS(By.xpath("//*[@class='dropdown-menu inner selectpicker']/li[3]/a"));
 		} catch (Exception e) {
-			System.out.println("Payment: "
-					+ getElementText(By.xpath("//*[@class='dropdown-menu inner selectpicker']/li[2]/a/span[1]")));
 			clickElementJS(By.xpath("//*[@class='dropdown-menu inner selectpicker']/li[3]/a"));
 
 		}
 		Thread.sleep(2000);
 		fees = driver.findElement(By.id("transactionTotalcash")).getText();
-		System.out.println("---- Fees ---- : " + fees);
 		clickElementJS(By.id("receivedAmount"));
 		driver.findElement(By.id("receivedAmount")).sendKeys(fees);
 		clickElementJS(By.id("proceedToPaymentId"));
@@ -833,20 +830,12 @@ public class CommonPage extends SeleniumWraper {
 		Thread.sleep(4000);
 	}
 
-	public boolean transactionFeesAssertion(int minAmout, int maxAmout) {
+	public boolean transactionFeesAssertion(int amount) {
 		// System.out.println("fees = " + fees);
 		int feesAmount = Integer.parseInt(fees);
-		if (feesAmount >= minAmout && feesAmount <= maxAmout)
+		if(feesAmount == amount)
 			return true;
-		else if (feesAmount < minAmout) {
-			System.out
-					.println("Actual Fees (" + fees + ") is less than the minimun expected amount (" + minAmout + ")");
-			return false;
-		} else {
-			System.out
-					.println("Actual Fees (" + fees + ") is less than the maximum expected amount (" + maxAmout + ")");
-			return false;
-		}
+			else return false;
 	}
 
 	public void closeBRAlert() throws InterruptedException {
@@ -856,7 +845,7 @@ public class CommonPage extends SeleniumWraper {
 	public boolean isBRFired() throws InterruptedException {
 		// Thread.sleep(2000);
 		try {
-			if (driver.findElement(By.xpath("//*[@class='c-white alert-message']")).isDisplayed())
+			if (driver.findElement(By.xpath("//*[@class='c-white alert-message']")).isDisplayed() && !getBRText().contains("حدث خطأ أثناء الإستعلام عن المركبه في الجمارك"))
 				return true;
 			else
 				return false;
@@ -926,7 +915,7 @@ public class CommonPage extends SeleniumWraper {
 			driver.findElement(By.xpath("//*[@class='c-white alert-message']")).isDisplayed();
 			return true;
 		} catch (Exception printEx) {
-			System.out.println("Exception: IsAtVehicleDetailsStep");
+			//System.out.println("Exception: IsAtVehicleDetailsStep");
 			return false;
 		}
 	}
@@ -936,7 +925,7 @@ public class CommonPage extends SeleniumWraper {
 			driver.findElement(By.id("changePlateDesignServiceId")).isDisplayed();
 			return true;
 		} catch (Exception printEx) {
-			System.out.println("Exception: IsAtPlateDesignStep");
+			//System.out.println("Exception: IsAtPlateDesignStep");
 			return false;
 		}
 	}
@@ -946,7 +935,7 @@ public class CommonPage extends SeleniumWraper {
 			driver.findElement(By.id("masterCheckbox")).isDisplayed();
 			return true;
 		} catch (Exception printEx) {
-			System.out.println("Exception: IsAtDocumentCheckStep");
+			//System.out.println("Exception: IsAtDocumentCheckStep");
 			return false;
 		}
 	}
@@ -956,7 +945,7 @@ public class CommonPage extends SeleniumWraper {
 			driver.findElement(By.id("transactionTotalcash"));
 			return true;
 		} catch (Exception printEx) {
-			System.out.println("Exception: IsAtPaymentStep");
+			//System.out.println("Exception: IsAtPaymentStep");
 			return false;
 		}
 	}

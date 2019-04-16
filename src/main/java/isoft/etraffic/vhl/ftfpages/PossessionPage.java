@@ -31,8 +31,8 @@ public class PossessionPage extends SeleniumWraper {
 			break;
 		case Reserved:
 			selectFromFTFList(oldPlateStatusLst, "يحفظ لدى الإدارة");
-			Thread.sleep(500);
-			//selectFromFTFList(reservationPeriodLst, "3 أشهر");
+			hitTabToElement(oldPlateStatusLst);
+			hitArrowDownToElement(reservationPeriodLst);
 			break;
 		case Lost:
 			selectFromFTFList(oldPlateStatusLst, "مفقود");

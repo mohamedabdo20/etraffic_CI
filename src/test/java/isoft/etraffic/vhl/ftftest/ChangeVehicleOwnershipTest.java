@@ -4,11 +4,14 @@ import static org.testng.Assert.assertTrue;
 import java.awt.AWTException;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Optional;
@@ -21,6 +24,7 @@ import isoft.etraffic.enums.OldPlateStatus;
 import isoft.etraffic.enums.PlateCategory;
 import isoft.etraffic.enums.PlateDesign;
 import isoft.etraffic.enums.PlateSize;
+import isoft.etraffic.enums.VHLTransaction;
 import isoft.etraffic.enums.VehicleClass;
 import isoft.etraffic.enums.VehicleWeight;
 import isoft.etraffic.testbase.TestBase;
@@ -33,7 +37,7 @@ public class ChangeVehicleOwnershipTest {
 	String username = "rta13580";
 	String center = "مؤسسة الترخيص - ديرة";
 	
-	String newOwnertrafficFileNo;
+	String newOwnertrafficFileNo, testDateTime;
 	VehicleClass vehicleClass;
 	PlateCategory plateCategoryId;
 	VehicleWeight vehicleWeight;
@@ -116,7 +120,7 @@ public class ChangeVehicleOwnershipTest {
 		transactionsLst.add(commonPage.getTransactionId());
 		
 		commonPage.payFTF();
-		if (!commonPage.transactionFeesAssertion(Integer.parseInt(excpectedFees), Integer.parseInt(excpectedFees))) {
+		if (!commonPage.transactionFeesAssertion(Integer.parseInt(excpectedFees))) {
 			String s = (transactionsLst.get(transactionsLst.size() - 1) + " - Fess Faliure");
 			transactionsLst.remove(transactionsLst.size() - 1);
 			transactionsLst.add(s);
@@ -140,20 +144,29 @@ public class ChangeVehicleOwnershipTest {
 		driver = testBase.driver;
 	}
 	
-	@AfterMethod
-	public void aftermethod() {
-		driver.quit();
+//	@AfterMethod
+//	public void aftermethod() {
+//		driver.quit();
+//	}
+
+	@BeforeClass
+	public void beforeClass() throws ClassNotFoundException, SQLException {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+		testDateTime = sdf.format(cal.getTime());
 	}
 
 	@AfterClass
-	public void afterClass() throws IOException {
+	public void AfterTest() throws ClassNotFoundException, SQLException {
+
 		for (String trns : transactionsLst) {
-			System.out.println("trns: " + trns);
+			System.out.println("ChangeVehicleOwnership FTF trns: " + trns);
 		}
+		assertTrue(dbQueries.checkVLDFeesEvent(VHLTransaction.VLD_CHANGE_OWNERSHIP, testDateTime));
 	}
 	
 	private void getVehicle() throws ClassNotFoundException, SQLException {
-		String[] vehicle = dbQueries.getVehicle(vehicleClass, vehicleWeight, plateCategoryId, isOrganization);
+		String[] vehicle = dbQueries.getVehicle(vehicleClass, vehicleWeight, plateCategoryId, isOrganization, false);
 		trafficFile = vehicle[0];
 		plateNumber = vehicle[1];
 		plateCode = vehicle[2];
@@ -163,7 +176,6 @@ public class ChangeVehicleOwnershipTest {
 
 		dbQueries.removeBlocker(trafficFile);
 		dbQueries.addTest(chassis, vehicleClass, weight);
-
 		dbQueries.addInsurance(chassis, vehicleClass);
 	}
 }

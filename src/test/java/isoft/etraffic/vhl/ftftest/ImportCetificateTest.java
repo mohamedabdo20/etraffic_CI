@@ -4,18 +4,22 @@ package isoft.etraffic.vhl.ftftest;
 import static org.testng.Assert.assertTrue;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import isoft.etraffic.db.DBQueries;
+import isoft.etraffic.enums.VHLTransaction;
 import isoft.etraffic.testbase.TestBase;
 import isoft.etraffic.vhl.ftfpages.CommonPage;
 import isoft.etraffic.vhl.ftfpages.ImportCertificatePage;
@@ -31,9 +35,10 @@ public class ImportCetificateTest {
 	LoginFTFPage loginPage;
 	CommonPage commonPage;
 	ImportCertificatePage importCertificatePage;
-	DBQueries dbQuery = new DBQueries();
+	DBQueries dbQueries = new DBQueries();
 	WebDriver driver;
 	List<String> transactionsLst = new ArrayList<String>();
+	String testDateTime = "";
 
 	@BeforeMethod
 	@Parameters({ "url", "browser", "lang" })
@@ -49,9 +54,9 @@ public class ImportCetificateTest {
 	@Test
 	public void importVehicle() throws Exception {
 
-		dbQuery.removeBlocker(trafficFileNo);
+		dbQueries.removeBlocker(trafficFileNo);
 		loginPage = new LoginFTFPage(driver);
-		loginPage.loginFTF(username, dbQuery.getUserPassword(username), center);
+		loginPage.loginFTF(username, dbQueries.getUserPassword(username), center);
 
 		commonPage = new CommonPage(driver);
 		commonPage.gotoHomePage();
@@ -60,7 +65,7 @@ public class ImportCetificateTest {
 		commonPage.gotoMainService("استيراد");
 
 		importCertificatePage = new ImportCertificatePage(driver);
-		importCertificatePage.proceedTrs(dbQuery.generateChassisNo());
+		importCertificatePage.proceedTrs(dbQueries.generateChassisNo());
 
 		if (commonPage.isBRShown()) {
 			transactionsLst.remove(transactionsLst.size() - 1);
@@ -79,10 +84,19 @@ public class ImportCetificateTest {
 		driver.quit();
 	}
 
+	@BeforeClass
+	public void beforeClass() throws ClassNotFoundException, SQLException {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+		testDateTime = sdf.format(cal.getTime());
+	}
+
 	@AfterClass
-	public void afterClass() {
+	public void AfterTest() throws ClassNotFoundException, SQLException {
+
 		for (String trns : transactionsLst) {
-			System.out.println("trns: " + trns);
+			System.out.println("ImportCetificate FTF trns: " + trns);
 		}
+		assertTrue(dbQueries.checkVLDFeesEvent(VHLTransaction.VLD_IMPORT_VLD, testDateTime));
 	}
 }

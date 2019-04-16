@@ -42,4 +42,12 @@ public class LoginFTFPage extends SeleniumWraper {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	public void loginFTFWithoutCenterSelection(String username, String password) throws InterruptedException {
+		writeToElement(usernameTxt, username);
+		writeToElement(passwordTxt, password);
+		clickElementJS(loginLnk);
+
+		Thread.sleep(3000);
+	}
 }

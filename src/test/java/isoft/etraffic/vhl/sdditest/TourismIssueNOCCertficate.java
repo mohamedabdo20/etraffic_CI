@@ -1,15 +1,22 @@
 package isoft.etraffic.vhl.sdditest;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
+
 import isoft.etraffic.db.DBQueries;
 import isoft.etraffic.enums.PlateCategory;
 import isoft.etraffic.enums.VehicleClass;
 import isoft.etraffic.enums.VehicleWeight;
+import isoft.etraffic.testbase.TestBase;
 import isoft.etraffic.vhl.sddipages.CommonPageOnline;
 import isoft.etraffic.vhl.sddipages.TourismNOCCertificatePage;
 
@@ -24,7 +31,21 @@ public class TourismIssueNOCCertficate {
 	TourismNOCCertificatePage tourismNOCCertificatePage;
 	DBQueries dbQueries = new DBQueries();
 	String chassis, trafficFileNo, plateCategory, weight, plateNumber, plateCode;
+	List<String> transactionsLst = new ArrayList<String>();
 
+	@BeforeMethod
+	@Parameters({ "url", "browser", "lang" })
+	public void setup(@Optional("https://tst12c:7793/trfesrv/public_resources/public-access.do") String url,
+			@Optional("CHROME") String browser, @Optional("en") String lang)
+			throws ClassNotFoundException, SQLException, InterruptedException {
+
+		transactionsLst.add("");
+		System.out.println("transactionsLst.size(): " + transactionsLst.size());
+		TestBase testBase = new TestBase();
+		testBase.setup(url, browser, lang);
+		driver = testBase.driver;
+	}
+	
 	public TourismIssueNOCCertficate(String chassis, String trafficFileNo, String plateCategory, String plateNumber, String plateCode, String weight) 
 	{
 		this.chassis = chassis;
@@ -57,26 +78,17 @@ public class TourismIssueNOCCertficate {
 		tourismNOCCertificatePage.proceedTrs(plateNumber, plateCategory, plateCode);
 	}
 
-	public void startBrowser(String browser, String url) {
-		switch (browser) {
-		case "chrome":
-			System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\drivers\\chromedriver.exe");
-			ChromeOptions options = new ChromeOptions();
-			options.addArguments("--new-window");
-			options.addArguments("-incognito");
-			ChromeDriverService service = ChromeDriverService.createDefaultService();
-			driver = new ChromeDriver(service, options);
-			// Go to URL
-			driver.get(url);
-			driver.manage().window().maximize();
-			break;
-		default:
-			System.out.println("Invalid browser type");
-			break;
-		}
-	}
-
 	public void closeDriver() {
 		driver.quit();
+	}
+
+	public void startBrowser(String browser, String serverURL) {
+		System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
+		ChromeOptions options = new ChromeOptions();
+		options.addArguments("--new-window");
+		options.addArguments("-incognito");
+		driver = new ChromeDriver(options);
+		driver.manage().window().maximize();
+		driver.get(serverURL);
 	}
 }

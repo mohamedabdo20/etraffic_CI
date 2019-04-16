@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite guice-stage="DEVELOPMENT" name="Failed suite [CML suite]">
+  <parameter name="filename" value="CTASDDI"/>
   <parameter name="browser" value="CHROME"/>
-  <test thread-count="5" name="Chrome-Review TL (failed)">
-    <parameter name="order_no" value="60894"/>
-    <parameter name="transaction_No" value="101255487"/>
+  <parameter name="url" value="https://tst12c:7793/trfesrv/public_resources/public-access.do"/>
+  <test thread-count="5" name="RenewTLTest (failed)">
     <classes>
-      <class name="isoft.etraffic.ctatestcases.ReviewTradeLicense">
+      <class name="isoft.etraffic.cta.sdditest.RenewTLTest">
         <methods>
           <include name="tearDown"/>
-          <include name="ReviewTL" invocation-numbers="0"/>
+          <include name="renewTLCML"/>
           <include name="setup"/>
         </methods>
-      </class> <!-- isoft.etraffic.ctatestcases.ReviewTradeLicense -->
+      </class> <!-- isoft.etraffic.cta.sdditest.RenewTLTest -->
     </classes>
-  </test> <!-- Chrome-Review TL (failed) -->
+  </test> <!-- RenewTLTest (failed) -->
 </suite> <!-- Failed suite [CML suite] -->

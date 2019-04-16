@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -19,20 +18,19 @@ import org.testng.annotations.Parameters;
 
 import isoft.etraffic.wrapper.SeleniumWraper;
 
-public class TestBase extends SeleniumWraper{
+public class TestBase { //extends SeleniumWraper 
 
-	protected static WebDriver driver = null;
-	public static final String testDataExcelFileName = System.getProperty("user.dir") + "/Exceldata/testdata.xlsx";
-	private By homelink = By.id("goToHomeText");
-	public TestBase() {
+	public static WebDriver driver = null;
+
+	/*public TestBase() {
 		super(driver);
-	}
+	}*/
 
-	@BeforeMethod
-	@Parameters({ "url", "browser", "lang" })
+	@Parameters({ "url", "browser","lang" })
 	public void setup(@Optional("https://tst12c:7793/trfesrv/public_resources/public-access.do") String url,
-			@Optional("CHROME") String browser, @Optional("en") String lang) throws InterruptedException {
+			@Optional("CHROME") String browser,@Optional("en") String lang) throws InterruptedException {
 
+		System.out.println("------------------- New Test case started ---------------------");
 		switch (browser) {
 		case "CHROME":
 			System.setProperty("webdriver.chrome.driver", "./drivers/chromedriver.exe");
@@ -43,7 +41,7 @@ public class TestBase extends SeleniumWraper{
 			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 			driver.manage().window().maximize();
 			driver.get(url);
-			waitForElement(homelink);
+
 			break;
 
 		case "FIREFOX":
@@ -56,7 +54,6 @@ public class TestBase extends SeleniumWraper{
 		case "IE":
 			System.setProperty("webdriver.ie.driver", "./drivers/IEDriverServer.exe");
 			driver = new InternetExplorerDriver();
-			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 			driver.manage().window().maximize();
 			driver.get("https://tst12c:7791/traffic/faces/jsf/auth/login.jsf");
 			driver.get("javascript:document.getElementById('overridelink').click();");
@@ -66,22 +63,23 @@ public class TestBase extends SeleniumWraper{
 
 	@AfterMethod
 	public void tearDown(ITestResult result) throws IOException, InterruptedException {
+		 
 		String test = result.getName();
 		String datenow = new SimpleDateFormat("dd-M-yyyy-hh-mm").format(new Date());
 		Thread.sleep(2000);
-		if (result.isSuccess())
+		if (result.isSuccess()) {
 			isoft.etraffic.utils.ScreenCapture.getScreenShot(driver,
 					"./screenshots/Passed/" + test + "_" + datenow + ".png");
-		else
+		System.out.println("-----------------Test case finished with status Passed" + "------------------");
+		}else {
 			isoft.etraffic.utils.ScreenCapture.getScreenShot(driver,
 					"./screenshots/Failed/" + test + "_" + datenow + ".png");
+		System.out.println("-----------------Test case finished with status Failed"+"------------------");}
 		driver.quit();
+		
+		
 	}
 
-	@Override
-	public boolean isPageLoaded() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+
 
 }

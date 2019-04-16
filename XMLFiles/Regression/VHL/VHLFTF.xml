@@ -6,9 +6,40 @@
 	<parameter name="filename" value="VHLFTF"/>
 	<test name="All VHL Transactions" verbose="2">
 		<classes>
-<!-- 			<class name="isoft.etraffic.vhl.ftftest.ChangePlateNumberTest"/> -->
-			<class name="isoft.etraffic.vhl.ftftest.TransferTest"/>
+			<class name="isoft.etraffic.vhl.ftftest.RegistrationTestExcel"/>
+			<class name="isoft.etraffic.vhl.ftftest.ChangePlateNumberTest"/>
+			<class name="isoft.etraffic.vhl.ftftest.ClearanceCertificateTest"/>
+			<class name="isoft.etraffic.vhl.ftftest.ChangeVehicleOwnershipTest"/>
+			<class name="isoft.etraffic.vhl.ftftest.OwnershipCertificateTest" />
+			<class name="isoft.etraffic.vhl.ftftest.ImportCetificateTest"/>
 			<class name="isoft.etraffic.vhl.ftftest.ExportCertificateTest"/>
+			<class name="isoft.etraffic.vhl.ftftest.ReplacementExportCertificateTest"/>
+			<class name="isoft.etraffic.vhl.ftftest.ReplacementLostDamagedPlateTest" />
+			<class name="isoft.etraffic.vhl.ftftest.PossesionCertificateTest"/>
+			<class name="isoft.etraffic.vhl.ftftest.RenewTest"/>
+			<class name="isoft.etraffic.vhl.ftftest.RenewAndChangePlateNumber"/>
+			<class name="isoft.etraffic.vhl.ftftest.RenewReservedNumberTest" />
+			<class name="isoft.etraffic.vhl.ftftest.ReplacementLostDamagedPlateTest" />
+			<class name="isoft.etraffic.vhl.ftftest.ReplacementLostDamagedRegistrationCard"/>
+			
+			<class name="isoft.etraffic.vhl.ftftest.ReplacementLostDamagedPlateTest" />
+			<class name="isoft.etraffic.vhl.ftftest.ReplacementLostDamagedRegistrationCard"/>
+			<class name="isoft.etraffic.vhl.ftftest.TourismCertificateTest"/>
+			
+			<class name="isoft.etraffic.vhl.ftftest.TransferTest"/>
+			<class name="isoft.etraffic.vhl.ftftest.TradePlateTansactionsTest">
+				<methods><include name="cancelTradePlate"/></methods>
+			</class>
+			
+			<class name="isoft.etraffic.vhl.ftftest.TradePlateTansactionsTest">
+				<methods><include name="issueTradePlate"/></methods>
+			</class>
+			
+			<class name="isoft.etraffic.vhl.ftftest.TradePlateTansactionsTest">
+				<methods><include name="renewTradePlate"/></methods>
+			</class>
+			
+			<class name="isoft.etraffic.vhl.ftftest.TransferPossesionCertificateTest" />	
 		</classes>
 	</test>
 </suite>

@@ -125,7 +125,7 @@ public abstract class SeleniumWraper {
 	public static void uploadImage(String image) throws AWTException, InterruptedException {
 
 		// Specify the file location with extension
-		StringSelection imageSelection = new StringSelection(System.getProperty("user.dir") + "\\Images\\" + image);
+		StringSelection imageSelection = new StringSelection(System.getProperty("user.dir") + "\\attachments\\" + image);
 		// Copy the image to the clipboard
 		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(imageSelection, null);
 
@@ -193,6 +193,11 @@ public abstract class SeleniumWraper {
 		listObj.selectByVisibleText(vText);
 	}
 
+	public void selectFromListByVisibleText(WebElement element, String vText) {
+		Select listObj = new Select(element);
+		listObj.selectByVisibleText(vText);
+	}
+	
 	public void selectFromListByValue(By locator, String value) {
 		Select listObj = new Select(driver.findElement(locator));
 		listObj.selectByValue(value);
@@ -203,10 +208,18 @@ public abstract class SeleniumWraper {
 			driver.findElement(locator).sendKeys(value);
 			driver.findElement(locator).sendKeys(Keys.chord(Keys.RETURN));
 		} catch (Exception e) {
-			System.out.println("Exception   selectFromFTFList");
 			Thread.sleep(500);
-			driver.findElement(locator).sendKeys(value);
-			driver.findElement(locator).sendKeys(Keys.chord(Keys.RETURN));
+			selectFromFTFList(locator, value);
+		}
+	}
+	
+	public void selectFromFTFList(WebElement element, String value) throws InterruptedException {
+		try {
+			element.sendKeys(value);
+			element.sendKeys(Keys.chord(Keys.RETURN));
+		} catch (Exception e) {
+			Thread.sleep(500);
+			selectFromFTFList(element, value);
 		}
 	}
 
@@ -263,9 +276,9 @@ public abstract class SeleniumWraper {
 		while (true) {
 			try {
 				handles = driver.getWindowHandles();
-				System.out.println("handles Size: " + handles.size());
+//				System.out.println("handles Size: " + handles.size());
 				firstWinHandle = driver.getWindowHandle();
-				System.out.println("firstWinHandle: " + firstWinHandle);
+//				System.out.println("firstWinHandle: " + firstWinHandle);
 				handles.remove(firstWinHandle);
 				winHandle = (String) handles.iterator().next();
 				break;
@@ -273,7 +286,7 @@ public abstract class SeleniumWraper {
 				Thread.sleep(1000);
 			}
 		}
-		System.out.println("winHandle: " + winHandle);
+//		System.out.println("winHandle: " + winHandle);
 		if (winHandle != firstWinHandle) {
 
 			// To retrieve the handle of second window, extracting the handle which does not
@@ -418,7 +431,18 @@ public abstract class SeleniumWraper {
 		if (sec == seconds)
 			throw new NullPointerException();
 	}
-
+	
+	public void tryWriteElement(By locator, String text) throws InterruptedException {
+		while (true) {
+			try {
+				writeToElement(locator, text);
+				break;
+			} catch (Exception e) {
+				Thread.sleep(1000);
+			}
+		}
+	}
+	
 	public boolean isElementDisplayed(By by) {
 		if (driver.findElement(by).isDisplayed())
 			return true;
@@ -467,5 +491,10 @@ public abstract class SeleniumWraper {
 		Robot robot = new Robot();
 		robot.keyPress(KeyEvent.VK_ENTER);
 		robot.keyRelease(KeyEvent.VK_ENTER);
+	}
+	
+	public void selectFirstOption(By locator) {
+		Select list = new Select(driver.findElement(locator));
+		list.selectByIndex(0);
 	}
 }

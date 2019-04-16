@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Suite">
+  <test thread-count="5" name="Test">
+    <classes>
+      <class name="isoft.etraffic.vhl.ftftest.ExportCertificateTest"/>
+      <class name="isoft.etraffic.cta.sdditest.ReviewTLTest"/>
+      <class name="isoft.etraffic.vhl.ftftest.OwnershipCertificateTest"/>
+      <class name="isoft.etraffic.cta.sdditest.ReprintDocumentTest"/>
+      <class name="isoft.etraffic.cta.ftftest.AddClassificationOnContract"/>
+      <class name="isoft.etraffic.vhl.ftftest.TradePlateTansactionsTest"/>
+      <class name="isoft.etraffic.vhl.ftftest.RenewAndChangePlateNumber"/>
+      <class name="isoft.etraffic.cta.ftftest.CreateNewContractTypeTest"/>
+      <class name="isoft.etraffic.vhl.ftftest.TransferTest"/>
+      <class name="isoft.etraffic.vhl.ftftest.PossesionCertificateTest"/>
+      <class name="isoft.etraffic.vhl.ftftest.ReplacementExportCertificateTest"/>
+      <class name="isoft.etraffic.cta.ftftest.AddBankGurantee"/>
+      <class name="isoft.etraffic.vhl.ftftest.ChangePlateNumberTest"/>
+      <class name="isoft.etraffic.vhl.ftftest.PlatesManufacturingAndDistributionTest"/>
+      <class name="isoft.etraffic.cta.sdditest.SuspendTradeLicenseTest"/>
+      <class name="isoft.etraffic.cta.sdditest.ReviewTLAfterUpdateTest"/>
+      <class name="isoft.etraffic.vhl.sdditest.AddThenApproveMortgage"/>
+      <class name="isoft.etraffic.cta.ftftest.AddNewContractTestCase"/>
+      <class name="isoft.etraffic.vhl.ftftest.RegistrationTestExcel"/>
+      <class name="isoft.etraffic.vhl.ftftest.TourismCertificateTest"/>
+      <class name="isoft.etraffic.vhl.ftftest.TransferPossesionCertificateTest"/>
+      <class name="isoft.etraffic.vhl.ftftest.ReplacementLostDamagedPlateTest"/>
+      <class name="isoft.etraffic.cta.sdditest.ResumeTLTest"/>
+      <class name="isoft.etraffic.cta.sdditest.CertifyNewLuxuryVHLTest"/>
+      <class name="isoft.etraffic.cta.sdditest.NewTLCounterFullCycleTest"/>
+      <class name="isoft.etraffic.vhl.ftftest.ImportCetificateTest"/>
+      <class name="isoft.etraffic.cta.sdditest.UpdateTLTest"/>
+      <class name="isoft.etraffic.cta.ftftest.PushNotifications"/>
+      <class name="isoft.etraffic.cta.sdditest.ModifyTLTest"/>
+      <class name="isoft.etraffic.cta.sdditest.AddSurveyToMyContractTest"/>
+      <class name="isoft.etraffic.cta.sdditest.AddUsedVehiclesTest"/>
+      <class name="isoft.etraffic.cta.sdditest.NewTLFullCycleTest"/>
+      <class name="isoft.etraffic.cta.sdditest.AddVehiclesToContractTest"/>
+      <class name="isoft.etraffic.cta.sdditest.PayDepreciationFinesTest"/>
+      <class name="isoft.etraffic.cta.sdditest.TemporaryEventPermitTest"/>
+      <class name="isoft.etraffic.cta.sdditest.AddFreeZoneVehiclesTest"/>
+      <class name="isoft.etraffic.cta.sdditest.RenewTLTest"/>
+      <class name="isoft.etraffic.cta.sdditest.RequestToReduceVehiclesTest"/>
+      <class name="isoft.etraffic.drl.sdditest.ExperiencCertificate"/>
+      <class name="isoft.etraffic.vhl.ftftest.RenewReservedNumberTest"/>
+      <class name="isoft.etraffic.testbase.TestBase"/>
+      <class name="isoft.etraffic.cta.ftftest.AddPostpaidCheques"/>
+      <class name="isoft.etraffic.cta.sdditest.IssueToWhomConcernCertificateTest"/>
+      <class name="isoft.etraffic.vhl.ftftest.RenewTest"/>
+      <class name="isoft.etraffic.vhl.ftftest.ChangeVehicleOwnershipTest"/>
+      <class name="isoft.etraffic.cta.sdditest.IssueDriverNOCTest"/>
+      <class name="isoft.etraffic.vhl.sdditest.TourismIssueNOCCertficate"/>
+      <class name="isoft.etraffic.cta.ftftest.CompareDEDCompany"/>
+      <class name="isoft.etraffic.vhl.ftftest.ReplacementLostDamagedRegistrationCard"/>
+      <class name="isoft.etraffic.cta.sdditest.ModifyTLChangeLegalTest"/>
+      <class name="isoft.etraffic.cta.sdditest.AddStrechedVehiclesTest"/>
+      <class name="isoft.etraffic.vhl.ftftest.ClearanceCertificateTest"/>
+      <class name="isoft.etraffic.cta.sddipages.UpdateTradeLicenseForRenew"/>
+    </classes>
+  </test> <!-- Test -->
+</suite> <!-- Suite -->

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Staging" parallel="classes" thread-count="2">
+	<parameter name="browser" value="CHROME"/>
+	<parameter name="url" value="https://tst12c:7793/trfesrv/test_login.jsp"/>
+	<parameter name="filename" value="CTASMOKE"/>
+	<test name="Smoke CTA Online " verbose="2">
+		<classes>
+
+		</classes>
+	</test>
+</suite>

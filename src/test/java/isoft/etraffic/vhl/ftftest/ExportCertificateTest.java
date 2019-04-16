@@ -4,12 +4,15 @@ import static org.testng.Assert.assertTrue;
 import java.awt.AWTException;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Optional;
@@ -19,6 +22,7 @@ import isoft.etraffic.data.ExcelReader;
 import isoft.etraffic.db.DBQueries;
 import isoft.etraffic.enums.OldPlateStatus;
 import isoft.etraffic.enums.PlateCategory;
+import isoft.etraffic.enums.VHLTransaction;
 import isoft.etraffic.enums.VehicleClass;
 import isoft.etraffic.enums.VehicleWeight;
 import isoft.etraffic.testbase.TestBase;
@@ -46,11 +50,11 @@ public class ExportCertificateTest {
 	ExcelReader ER = new ExcelReader();
 	int TotalNumberOfCols = 5;
 	String ExcelfileName, sheetname = "Export";
+	String testDateTime = "";
 
 	@DataProvider(name = "ExportVehicle")
 	public Object[][] vehicleData(ITestContext context) throws IOException {
 		// get data from Excel Reader class
-		
 		ExcelfileName = context.getCurrentXmlTest().getParameter("filename");
 		return ER.getExcelData(ExcelfileName, sheetname, TotalNumberOfCols);
 	}
@@ -100,7 +104,7 @@ public class ExportCertificateTest {
 	}
 
 	private void getVehicle() throws ClassNotFoundException, SQLException {
-		String[] vehicle = dbQueries.getVehicle(vehicleClass, vehicleWeight, plateCategoryId, isOrganization);
+		String[] vehicle = dbQueries.getVehicle(vehicleClass, vehicleWeight, plateCategoryId, isOrganization, false);
 		trafficFile = vehicle[0];
 		plateNumber = vehicle[1];
 		plateCode = vehicle[2];
@@ -131,10 +135,19 @@ public class ExportCertificateTest {
 		driver.quit();
 	}
 
+	@BeforeClass
+	public void beforeClass() throws ClassNotFoundException, SQLException {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+		testDateTime = sdf.format(cal.getTime());
+	}
+
 	@AfterClass
-	public void afterClass() {
+	public void AfterClass() throws ClassNotFoundException, SQLException {
+
 		for (String trns : transactionsLst) {
-			System.out.println("trns: " + trns);
+			System.out.println("ExportCertificate FTF trns: " + trns);
 		}
+		assertTrue(dbQueries.checkVLDFeesEvent(VHLTransaction.VLD_EXPORT, testDateTime));
 	}
 }

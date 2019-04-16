@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Staging">
+	<parameter name="browser" value="CHROME"/>
+	<parameter name="url" value="https://tst12c:7793/trfesrv/test_login.jsp" />
+	<parameter name="filename" value="VHLSDDI"/>
+	<test verbose="2" name="Online تعديل بيانات ملكية">
+		<classes>
+			<class
+				name="isoft.etraffic.vhl.sdditest.UpdateRegistrationInformationOnlineTest" />
+		</classes>
+	</test>
+</suite>

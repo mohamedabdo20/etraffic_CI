@@ -3,7 +3,13 @@ package isoft.etraffic.data;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -66,13 +72,16 @@ public class ExcelReader {
 
 		wb.close();
 		// Fill arrayExcelDataActual
-		System.out.println("arrayExcelDataActual length of sheet ("+ sheetname + ") : " + arrayExcelDataActual.length);
+		System.out.println("Number of rows in ("+ sheetname + ") : " + arrayExcelDataActual.length);
+		//System.out.println("arrayExcelDataActual length of sheet ("+ sheetname + ") : " + arrayExcelDataActual.length);
 		for (int i = 0; i < arrayExcelDataActual.length; i++) {
 			for (int j = 0; j < TotalNumberOfCols; j++) {
 				arrayExcelDataActual[i][j] = arrayExcelData[i][j];
 			}
-			System.out.println("------------");
+			//System.out.println("------------");
 		}
 		return arrayExcelDataActual;
 	}
-}
+	
+	
+	}

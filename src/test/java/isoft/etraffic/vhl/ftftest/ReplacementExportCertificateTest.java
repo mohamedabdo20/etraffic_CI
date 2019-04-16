@@ -4,18 +4,22 @@ package isoft.etraffic.vhl.ftftest;
 import static org.testng.Assert.assertTrue;
 
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Optional;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 import isoft.etraffic.db.DBQueries;
+import isoft.etraffic.enums.VHLTransaction;
 import isoft.etraffic.testbase.TestBase;
 import isoft.etraffic.vhl.ftfpages.CommonPage;
 import isoft.etraffic.vhl.ftfpages.LoginFTFPage;
@@ -30,7 +34,7 @@ public class ReplacementExportCertificateTest {
 	LoginFTFPage loginPage;
 	CommonPage commonPage;
 	ReplacementExportCertifcatePage replacementPage;
-	String certificateNumber, trafficFile;
+	String certificateNumber, trafficFile, testDateTime;
 	WebDriver driver;
 	List<String> transactionsLst = new ArrayList<String>();
 
@@ -72,7 +76,7 @@ public class ReplacementExportCertificateTest {
 		transactionsLst.add(commonPage.getTransactionId());
 		commonPage.payFTF();
 		
-		if (!commonPage.transactionFeesAssertion(Integer.parseInt("120"), Integer.parseInt("120"))) {
+		if (!commonPage.transactionFeesAssertion(120)) {
 			String s = (transactionsLst.get(transactionsLst.size() - 1) + " - Fess Faliure");
 			transactionsLst.remove(transactionsLst.size() - 1);
 			transactionsLst.add(s);}
@@ -83,11 +87,19 @@ public class ReplacementExportCertificateTest {
 	 driver.quit();
 	 }
 
-	@AfterClass
-	public void afterClass() {
-		for (String trns : transactionsLst) {
-			System.out.println("ReplacementExportCertificateTest trns: " + trns);
-		}
+	@BeforeClass
+	public void beforeClass() throws ClassNotFoundException, SQLException {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+		testDateTime = sdf.format(cal.getTime());
 	}
 
+	@AfterClass
+	public void AfterClass() throws ClassNotFoundException, SQLException {
+
+		for (String trns : transactionsLst) {
+			System.out.println("Replace Export Certificate FTF trns: " + trns);
+		}
+		assertTrue(dbQueries.checkVLDFeesEvent(VHLTransaction.VLD_LOSS_EXPORT_CRT, testDateTime));
+	}
 }

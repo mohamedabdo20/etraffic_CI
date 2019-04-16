@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Staging">
+	<parameter name="browser" value="CHROME" />
+	<parameter name="url"
+		value="https://tst12c:7793/trfesrv/public_resources/public-access.do" />
+	<parameter name="filename" value="CTASDDI" />
+
+	<test verbose="2" name="ModifyTLTest">
+		<classes>
+			<class name="isoft.etraffic.cta.sdditest.ModifyTLTest">
+			<methods>
+				<include name="ModifyTLChangeCompName" />
+			</methods>
+		 </class>
+		</classes>
+	</test>
+
+</suite>
+
+

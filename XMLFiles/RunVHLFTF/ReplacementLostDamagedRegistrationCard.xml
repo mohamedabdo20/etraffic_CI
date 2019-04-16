@@ -6,8 +6,7 @@
 	<parameter name="filename" value="VHLFTF"/>
 	<test verbose="2" name="ملكية بدل فاقد/تالف">
 		<classes>
-			<class
-				name="isoft.etraffic.vhl.ftftest.ReplacementLostDamagedRegistrationCard" />
+			<class name="isoft.etraffic.vhl.ftftest.ReplacementLostDamagedRegistrationCard"/>
 		</classes>
 	</test>
 </suite>

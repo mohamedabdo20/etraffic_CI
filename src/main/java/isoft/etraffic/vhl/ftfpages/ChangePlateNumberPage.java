@@ -13,10 +13,10 @@ public class ChangePlateNumberPage extends SeleniumWraper {
 	}
 
 	// Change Plate Elements
-	By returenToRTABtn = By.xpath("//*[@id='centers']/a[1]");
-	By reservedBtn = By.xpath("//*[@id='centers']/a[2]");
-	By lostBtn = By.xpath("//*[@id='centers']/a[3]");
-	By stolenBtn = By.xpath("//*[@id='centers']/a[4]");
+	By returenToRTABtn = By.xpath("//*[@class='centers old_ways']/a[1]");
+	By reservedBtn = By.xpath("//*[@class='centers old_ways']/a[2]/div");
+	By lostBtn = By.xpath("//*[@class='centers old_ways']/a[3]");
+	By stolenBtn = By.xpath("//*[@class='centers old_ways']/a[4]");
 	
 	By threeMonthsBtn = By.id("threeMonthTag");
 	By yesBtn = By.xpath("//*[@id='yesORno']/div[1]/a[1]");
@@ -45,17 +45,21 @@ public class ChangePlateNumberPage extends SeleniumWraper {
 	public void proceedTrs(OldPlateStatus oldPlateStatus, PlateSource plateSource) throws InterruptedException {
 		
 		waitForElement(reservedBtn);
+		changePlateNumber(plateSource); 
 		Thread.sleep(1000);
 		selectOldPlateStatus(oldPlateStatus);
-		
-		changePlateNumber(plateSource);
-		
+		clickProceedBtn();
+	}
+	
+	public void clickProceedBtn() throws InterruptedException
+	{
+		Thread.sleep(3000);
 		clickElementJS(proceedTrsBtn);
 	}
 	
-	private void changePlateNumber(PlateSource  plateSource) throws InterruptedException
+	private void changePlateNumber(PlateSource plateSource) throws InterruptedException
 	{
-		clickElement(openSelectPlateBtn);
+		tryClickElement(openSelectPlateBtn);
 		Thread.sleep(1000);
 		String parentHandle = driver.getWindowHandle();
 		switchToFrame("plateSelectionIframeId");
@@ -66,26 +70,28 @@ public class ChangePlateNumberPage extends SeleniumWraper {
 		driver.switchTo().window(parentHandle);
 	}
 	
-	private void selectOldPlateStatus(OldPlateStatus oldPlateStatus) throws InterruptedException
+	public void selectOldPlateStatus(OldPlateStatus oldPlateStatus) throws InterruptedException
 	{
+		waitForElement(reservedBtn);
 		switch (oldPlateStatus) {
 		case ReturntoRTA:
-			clickElement(returenToRTABtn);
+			tryClickElement(returenToRTABtn);
 			break;
 		case Reserved:
-			clickElement(reservedBtn);
-			clickButton(threeMonthsBtn);
+			tryClickElement(reservedBtn);
+//			Thread.sleep(1000);
+//			tryClickElement(threeMonthsBtn);
 			break;
 		case Lost:
-			clickElement(lostBtn);
-			clickElement(yesBtn);
+			tryClickElement(lostBtn);
+			tryClickElement(yesBtn);
 			break;
 		case Stolen:
-			clickElement(stolenBtn);
-			clickElement(yesBtn);
+			tryClickElement(stolenBtn);
+			tryClickElement(yesBtn);
 			break;
 		default:
-			clickElement(returenToRTABtn);
+			tryClickElement(returenToRTABtn);
 			break;
 		}
 	}

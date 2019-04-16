@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Staging">
+	<parameter name="filename" value="testdata"></parameter>
+	<parameter name="browser" value="CHROME"></parameter>
+
+	<test verbose="2" name="ReprintDocument">
+
+		<classes>
+			<class name="isoft.etraffic.cta.sdditest.ReprintDocumentTest" />
+		</classes>
+	</test>
+
+</suite>
+
+

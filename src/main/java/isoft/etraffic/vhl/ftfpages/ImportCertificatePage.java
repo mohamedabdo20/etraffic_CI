@@ -77,7 +77,7 @@ public class ImportCertificatePage extends SeleniumWraper {
 		editElementAttributeValue(driver.findElement(manufacturerTxt), "value", "TOYOTA");
 		hitTabToElement(manufacturerTxt);
 		Thread.sleep(500);
-		writeToElement(modelTxt, "PRADO");
+		selectFromFTFList(modelTxt, "PRADO");
 		editElementAttributeValue(driver.findElement(modelTxt), "value", "PRADO");
 		hitTabToElement(modelTxt);
 		Thread.sleep(500);

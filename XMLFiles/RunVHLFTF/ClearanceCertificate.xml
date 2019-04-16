@@ -1,12 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-
-<suite name="Staging">	
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite allow-return-values="false" configfailurepolicy="skip" data-provider-thread-count="10" group-by-instances="false" guice-stage="DEVELOPMENT" junit="false" name="Staging" parallel="none" preserve-order="true" skipfailedinvocationcounts="false" thread-count="5">	
 	<parameter name="browser" value="IE"/>
 	<parameter name="url" value="https://tst12c:7791/traffic/faces/jsf/auth/login.jsf"/>
 	<parameter name="filename" value="VHLFTF"/>
 	
-	<test name="شهادة براءة ذمة" verbose="2">
+	<test allow-return-values="false" group-by-instances="false" junit="false" name="شهادة براءة ذمة" preserve-order="true" skipfailedinvocationcounts="false" verbose="2">
 	<classes>
 	<class name="isoft.etraffic.vhl.ftftest.ClearanceCertificateTest"/>
 	</classes>

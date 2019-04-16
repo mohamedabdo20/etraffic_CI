@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Staging]">
-  <parameter name="browser" value="IE"/>
-  <test thread-count="5" name="VHL Smoke Test(failed)">
+  <parameter name="filename" value="CTASDDI"/>
+  <parameter name="browser" value="CHROME"/>
+  <parameter name="url" value="https://tst12c:7793/trfesrv/public_resources/public-access.do"/>
+  <test thread-count="5" name="ModifyTLChangeNameTest(failed)">
     <classes>
-      <class name="isoft.etraffic.vhl.ftftest.ClearanceCertificateTest">
+      <class name="isoft.etraffic.cta.sdditest.ModifyTLChangeNameTest">
         <methods>
+          <include name="setup"/>
           <include name="tearDown"/>
-          <include name="vehicleClearanceCert"/>
-          <include name="setup"/>
-          <include name="setup"/>
+          <include name="ModifyTLChangeCompName" invocation-numbers="0"/>
         </methods>
-      </class> <!-- isoft.etraffic.vhl.ftftest.ClearanceCertificateTest -->
+      </class> <!-- isoft.etraffic.cta.sdditest.ModifyTLChangeNameTest -->
     </classes>
-  </test> <!-- VHL Smoke Test(failed) -->
+  </test> <!-- ModifyTLChangeNameTest(failed) -->
 </suite> <!-- Failed suite [Staging] -->

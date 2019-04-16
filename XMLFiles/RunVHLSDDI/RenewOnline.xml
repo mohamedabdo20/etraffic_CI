@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite allow-return-values="false" configfailurepolicy="skip" data-provider-thread-count="10" group-by-instances="false" guice-stage="DEVELOPMENT" junit="false" name="Staging" parallel="none" preserve-order="true" skipfailedinvocationcounts="false" thread-count="5">
+	<parameter name="browser" value="CHROME"/>
+	<parameter name="url" value="https://er12cr2:7784/trfesrv/test_login.jsp"/> 
+	<parameter name="filename" value="VHLSDDI"/>
+	<test allow-return-values="false" group-by-instances="false" junit="false" name="معاملات تجديد المركبات SDDI " preserve-order="true" skipfailedinvocationcounts="false" verbose="2">
+		<classes>
+			<class name="isoft.etraffic.vhl.sdditest.RenewSDDITest">
+			<methods/>
+			</class>
+		</classes>
+	</test>
+</suite>

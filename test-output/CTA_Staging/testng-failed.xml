@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite guice-stage="DEVELOPMENT" name="Failed suite [CTA_Staging]">
+<suite thread-count="2" guice-stage="DEVELOPMENT" name="Failed suite [CTA_Staging]" parallel="classes">
+  <parameter name="filename" value="testdata"/>
   <parameter name="browser" value="CHROME"/>
-  <test thread-count="5" name="CTA Smoke Test(failed)">
+  <test thread-count="2" name="CTA Smoke Test(failed)" parallel="classes">
     <classes>
-      <class name="isoft.etraffic.ctatestcases.NewTLFullCycleExcel">
+      <class name="isoft.etraffic.cta.sdditest.NewTLFullCycleTest">
         <methods>
+          <include name="NewNoc" invocation-numbers="0"/>
           <include name="tearDown"/>
           <include name="setup"/>
-          <include name="NewNoc" invocation-numbers="0"/>
         </methods>
-      </class> <!-- isoft.etraffic.ctatestcases.NewTLFullCycleExcel -->
+      </class> <!-- isoft.etraffic.cta.sdditest.NewTLFullCycleTest -->
+      <class name="isoft.etraffic.cta.sdditest.CertifyNewLuxuryVHLTest">
+        <methods>
+          <include name="tearDown"/>
+          <include name="certifyNewLuxuryVHLmodel"/>
+          <include name="setup"/>
+        </methods>
+      </class> <!-- isoft.etraffic.cta.sdditest.CertifyNewLuxuryVHLTest -->
     </classes>
   </test> <!-- CTA Smoke Test(failed) -->
 </suite> <!-- Failed suite [CTA_Staging] -->

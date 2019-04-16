@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite allow-return-values="false" configfailurepolicy="skip" data-provider-thread-count="10" group-by-instances="false" guice-stage="DEVELOPMENT" junit="false" name="Staging" parallel="classes" preserve-order="true" skipfailedinvocationcounts="false" thread-count="2">
+	<parameter name="browser" value="CHROME"/>
+	<parameter name="url" value="https://tst12c:7793/trfesrv/public_resources/public-access.do"/>
+	<parameter name="filename" value="CTASDDI"/>
+	<test allow-return-values="false" group-by-instances="false" junit="false" name="All CTA Public Access Transactions" preserve-order="true" skipfailedinvocationcounts="false" verbose="2">
+		<classes>
+			 <class name="isoft.etraffic.cta.sdditest.NewTLFullCycleTest"/>
+			 <class name="isoft.etraffic.cta.sdditest.ModifyTLChangeLegalTest"/>
+			 <class name="isoft.etraffic.cta.sdditest.ModifyTLTest"/>
+			<class name="isoft.etraffic.cta.sdditest.PayDepreciationFinesTest"/>
+			<class name="isoft.etraffic.cta.sdditest.RenewTLTest"/>
+			<class name="isoft.etraffic.cta.sdditest.ReprintDocumentTest"/>
+			<class name="isoft.etraffic.cta.sdditest.SuspendTradeLicenseTest"/>
+			<class name="isoft.etraffic.cta.sdditest.IssueDriverNOCTest"/>
+			<class name="isoft.etraffic.cta.sdditest.TemporaryEventPermitTest"/>
+			<class name="isoft.etraffic.cta.sdditest.CertifyNewLuxuryVHLTest"/>
+			<class name="isoft.etraffic.cta.sdditest.IssueToWhomConcernCertificateTest"/>
+			<class name="isoft.etraffic.cta.sdditest.NewTLCounterFullCycleTest"/>
+
+			
+		</classes>
+	</test>
+</suite>

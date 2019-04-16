@@ -12,10 +12,10 @@
 	<url>http://maven.apache.org</url>
 
 	<properties>
-		 <aspectj.version>1.8.10</aspectj.version>
+		<aspectj.version>1.8.10</aspectj.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	
+
 
 	<build>
 		<pluginManagement>
@@ -68,16 +68,10 @@
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
 			<version>6.14.3</version>
-			<scope>test</scope>
 		</dependency>
 
-<!--  	 <dependency> 
-			<groupId>com.oracle</groupId> 
-			<artifactId>ojdbc7</artifactId> 
-			<version>12.1.0</version> 
-		</dependency>  
-
-		 -->
+		<!-- <dependency> <groupId>com.oracle</groupId> <artifactId>ojdbc7</artifactId> 
+			<version>12.1.0</version> </dependency> -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
@@ -95,51 +89,89 @@
 			<artifactId>allure-testng</artifactId>
 			<version>2.7.0</version>
 		</dependency>
-	<dependency>
-		<groupId>org.aspectj</groupId>
-		<artifactId>aspectjweaver</artifactId>
-		<version>${aspectj.version}</version>
-	</dependency>
-	
-	  <!-- https://mvnrepository.com/artifact/log4j/log4j -->
-	<dependency>
-	    <groupId>log4j</groupId>
-	    <artifactId>log4j</artifactId>
-	    <version>1.2.17</version>
-	</dependency>
-	 <dependency>
-    <groupId> org.apache.cassandra</groupId>
-    <artifactId>cassandra-all</artifactId>
-    <version>0.8.1</version>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>${aspectj.version}</version>
+		</dependency>
+<!--  Resolve java.lang.NoClassDefFoundError: javax/xml/bind/JAXBException in Java 9 -->
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.2.11</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-core</artifactId>
+			<version>2.2.11</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-impl</artifactId>
+			<version>2.2.11</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.activation</groupId>
+			<artifactId>activation</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+<!-- -->
+		<!-- https://mvnrepository.com/artifact/log4j/log4j -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+		<dependency>
+			<groupId> org.apache.cassandra</groupId>
+			<artifactId>cassandra-all</artifactId>
+			<version>0.8.1</version>
 
-    <exclusions>
-      <exclusion> 
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-log4j12</artifactId>
-      </exclusion>
-      <exclusion> 
-        <groupId>log4j</groupId>
-        <artifactId>log4j</artifactId>
-      </exclusion>
-    </exclusions> 
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-log4j12</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>log4j</groupId>
+					<artifactId>log4j</artifactId>
+				</exclusion>
+			</exclusions>
 
-  </dependency>  
-	       
+		</dependency>
+
 	</dependencies>
 	<profiles>
 		<profile>
-			<id>smoke</id>
+			<id>events</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 				<property>
 					<name>environment</name>
-					<value>smoke</value>
+					<value>events</value>
 				</property>
 			</activation>
 			<properties>
-				<testNGSuite>SmokeTest\CTASDDISmoke.xml</testNGSuite>
+				<testNGSuite>XMLFiles/Regression/CheckEvents.xml</testNGSuite>
 			</properties>
 		</profile>
-		
+		<profile>
+			<id>regression</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+				<property>
+					<name>environment</name>
+					<value>regression</value>
+				</property>
+			</activation>
+			<properties>
+				<testNGSuite>
+					XMLFiles/Regression/CTA/CTAPublicAccess.xml;
+					XMLFiles/Regression/CTA/CTAOnline.xml;
+					XMLFiles/Regression/CTA/CTAFTF.xml;
+				</testNGSuite>
+			</properties>
+		</profile>
+
 	</profiles>
 </project>

@@ -49,12 +49,12 @@ at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
   <testcase name="@AfterMethod tearDown" time="0.0" classname="isoft.etraffic.testbase.TestBase">
     <skipped/>
   </testcase> <!-- @AfterMethod tearDown -->
-  <testcase name="FailedTC" time="0.289" classname="isoft.etraffic.ctatestcases.Smoke">
+  <testcase name="FailedTC" time="0.289" classname="isoft.etraffic.cta.sdditest.Smoke">
     <failure type="junit.framework.ComparisonFailure" message="expected:&amp;lt;1&amp;gt; but was:&amp;lt;2&amp;gt;">
       <![CDATA[junit.framework.ComparisonFailure: expected:<1> but was:<2>
 at junit.framework.Assert.assertEquals(Assert.java:81)
 at junit.framework.Assert.assertEquals(Assert.java:87)
-at isoft.etraffic.ctatestcases.Smoke.FailedTC(Smoke.java:22)
+at isoft.etraffic.cta.sdditest.Smoke.FailedTC(Smoke.java:22)
 at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
 at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
@@ -83,10 +83,10 @@ at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:77)
 ]]>
     </failure>
   </testcase> <!-- FailedTC -->
-  <testcase name="FirstTest" time="0.0" classname="isoft.etraffic.ctatestcases.Smoke">
+  <testcase name="FirstTest" time="0.0" classname="isoft.etraffic.cta.sdditest.Smoke">
     <skipped/>
   </testcase> <!-- FirstTest -->
-  <testcase name="PassedTC" time="0.0" classname="isoft.etraffic.ctatestcases.Smoke">
+  <testcase name="PassedTC" time="0.0" classname="isoft.etraffic.cta.sdditest.Smoke">
     <skipped/>
   </testcase> <!-- PassedTC -->
 </testsuite> <!-- Smoke Test -->

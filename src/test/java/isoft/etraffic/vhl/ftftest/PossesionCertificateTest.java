@@ -4,13 +4,16 @@ import static org.testng.Assert.assertTrue;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Optional;
@@ -20,6 +23,7 @@ import isoft.etraffic.data.ExcelReader;
 import isoft.etraffic.db.DBQueries;
 import isoft.etraffic.enums.OldPlateStatus;
 import isoft.etraffic.enums.PlateCategory;
+import isoft.etraffic.enums.VHLTransaction;
 import isoft.etraffic.enums.VehicleClass;
 import isoft.etraffic.enums.VehicleWeight;
 import isoft.etraffic.testbase.TestBase;
@@ -33,12 +37,12 @@ public class PossesionCertificateTest {
 	VehicleClass vehicleClass;
 	PlateCategory plateCategoryId;
 	VehicleWeight vehicleWeight;
-	OldPlateStatus oldPlateStatus = OldPlateStatus.Reserved;
+	OldPlateStatus oldPlateStatus = OldPlateStatus.ReturntoRTA;
 	boolean isOrganization;
 	List<String> transactionsLst = new ArrayList<String>();
 	WebDriver driver;
 
-	String trafficFile, plateCategory, plateNumber, plateCode, chassis, weight;
+	String trafficFile, plateCategory, plateNumber, plateCode, chassis, weight, testDateTime;
 	DBQueries dbQueries = new DBQueries();
 	LoginFTFPage loginPage;
 	CommonPage commonPage;
@@ -55,43 +59,6 @@ public class PossesionCertificateTest {
 		ExcelfileName = context.getCurrentXmlTest().getParameter("filename");
 		return ER.getExcelData(ExcelfileName, sheetname, TotalNumberOfCols);
 	}
-
-//	// @Test(dataProvider = "PossessionCertificate")
-//	public void getPossessionCertificate(String vehicleClassValue, String plateCategoryValue, String vehicleWeightRange,
-//			String isOrganizationValue) throws Exception {
-//
-//		vehicleClass = dbQueries.getVehicleClassEnDescription(vehicleClassValue);
-//		vehicleWeight = dbQueries.setVehicleWeightEnum(vehicleWeightRange);
-//		plateCategoryId = dbQueries.getPlateCategoryEnum(plateCategoryValue);
-//		isOrganization = Boolean.parseBoolean(isOrganizationValue);
-//		setup();
-//
-//		loginPage = new LoginFTFPage(driver);
-//		loginPage.loginFTF(username, dbQueries.getUserPassword(username), center);
-//
-//		commonPage = new CommonPage(driver);
-//		commonPage.gotoHomePage();
-//		commonPage.gotoSmartServices();
-//		commonPage.searchByPlate(plateCategory, plateNumber, plateCode);
-//		commonPage.gotoPlateService("شهادة حيازة");
-//
-//		possessionPage = new PossessionPage(driver);
-//		possessionPage.proceedTrs(oldPlateStatus, false, "");
-//		
-//		if (commonPage.IsBRShown()) {
-//			transactionsLst.remove(transactionsLst.size() - 1);
-//			transactionsLst.add(commonPage.getBRText());
-//			assertTrue(false);
-//		}
-//		
-//		commonPage.printApplicationForm();
-//		commonPage.goToPayment();
-//		
-//		transactionsLst.remove(transactionsLst.size() - 1);
-//		transactionsLst.add(commonPage.getTransactionId());
-//		
-//		commonPage.payFTF();
-//	}
 
 	@Test(dataProvider = "PossessionCertificate")
 	public void getPossessionCertificateWithChangeOwner(String vehicleClassValue, String plateCategoryValue,
@@ -138,7 +105,7 @@ public class PossesionCertificateTest {
 	}
 
 	private void setup() throws Exception {
-		String[] vehicle = dbQueries.getVehicle(vehicleClass, vehicleWeight, plateCategoryId, isOrganization);
+		String[] vehicle = dbQueries.getVehicle(vehicleClass, vehicleWeight, plateCategoryId, isOrganization, false);
 		trafficFile = vehicle[0];
 		plateNumber = vehicle[1];
 		plateCode = vehicle[2];
@@ -164,10 +131,19 @@ public class PossesionCertificateTest {
 		driver.quit();
 	}
 
+	@BeforeClass
+	public void beforeClass() throws ClassNotFoundException, SQLException {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+		Calendar cal = Calendar.getInstance();
+		testDateTime = sdf.format(cal.getTime());
+	}
+
 	@AfterClass
-	public void afterClass() {
+	public void AfterClass() throws ClassNotFoundException, SQLException {
+
 		for (String trns : transactionsLst) {
-			System.out.println("trns: " + trns);
+			System.out.println("PossesionCertificate FTF trns: " + trns);
 		}
+		assertTrue(dbQueries.checkVLDFeesEvent(VHLTransaction.VLD_POSSESSION, testDateTime));
 	}
 }

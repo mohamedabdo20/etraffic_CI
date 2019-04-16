@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -54,12 +55,14 @@ public class CommonPageOnline extends SeleniumWraper {
 
 	By moreActionsLst = By.partialLinkText("More Actions");
 	By ecertificateBtn = By.id("btnDeliverECertificate");
-	By trsId = By.xpath("//*[@class='margb1']//span");//*[@class='vrRow vrFeeSummary']/div/div/div/h3"));
+	By trsId = By.xpath("//*[@class='margb1']//span");// *[@class='vrRow vrFeeSummary']/div/div/div/h3"));
 	By proceedToServiceBtn = By.partialLinkText("Proceed to service");
-	
+	By serviceFee = By.xpath("//*[@class='totalnum']");
+	String Amount;
 	public void loginAsTrustedAgent(String centerName) throws InterruptedException {
 		driver.findElement(By.xpath("/html/body/form/table/tbody/tr[6]/td[1]/input")).click();
 		driver.findElement(By.xpath("/html/body/form/table/tbody/tr[6]/td[3]/input")).sendKeys("Automated TC");
+		Thread.sleep(500);
 		driver.findElement(By.xpath("/html/body/form/table/tbody/tr[6]/td[5]/div/span/input")).sendKeys(centerName);
 		driver.findElement(By.xpath("//*[@name='Login']")).click();
 
@@ -113,18 +116,17 @@ public class CommonPageOnline extends SeleniumWraper {
 		gotoService(tabName);
 	}
 
-	public void gotoDriversTabPA() throws InterruptedException
-	{
+	public void gotoDriversTabPA() throws InterruptedException {
 		waitForElement(By.xpath("//*[@id='tab2']/a"));
 		clickElementJS(By.xpath("//*[@id='tab2']/a"));
 	}
-	
+
 	public void gotoCustomerProfile() throws InterruptedException {
 		gotoService("Confirm & View Customer Profile");
 	}
 
 	public void searchByPlate(String plateCategory, String plateNumber, String plateCode) throws InterruptedException {
-		waitForElement(By.xpath("//*[@name='plateNo']"));
+		waitForElement(plateNumberTxtbox);
 		writeToElement(plateNumberTxtbox, plateNumber);
 
 		selectFromListByVisibleText(plateCategoryLst, plateCategory);
@@ -208,7 +210,7 @@ public class CommonPageOnline extends SeleniumWraper {
 			Thread.sleep(1000);
 			driver.findElements(By.xpath("//*[@class='day']")).get(0).click();
 
-			driver.findElement(By.id("shipmentContactName")).sendKeys("firstName lastName");
+			driver.findElement(By.id("shipmentContactName")).sendKeys("Abdelrahman Elqadi");
 
 			driver.findElement(By.xpath("//span[starts-with(@id, 'select2-shipmentEmirate')]")).click();
 			waitForElement(By.xpath("/html/body/span/span/span[1]/input"));
@@ -222,6 +224,9 @@ public class CommonPageOnline extends SeleniumWraper {
 			Thread.sleep(1000);
 			// driver.findElements(By.xpath("//*[@class='day']")).get(0).click();
 			clickElementJS(By.id("btnGoToStep31"));
+			RemoteWebElement amountelement = (RemoteWebElement) driver.findElement(By.xpath("//*[@class='totalnum']"));
+			Amount = amountelement.getText();
+			System.out.println(Amount);
 		} else {
 			waitForElement(By.id("btnDeliverFromRTA"));
 			clickElementJS(By.id("btnDeliverFromRTA"));
@@ -233,6 +238,9 @@ public class CommonPageOnline extends SeleniumWraper {
 			writeToElement(By.id("email"), "aaa@bbb.com");
 			writeToElement(By.id("emailConfirm"), "aaa@bbb.com");
 			clickElementJS(By.id("btnGoToStep32"));
+			RemoteWebElement amountelement = (RemoteWebElement) driver.findElement(By.xpath("//*[@class='totalnum']"));
+			Amount = amountelement.getText();
+			System.out.println(Amount);
 		}
 	}
 
@@ -251,11 +259,16 @@ public class CommonPageOnline extends SeleniumWraper {
 			driver.findElement(By.xpath("//*[@name='shipmentAddress1']")).sendKeys("123456789");
 			driver.findElement(By.xpath("//*[@name='shipmentAddress2']")).sendKeys("123456789 Bur Dubai");
 
-			try {clickElementJS(By.xpath("//*[@name='confimCustomerContactInfo']"));}
-			catch(Exception e) {}
+			try {
+				clickElementJS(By.xpath("//*[@name='confimCustomerContactInfo']"));
+			} catch (Exception e) {
+			}
 			Thread.sleep(1000);
 			clickElementJS(confrimAndProceedBtn);
 			Thread.sleep(1000);
+			RemoteWebElement amountelement = (RemoteWebElement) driver.findElement(By.xpath("//*[@class='totalnum']"));
+			Amount = amountelement.getText();
+			System.out.println(Amount);
 
 			// try {acceptAlert();}catch(Exception e) {}
 		} else {
@@ -267,6 +280,9 @@ public class CommonPageOnline extends SeleniumWraper {
 			writeToElement(By.id("email"), "aaa@bbb.com");
 			writeToElement(By.id("emailConfirm"), "aaa@bbb.com");
 			clickElementJS(By.id("btnGoToStep32"));
+			RemoteWebElement amountelement = (RemoteWebElement) driver.findElement(By.xpath("//*[@class='totalnum']"));
+			Amount = amountelement.getText();
+			System.out.println(Amount);
 		}
 	}
 
@@ -285,8 +301,10 @@ public class CommonPageOnline extends SeleniumWraper {
 		writeToElement(By.xpath("//*[@name='email']"), "aaa@bbb.com");
 		writeToElement(By.xpath("//*[@name='emailConfirm']"), "aaa@bbb.com");
 		writeToElement(By.xpath("//*[@name='newPoBoxNumber']"), "1234");
-		try {clickElementJS(By.xpath("//*[@name='confimCustomerContactInfo']"));}
-		catch(Exception e) {}
+		try {
+			clickElementJS(By.xpath("//*[@name='confimCustomerContactInfo']"));
+		} catch (Exception e) {
+		}
 		clickByLinkTxt("Confirm & Proceed to Payment");
 	}
 
@@ -411,10 +429,9 @@ public class CommonPageOnline extends SeleniumWraper {
 		driver.findElement(By.id("payButton")).click();
 		System.out.println("review finished");
 		Thread.sleep(10000);
-//		waitForElement(trsId);
-//		System.out.println(getElementText(trsId));
-		
-		
+		// waitForElement(trsId);
+		// System.out.println(getElementText(trsId));
+
 		// Thread.sleep(10000);
 		//
 		// Actions actions = new Actions(driver);
@@ -429,6 +446,12 @@ public class CommonPageOnline extends SeleniumWraper {
 		// driver.findElement(By.xpath("//*[@id=\"mainDivId\"]/div[4]/div/a[4]")).click();
 	}
 
+	public String getSDDIFees() throws InterruptedException
+	{
+		waitForElement(By.xpath("//*[@class='lastcell']/strong"));
+		String sddiFeesValue = getElementText(By.xpath("//*[@class='lastcell']/strong"));
+		return sddiFeesValue.substring(0, sddiFeesValue.indexOf(' '));
+	}
 	public void payCreditCardTrustedAgeny() throws InterruptedException {
 		waitForElement(By.id("payCreditButtonId"));
 		clickElementJS(By.id("payCreditButtonId"));
@@ -442,7 +465,7 @@ public class CommonPageOnline extends SeleniumWraper {
 		selectFromListByVisibleText(By.xpath("//*[@name='creditCardExpYear']"), "2024");
 		clickByLinkTxt("Make Payment");
 	}
-	
+
 	public void payCreditCardCallCenter() throws InterruptedException {
 		waitForElement(By.id("payButtonId"));
 		clickElementJS(By.id("payButtonId"));
@@ -497,6 +520,12 @@ public class CommonPageOnline extends SeleniumWraper {
 	public void printTransactionNumber() throws InterruptedException {
 		waitForElement(By.xpath("//*[@class='movboxcont']/p[2]/strong"));
 		System.out.println(getElementText(By.xpath("//*[@class='movboxcont']/p[2]/strong")));
+	}
+	
+	public String getTransactionNumber() throws InterruptedException {
+		waitForElement(By.xpath("//*[@class='cleaner margt2']/p/strong"));
+		String trnsId = getElementText(By.xpath("//*[@class='cleaner margt2']/p/strong"));
+		return trnsId.substring(trnsId.indexOf('.') + 2, trnsId.length());
 	}
 
 	public boolean assertPaymentSuccess(String text) throws InterruptedException {
@@ -613,5 +642,63 @@ public class CommonPageOnline extends SeleniumWraper {
 	public void clickProceedToServiceBtn() throws InterruptedException {
 		waitForElement(proceedToServiceBtn);
 		clickElementJS(proceedToServiceBtn);
+	}
+
+	public boolean isBRFired() {
+		try {
+			if (driver.findElement(By.xpath("//*[@class='warning']")).isDisplayed())
+				return true;
+			else
+				return false;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	public String getBRText() {
+		return getElementText(By.xpath("//*[@class='warning']"));
+	}
+
+	public boolean isBRShown(By locator) throws InterruptedException {
+		Thread.sleep(1000);
+		if (isElementLocatorShown(locator))
+			return false;
+		else {
+			if (isBRFired())
+				return true;
+			else
+				return isBRShown(locator);
+		}
+	}
+
+	public boolean isElementLocatorShown(By locator) throws InterruptedException {
+		try {
+			driver.findElement(locator).isDisplayed();
+			System.out.println("isElementLocatorShown: Aywa found");
+			return true;
+		} catch (Exception printEx) {
+			System.out.println("Exception: isElementLocatorShown");
+			return false;
+		}
+	}
+	
+	public void setDeliveryDetailsOnline() throws InterruptedException
+	{
+		waitForElement(By.id("dateOfDelivery_<%=deliveryDay%>"));
+		clickElementJS(By.id("dateOfDelivery_<%=deliveryDay%>"));
+		selectFromListByVisibleText(By.xpath("//*[@name='phoneOperatorCode']"), "4");
+		driver.findElement(By.xpath("//*[@name='shipmentCompanyName']")).clear();
+		driver.findElement(By.xpath("//*[@name='shipmentCompanyName']")).sendKeys("asasasbadsj sdjhasdskjhsda");
+		driver.findElement(By.xpath("//*[@name='email']")).clear();
+		driver.findElement(By.xpath("//*[@name='email']")).sendKeys("aaa@bbb.com");
+		driver.findElement(By.xpath("//*[@name='emailConfirm']")).clear();
+		driver.findElement(By.xpath("//*[@name='emailConfirm']")).sendKeys("aaa@bbb.com");
+		Thread.sleep(1000);
+		clickElementJS(By.id("idConfrimAndProceedButton"));
+		Thread.sleep(1000);
+	}
+	public String Amount() {
+
+		return Amount;
 	}
 }

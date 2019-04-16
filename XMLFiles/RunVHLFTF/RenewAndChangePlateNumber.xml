@@ -3,13 +3,12 @@
 
 <suite allow-return-values="false" configfailurepolicy="skip" data-provider-thread-count="10" group-by-instances="false" guice-stage="DEVELOPMENT" junit="false" name="Staging" parallel="none" preserve-order="true" skipfailedinvocationcounts="false" thread-count="5">
 	<parameter name="browser" value="IE"/>
-	<parameter name="url" value="https://tst12c:7791/traffic/faces/jsf/auth/login.jsf"/>
+	<parameter name="url" value="https://er12cr2:7784/traffic/faces/jsf/auth/login.jsf"/>
 	<parameter name="filename" value="VHLFTF"/>
 	
 	<test name="تجديد مركبة" verbose="2">
 		<classes>
-			<class name="isoft.etraffic.vhl.ftftest.RenewAndChangePlateNumber">
-			</class>
+			<class name="isoft.etraffic.vhl.ftftest.RenewAndChangePlateNumber"/>
 		</classes>
 	</test>
 </suite>

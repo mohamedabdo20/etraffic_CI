@@ -3,13 +3,11 @@
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="isoft.etraffic.ctatestcases.NewTLFullCycleExcel">
+      <class name="isoft.etraffic.cta.sdditest.CheckCTAEventsTest">
         <methods>
-          <include name="tearDown"/>
-          <include name="setup"/>
-          <include name="NewNoc" invocation-numbers="0 1"/>
+          <include name="checkevents"/>
         </methods>
-      </class> <!-- isoft.etraffic.ctatestcases.NewTLFullCycleExcel -->
+      </class> <!-- isoft.etraffic.cta.sdditest.CheckCTAEventsTest -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

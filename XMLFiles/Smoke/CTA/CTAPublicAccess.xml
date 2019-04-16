@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite allow-return-values="false" configfailurepolicy="skip" data-provider-thread-count="10" group-by-instances="false" guice-stage="DEVELOPMENT" junit="false" name="Staging" parallel="classes" preserve-order="true" skipfailedinvocationcounts="false" thread-count="2">
+	<parameter name="browser" value="CHROME"/>
+	<parameter name="url" value="https://tst12c:7793/trfesrv/public_resources/public-access.do"/>
+	<parameter name="filename" value="CTASMOKE"/>
+	<test allow-return-values="false" group-by-instances="false" junit="false" name="Smoke CTA Public Access " preserve-order="true" skipfailedinvocationcounts="false" verbose="2">
+		<classes>
+		<class name="isoft.etraffic.cta.sdditest.NewTLFullCycleTest"/>
+		</classes>
+	</test>
+</suite>
