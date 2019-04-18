@@ -12,6 +12,7 @@
 			<class name="isoft.etraffic.cta.sdditest.CheckCTAEventsTest"/>
 			<class name="isoft.etraffic.vhl.sdditest.CheckVHLEventsTest"/>
 			<class name="isoft.etraffic.drl.sdditest.CheckDRLEventsTest"/>
+			<class name="isoft.etraffic.testbase.CheckCOMEventsTest"/>
 		</classes>
 	</test>
 
