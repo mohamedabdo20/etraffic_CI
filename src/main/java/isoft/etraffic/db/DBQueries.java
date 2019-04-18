@@ -22,7 +22,7 @@ public class DBQueries {
 
 	Connection con;
 	String Username, password;
-	public static Database database = Database.Test2;
+	public static Database database = Database.Test1;
 	public static List<String> selectedVehiclesList = new ArrayList<String>();
 	public static List<String> selectedVehiclesListSDDI = new ArrayList<String>();
 	public static int rownum = 3;
@@ -2145,7 +2145,7 @@ public class DBQueries {
 			connection = "jdbc:oracle:thin:@172.18.125.38:1521:trfstg";
 			break;
 		case ERDB:
-			connection = "jdbc:oracle:thin:@10.11.206.11:1527:erdb";
+			connection = "jdbc:oracle:thin:@10.11.206.11:1527:trfer";
 			Username = "ELKADY_ER"; // "a_nour_stg";//
 			password = "ELKADY_ER";//
 			break;

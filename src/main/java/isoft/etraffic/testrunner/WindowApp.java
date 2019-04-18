@@ -334,6 +334,7 @@ public class WindowApp {
 		transactionsLst.removeAll();
 		for (String name : fileList) {
 			transactionsLst.addItem(name);
+			//System.out.println(name);
 		}
 	}
 

@@ -17,7 +17,7 @@ public class CtaDBQueries {
 	int count = 1;
 	Connection con;
 	String Username, password;
-	public static Database database = Database.Test2;
+	public static Database database = Database.Test1;
 
 	private void setConnection() throws ClassNotFoundException, SQLException {
 		try {
