@@ -4,15 +4,15 @@
   <parameter name="filename" value="CTASDDI"/>
   <parameter name="browser" value="CHROME"/>
   <parameter name="url" value="https://tst12c:7793/trfesrv/public_resources/public-access.do"/>
-  <test thread-count="5" name="RenewTLTest (failed)">
+  <test thread-count="5" name="SuspendTradeLicenseTest (failed)">
     <classes>
-      <class name="isoft.etraffic.cta.sdditest.RenewTLTest">
+      <class name="isoft.etraffic.cta.sdditest.SuspendTradeLicenseTest">
         <methods>
-          <include name="tearDown"/>
-          <include name="renewTLCML"/>
+          <include name="suspendtradelicense" invocation-numbers="0"/>
           <include name="setup"/>
+          <include name="tearDown"/>
         </methods>
-      </class> <!-- isoft.etraffic.cta.sdditest.RenewTLTest -->
+      </class> <!-- isoft.etraffic.cta.sdditest.SuspendTradeLicenseTest -->
     </classes>
-  </test> <!-- RenewTLTest (failed) -->
+  </test> <!-- SuspendTradeLicenseTest (failed) -->
 </suite> <!-- Failed suite [CML suite] -->

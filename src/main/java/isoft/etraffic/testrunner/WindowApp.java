@@ -57,7 +57,7 @@ public class WindowApp {
 	@SuppressWarnings("serial")
 	private void initialize() {
 		createFrame();
-		final String[][] databaseArray = { { "" }, { "TEST1", "TEST2" }, { "ERDB" }, { "TRFUAT", "TRFUAT2" },
+		final String[][] databaseArray = { { "" }, { "TEST1", "TEST2" }, { "ERDB","TRFER" }, { "TRFUAT", "TRFUAT2" },
 				{ "DEVDB" } };
 
 		scopeLst = new JComboBox<String>();
@@ -334,7 +334,6 @@ public class WindowApp {
 		transactionsLst.removeAll();
 		for (String name : fileList) {
 			transactionsLst.addItem(name);
-			//System.out.println(name);
 		}
 	}
 
@@ -366,6 +365,9 @@ public class WindowApp {
 			break;
 		case "ERDB":
 			DBQueries.database = Database.ERDB;
+			break;
+		case "TRFER":
+			DBQueries.database = Database.TRFER;
 			break;
 		case "TRFUAT":
 			DBQueries.database = Database.TRFUAT;

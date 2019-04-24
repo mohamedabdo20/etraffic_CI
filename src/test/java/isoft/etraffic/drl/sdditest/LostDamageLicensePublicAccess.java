@@ -29,6 +29,8 @@ public class LostDamageLicensePublicAccess {
 	List<String> transactionsLst = new ArrayList<String>();
 	@Test
 	public void testEasy() throws Exception {
+		trafficFile=dbQueries.getTrfFile_0034();
+		
 		commonPage = new CommonPageOnline(driver);
 		commonPage.gotoDriversTabPA();
 		commonPage.gotoService("استبدال رخصة القيادة تالفة أو مفقودة");

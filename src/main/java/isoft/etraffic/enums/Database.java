@@ -7,5 +7,6 @@ public enum Database {
 	Automation,
 	ERDB,
 	TRFUAT,
-	TRFUAT2
+	TRFUAT2, 
+	TRFER
 }

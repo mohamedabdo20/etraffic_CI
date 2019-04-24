@@ -156,6 +156,19 @@
 			</properties>
 		</profile>
 		<profile>
+			<id>smoke</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+				<property>
+					<name>environment</name>
+					<value>smoke</value>
+				</property>
+			</activation>
+			<properties>
+				<testNGSuite>XMLFiles/Smoke/VHL/VHLFTF.xml</testNGSuite>
+			</properties>
+		</profile>
+		<profile>
 			<id>regression</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>

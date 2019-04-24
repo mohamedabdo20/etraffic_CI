@@ -50,8 +50,8 @@ public class ReprintDocumentTest
 
 		PaymentCreaditCard payment = new PaymentCreaditCard(driver);
 		payment.paymentcreaditcard(driver);
-		System.out.println("Actual Amout: " + payment.Amount() + " And Expected Amount: " + "Total Amount: 120 AED");
-		Assert.assertEquals(payment.Amount(),  "Total Amount: 120 AED");
+		System.out.println("Actual Amout: " + payment.Amount() + " And Expected Amount: " + "Total Amount: 120.00 AED");
+		Assert.assertEquals(payment.Amount(),  "Total Amount: 120.00 AED");
 		
 	}
 	@AfterMethod

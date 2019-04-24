@@ -18,7 +18,7 @@ import isoft.etraffic.testbase.TestBase;
 import isoft.etraffic.vhl.sddipages.CommonPageOnline;
 
 public class IssueLearnerPermit_TC_50 {
-	String trafficFile = "14101093";
+	String trafficFile = "14192776";
 
 	DBQueries dbQueries = new DBQueries();
 	WebDriver driver;

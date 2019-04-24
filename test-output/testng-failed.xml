@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Staging]">
-  <parameter name="filename" value="CTASDDI"/>
-  <parameter name="browser" value="CHROME"/>
-  <parameter name="url" value="https://tst12c:7793/trfesrv/public_resources/public-access.do"/>
-  <test thread-count="5" name="ModifyTLChangeLegalTest(failed)">
+  <parameter name="filename" value="VHLFTF"/>
+  <parameter name="browser" value="IE"/>
+  <parameter name="url" value="https://er12cr2:7784/traffic/faces/jsf/auth/login.jsf"/>
+  <test thread-count="5" name="تغيير رقم اللوحة لمركبة خفيفة خصوصي(failed)">
     <classes>
-      <class name="isoft.etraffic.cta.sdditest.ModifyTLChangeLegalTest">
+      <class name="isoft.etraffic.vhl.ftftest.ChangePlateNumberTest">
         <methods>
-          <include name="ModifyTLChangelegalclass" invocation-numbers="0"/>
-          <include name="tearDown"/>
+          <include name="changePlateNumber"/>
+          <include name="beforeClass"/>
           <include name="setup"/>
+          <include name="AfterTest"/>
         </methods>
-      </class> <!-- isoft.etraffic.cta.sdditest.ModifyTLChangeLegalTest -->
+      </class> <!-- isoft.etraffic.vhl.ftftest.ChangePlateNumberTest -->
     </classes>
-  </test> <!-- ModifyTLChangeLegalTest(failed) -->
+  </test> <!-- تغيير رقم اللوحة لمركبة خفيفة خصوصي(failed) -->
 </suite> <!-- Failed suite [Staging] -->

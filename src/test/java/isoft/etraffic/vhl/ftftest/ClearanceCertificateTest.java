@@ -45,6 +45,7 @@ public class ClearanceCertificateTest {
 		plateCategory = "خصوصي";
 		
 		transactionsLst.add("");
+		dbQueries.removeBlocker(trafficFileNo);
 		TestBase testBase = new TestBase();
 		testBase.setup(url, browser, lang);
 		driver = testBase.driver;

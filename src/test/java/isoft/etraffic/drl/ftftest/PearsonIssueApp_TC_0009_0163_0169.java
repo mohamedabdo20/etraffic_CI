@@ -30,7 +30,7 @@ public class PearsonIssueApp_TC_0009_0163_0169 {
 	PersonalIssueAppPage_TC_0009 personalIssueAppPage;
 	List<String> transactionsLst = new ArrayList<String>();
 
-	@Test
+	//@Test
 	public void DRL_TC_009() throws ClassNotFoundException, InterruptedException, SQLException, AWTException {
 		loginPage = new LoginFTFPage(driver);
 		loginPage.loginFTF(username, dbQueries.getUserPassword(username), center);
@@ -74,7 +74,7 @@ public class PearsonIssueApp_TC_0009_0163_0169 {
 		commonPage.payFTFCashDRL();
 	}
 	
-	//@Test
+	@Test
 	public void DRL_TC_0169() throws ClassNotFoundException, InterruptedException, SQLException, AWTException {
 		loginPage = new LoginFTFPage(driver);
 		loginPage.loginFTF(username, dbQueries.getUserPassword(username), center);
@@ -111,6 +111,6 @@ public class PearsonIssueApp_TC_0009_0163_0169 {
 		System.out.println(result.getMethod().getMethodName() + " trnsNo: " + transactionsLst.get(0));
 		transactionsLst.remove(transactionsLst.size() - 1);
 		dbQueries.updateTrfFileEnName(result.getMethod().getMethodName(), trafficFileNo);
-		driver.quit();
+		////driver.quit();
 	}
 }

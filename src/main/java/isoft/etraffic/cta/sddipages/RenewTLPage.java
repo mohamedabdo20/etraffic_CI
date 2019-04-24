@@ -94,10 +94,12 @@ public class RenewTLPage extends SeleniumWraper{
     	clickElement(approvecheck);
     }
     public void confirmtodelivery() throws InterruptedException {
+    	waitForElement(confirmtodeilverybtn);
     	clickElement(confirmtodeilverybtn);
     }
     
     public void confirmandproceed() throws InterruptedException {
+    	waitForElement(ConfirmandProceedbtn);
     	clickElement(ConfirmandProceedbtn);
     }
     

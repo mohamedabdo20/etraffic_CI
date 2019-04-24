@@ -3,9 +3,9 @@
 	<parameter name="browser" value="IE"/>
 	<parameter name="url" value="https://tst12c:7791/traffic/faces/jsf/auth/login.jsf"/>
 	<parameter name="filename" value="DRLFTF"/>
-	<test name="رسالة تحويل الى طبيب FTF" verbose="2">
+	<test name="UpdateLicenseType_TC_0007 FTF" verbose="2">
 		<classes>
-			<class name="isoft.etraffic.drl.ftftest.DoctorCertificateTest_TC87"/>
+			<class name="isoft.etraffic.drl.ftftest.UpdateLicenseType_TC_0007"/>
 		</classes>
 	</test>
 </suite>

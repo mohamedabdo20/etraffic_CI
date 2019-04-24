@@ -138,7 +138,7 @@ public class ModifyTLChangeLegalTest  {
 	@Description("Modify tarde license change legal class and add new member")
 	@Test(dataProvider = "modifydata", groups = "legalClass")
 	public void ModifyTLChangelegalclassWithAddMember( String act_code , String srvFee , String legalclass) throws ClassNotFoundException, SQLException, InterruptedException, AWTException {
-
+		System.out.println("----------------ModifyTLChangelegalclassAddMember----------------");
 		ModifyTLNOCPage modifyTLObject = new ModifyTLNOCPage(driver);
 		NewTLNOCPage NOCpage = new NewTLNOCPage(driver);
 		CtaDBQueries dbqueries = new CtaDBQueries();
@@ -147,15 +147,14 @@ public class ModifyTLChangeLegalTest  {
 
 		String Traffic_file = dbqueries.TRF;
 		String Trade_license = dbqueries.TL;
+		
 		modifyTLObject.ModifyTLInitiate(Traffic_file, Trade_license);
 
 		// Modify legal class
 
 		modifyTLObject.changelegalclass(legalclass);
-
 		AddPersonModifyPage addnewpersonMODIFY = new AddPersonModifyPage(driver);
 		addnewpersonMODIFY.addMember("شريك جديد", "New Member", "161616116", "01-01-1980", "1236547890321", "20");
-
 		modifyTLObject.obligation();
 		modifyTLObject.submitfees();
 		String TrxID = NOCpage.TraxID();
@@ -164,31 +163,43 @@ public class ModifyTLChangeLegalTest  {
 		System.out.println("Appication No " + AppNo);
 
 		// Approve EPS
+		System.out.println("----------------Approve EPS and Security permissions----------------");
 		dbqueries.securityapproval(AppNo);
 		dbqueries.EPSapproval(TrxID);
 		dbqueries.TRXupdateStatus(AppNo, "3");
 
-		// GP.closehappinies();
-		Thread.sleep(3000);
-		driver.get("https://tst12c:7793/trfesrv/public_resources/public-access.do");
+		Thread.sleep(5000);
 		// Review TL
+		System.out.println("----------------Review Trade License----------------");
+		driver.get("https://tst12c:7793/trfesrv/public_resources/public-access.do");
+
 		ReviewTLPage ReviewObject = new ReviewTLPage(driver);
 		ReviewObject.ReviewTL(TrxID, AppNo);
 
 		DeliveryMethodPage DeliveryObject = new DeliveryMethodPage(driver);
-		DeliveryObject.delivermethod("0501234657", "04065858585", "test@test.com", "test@test.com");
+		if (srvFee=="0") {
+			DeliveryObject.delivermethodwithoutpay("0501234657", "04065858585", "test@test.com", "test@test.com");
+		} else {
+			DeliveryObject.delivermethod("0501234657", "04065858585", "test@test.com", "test@test.com");
+			PaymentCreaditCard payment = new PaymentCreaditCard(driver);
+			payment.paymentcreaditcard(driver);
+			Thread.sleep(5000);
+		}
+	
+		
 
-		// Pay by credit CARD
-		PaymentCreaditCard pay = new PaymentCreaditCard(driver);
-		pay.paymentcreaditcard(driver);
 		Thread.sleep(5000);
-
 		// get certification No
 
-		CtaDBQueries getorderno = new CtaDBQueries();
-		String certificatenumber = getorderno.getcertificateno(AppNo);
-
+		dbqueries.getcertificateno(AppNo);
+		String certificatenumber = dbqueries.certno;
+		
+		System.out.println("Certificate No: " + certificatenumber);
+		System.out.println("Application No: " + AppNo);
 		// Update Trade License
+		System.out.println("----------------Update Trade License----------------");
+		driver.get("https://tst12c:7793/trfesrv/public_resources/public-access.do");
+		Thread.sleep(3000);
 		UpdateTLpage UpdateTLobject = new UpdateTLpage(driver);
 		UpdateTLobject.searchForComp(certificatenumber, AppNo);
 		UpdateTLobject.updateTLforRenewTradeLicense();
@@ -197,6 +208,7 @@ public class ModifyTLChangeLegalTest  {
 		String UpdateTrxID = NOCpage.UpdateTraxID();
 		System.out.println("New Transaction Number: " + UpdateTrxID);
 		dbqueries.EPSapproval(UpdateTrxID);
+
 		driver.get("https://tst12c:7793/trfesrv/public_resources/public-access.do");
 		ReviewObject.ReviewTL(UpdateTrxID, AppNo);
 		ReviewObject.SubmitFees();

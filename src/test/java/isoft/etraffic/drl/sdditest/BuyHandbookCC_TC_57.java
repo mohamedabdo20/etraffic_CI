@@ -65,6 +65,6 @@ public class BuyHandbookCC_TC_57 {
 		System.out.println(result.getMethod().getMethodName() + " trnsNo: " + transactionsLst.get(0));
 		transactionsLst.remove(transactionsLst.size() - 1);
 		dbQueries.updateTrfFileEnName(result.getMethod().getMethodName(), trafficFile);
-		driver.quit();
+		//driver.quit();
 	}
 }

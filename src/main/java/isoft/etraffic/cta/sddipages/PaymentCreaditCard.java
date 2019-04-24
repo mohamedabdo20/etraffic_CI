@@ -27,7 +27,7 @@ public class PaymentCreaditCard extends SeleniumWraper {
 	String Amount;
 	@Step("Make Payment by credit card")
 	public void paymentcreaditcard(WebDriver driver) throws InterruptedException {
-		
+		waitForElement(paybtn);
 		clickElement(paybtn);
 		clickElement(continuebtn);
 		Thread.sleep(2000);

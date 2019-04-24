@@ -22,16 +22,13 @@ public class RenewLicensePublicAccess {
 	DBQueries dbQueries = new DBQueries();
 	LicenseFramePage licenseFramePage;
 	WebDriver driver;
-	String trafficFile, licenseNumber, birthYear, issueDate;
+	String trafficFile, licenseNumber, birthYear, issueDate,PersonId;
 	List<String> transactionsLst = new ArrayList<String>();
 	@Test
 	public void renew() throws Exception {
 		commonPage = new CommonPageOnline(driver);
 		commonPage.gotoDriversTabPA();
 		commonPage.gotoService("تجديد رخصة");
-		
-		trafficFile = "14013026";
-		
 		licenseFramePage = new LicenseFramePage(driver);
 		licenseFramePage.byDrivingLicense(trafficFile, licenseNumber, birthYear, issueDate);
 		Thread.sleep(30000);
@@ -46,6 +43,17 @@ public class RenewLicensePublicAccess {
 	public void setup(@Optional("https://tst12c:7793/trfesrv/public_resources/public-access.do") String url,
 			@Optional("CHROME") String browser, @Optional("en") String lang)
 			throws ClassNotFoundException, SQLException, InterruptedException {
+		String[] person = dbQueries.getExpiredLicense();
+		
+		trafficFile = person[0];
+		licenseNumber = person[1];
+		birthYear = person[2];
+		issueDate = person[3];
+		PersonId = person[4];
+
+		dbQueries.updatePersonAge(PersonId, "19");
+		dbQueries.updatePersonPhoto(PersonId);
+		dbQueries.removeBlocker(trafficFile);
 		transactionsLst.add("");
 		TestBase testBase = new TestBase();
 		testBase.setup(url, browser, lang);

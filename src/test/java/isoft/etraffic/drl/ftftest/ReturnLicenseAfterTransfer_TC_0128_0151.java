@@ -98,6 +98,6 @@ public class ReturnLicenseAfterTransfer_TC_0128_0151 {
 		System.out.println(result.getMethod().getMethodName() + " trnsNo: " + transactionsLst.get(0));
 		transactionsLst.remove(transactionsLst.size() - 1);
 		dbQueries.updateTrfFileEnName(result.getMethod().getMethodName(), trafficFileInfo[0]);
-		driver.quit();
+		//driver.quit();
 	}
 }

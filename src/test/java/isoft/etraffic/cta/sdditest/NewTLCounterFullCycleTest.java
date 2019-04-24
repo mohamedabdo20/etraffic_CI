@@ -38,60 +38,63 @@ public class NewTLCounterFullCycleTest{
 
 	}
 	
-	@DataProvider(name = "CTA_Activities")
+	@DataProvider(name = "NewNocForCounter")
 	public Object[][] ActivityData(ITestContext context) throws IOException {
 		 String ExcelfileName = context.getCurrentXmlTest().getParameter("filename");
 		// get data from Excel Reader class
 		ExcelReader ER = new ExcelReader();
 		System.out.println(ExcelfileName);
-		int TotalNumberOfCols = 2;
-		String sheetname = "cta_activities";
+		int TotalNumberOfCols = 4;
+		String sheetname = "NewNocForCounter";
 		return ER.getExcelData(ExcelfileName, sheetname, TotalNumberOfCols);}
 
-	@Test
-	public void NewNocForCounter(String act_id)
+	@Test(dataProvider="NewNocForCounter")
+	public void NewNocForCounter(String activityID, String activityCode,  String Obligation , String srvFee)
 			throws InterruptedException, ClassNotFoundException, SQLException {
 		//String Activity , String Obligation , String TF, String TL
 		// Create NOC for New Trade License
 		NewTLNOCPage NOCpage = new NewTLNOCPage(driver); 
 		// get traffic file and trade license 
 		CtaDBQueries dbqueries = new CtaDBQueries();
-		dbqueries.getTFandTLForModify(act_id);
+		dbqueries.getTFandTLForModify(activityID);
 		
-		/*String Traffic_file = dbqueries.TRF;
+		String Traffic_file = dbqueries.TRF;
 		String Trade_license = dbqueries.TL;
-*/
-		
 
-		String Traffic_file = "50195332";
-		String Trade_license = "61134";
-
-		
 		
 		NOCpage.NewNOCCounterFill(Traffic_file, Trade_license, "Kareem", "12345679", "22-07-2018");
 		AddActivityPage addactiv = new AddActivityPage(driver);
-		addactiv.addactivity("5");
+		addactiv.addactivity(activityCode);
 
 		// Add members
 		AddPersonPage addnewperson = new AddPersonPage(driver);
 		addnewperson.addOwnerOrManager("مدير ", "Manager", "161616116", "01-01-1980", "12365478903215", "manager");
+
 		// Submit Transaction
-		NOCpage.submitTransaction("No");
+		NOCpage.submitTransaction(Obligation);
+		Thread.sleep(5000);
+		// GP.closehappinies();
+		CtaDBQueries GetTFAndTLObject = new CtaDBQueries();
 		String TrxID = NOCpage.TraxID();
 		String AppNo = NOCpage.AppNo();
-		System.out.println("Activity: " + "5");
-		System.out.println("Obligation: " + "No");
-		System.out.println("Transaction ID" + TrxID);
-		System.out.println("Appication No" + AppNo);
+		System.out.println("Activity: " + activityCode);
+		System.out.println("Obligation: " + Obligation);
+		System.out.println("Transaction ID: " + TrxID);
+		System.out.println("Application No: " + AppNo);
 
 		// Approve EPS
-		dbqueries.securityapproval(AppNo);
-		dbqueries.EPSapproval(TrxID);
-		dbqueries.TRXupdateStatus(AppNo, "3");
+		System.out.println("----------------Approve EPS and Security permissions----------------");
 		
-		Thread.sleep(1000);
-		driver.get("https://tst12c:7793/trfesrv/public_resources/public-access.do");
+		GetTFAndTLObject.securityapproval(AppNo);
+		GetTFAndTLObject.EPSapproval(TrxID);
+		GetTFAndTLObject.TRXupdateStatus(AppNo, "3");
+
+		Thread.sleep(5000);
+
 		// Review TL
+		System.out.println("----------------Review Trade License----------------");
+		driver.get("https://tst12c:7793/trfesrv/public_resources/public-access.do");
+		Thread.sleep(5000);
 		ReviewTLPage ReviewObject = new ReviewTLPage(driver);
 		ReviewObject.ReviewTL(TrxID, AppNo);
 
@@ -100,28 +103,45 @@ public class NewTLCounterFullCycleTest{
 
 		PaymentCreaditCard payment = new PaymentCreaditCard(driver);
 		payment.paymentcreaditcard(driver);
-		Thread.sleep(3000);
+		Thread.sleep(5000);
 
 		// get certification No
-		String certificatenumber = dbqueries.getcertificateno(AppNo);
-		System.out.println("Certificate No " + certificatenumber);
-		System.out.println("Order No " + AppNo); 
 
-		driver.get("https://tst12c:7793/trfesrv/public_resources/public-access.do");
+		GetTFAndTLObject.getcertificateno(AppNo);
+		String certificatenumber = GetTFAndTLObject.certno;
+		
+		System.out.println("Certificate No: " + certificatenumber);
+		System.out.println("Application No: " + AppNo);
 
 		// Update TL
+		System.out.println("----------------Update Trade License----------------");
 		driver.get("https://tst12c:7793/trfesrv/public_resources/public-access.do");
+		Thread.sleep(2000);
 		UpdateTLpage UpdateTLobject = new UpdateTLpage(driver);
 		UpdateTLobject.searchForComp(certificatenumber, AppNo);
-		UpdateTLobject.fillTLData(TrxID, "شركة جديدة", "New Counter", "01-01-2018", "01-01-2020", "0506242628", "04065958684", "test@test.com", "15619849", "Company Address");
+		UpdateTLobject.fillTLData(AppNo, "كاونتر جديد", "New Counter", "01-01-2018", "01-01-2020", "0506242628",
+				"04065958684", "test.com", "15619849", "Company Address");
 		UpdateTLobject.submitTRX();
 
 		String UpdateTrxID = NOCpage.UpdateTraxID();
-		System.out.println("New Transaction Number : " + UpdateTrxID);
-		dbqueries.EPSapproval(UpdateTrxID);
+		System.out.println("New Transaction Number: " + UpdateTrxID);
+		GetTFAndTLObject.EPSapproval(UpdateTrxID);
+		System.out.println("----------------Review Trade License After Update----------------");
 		driver.get("https://tst12c:7793/trfesrv/public_resources/public-access.do");
+		
 		ReviewObject.ReviewTL(UpdateTrxID, AppNo);
 		ReviewObject.SubmitFees();
+		// GP.closehappinies();
+
+		System.out.println("New Trade license created successfuly");
+		Thread.sleep(2000);
+		GetTFAndTLObject.getnewTF(AppNo);
+		String TF = GetTFAndTLObject.TRF;
+		System.out.println("New Traffic No: " + TF);
+		System.out.println("New Trade license No: " + AppNo);
+		System.out.println("Actual Amout: " + payment.Amount() + " And Expected Amount: Total Amount: " + srvFee);
+		//Assert.assertEquals(payment.Amount(), "Total Amount: "+srvFee);
+		System.out.println("----------------New Trade License for counter cycle finished successfully----------------");
 
 
 	}

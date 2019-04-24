@@ -2,10 +2,9 @@
 <suite allow-return-values="false" configfailurepolicy="skip" data-provider-thread-count="10" group-by-instances="false" guice-stage="DEVELOPMENT" junit="false" name="Staging" parallel="classes" preserve-order="true" skipfailedinvocationcounts="false" thread-count="2">
 	<parameter name="browser" value="IE"/>
 	<parameter name="url" value="https://tst12c:7791/traffic/faces/jsf/auth/login.jsf"/>
-	<parameter name="filename" value="VHLFTF"/>
+	<parameter name="filename" value="VHLFTFSmoke"/>
 	<test allow-return-values="false" group-by-instances="false" junit="false" name="All VHL Transactions" preserve-order="true" skipfailedinvocationcounts="false" verbose="2">
 		<classes>
-			<class name="isoft.etraffic.vhl.ftftest.RegistrationTest"/>
 			<class name="isoft.etraffic.vhl.ftftest.ChangePlateNumberTest"/>
 			<class name="isoft.etraffic.vhl.ftftest.ClearanceCertificateTest"/>
 			<class name="isoft.etraffic.vhl.ftftest.ChangeVehicleOwnershipTest"/>
@@ -34,6 +33,7 @@
 				<methods><include name="renewTradePlate"/></methods>
 			</class>
 			<class name="isoft.etraffic.vhl.ftftest.TransferPossesionCertificateTest"/>	
+			<class name="isoft.etraffic.vhl.ftftest.RegistrationTest"/>
 		</classes>
 	</test>
 </suite>

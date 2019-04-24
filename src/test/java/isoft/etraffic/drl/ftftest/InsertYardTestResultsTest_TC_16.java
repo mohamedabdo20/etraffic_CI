@@ -20,7 +20,7 @@ import isoft.etraffic.vhl.ftfpages.CommonPage;
 import isoft.etraffic.vhl.ftfpages.LoginFTFPage;
 
 public class InsertYardTestResultsTest_TC_16 {
-	String trafficFileNo = "13776061";
+	String trafficFileNo = "13876734";
 	
 	String username = "rta4166";
 	String center = "مركز كلداري لتعليم قيادة السيارات - القصيص";
@@ -40,7 +40,7 @@ public class InsertYardTestResultsTest_TC_16 {
 		commonPage = new CommonPage(driver);
 		commonPage.gotoHomePage();
 		commonPage.gotoDriversTest();
-		commonPage.gotoScreen("إدخال نتائج الفحص الداخلي");
+		commonPage.gotoScreen("إدخال نتائج الفحوصات");
 		
 		insertYardTestResultsPage = new InsertYardTestResultsPage(driver);
 		insertYardTestResultsPage.insertResultsFailed(trafficFileNo);
@@ -63,7 +63,7 @@ public class InsertYardTestResultsTest_TC_16 {
 		System.out.println(result.getMethod().getMethodName() + " trnsNo: " + transactionsLst.get(0));
 		transactionsLst.remove(transactionsLst.size() - 1);
 		dbQueries.updateTrfFileEnName(result.getMethod().getMethodName(), trafficFileNo);
-		driver.quit();
+		////driver.quit();
 	}
 
 }

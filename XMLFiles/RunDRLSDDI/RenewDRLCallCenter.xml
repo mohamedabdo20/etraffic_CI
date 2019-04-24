@@ -7,7 +7,7 @@
 	<test verbose="2" name="تجديد Call Center">
 		<classes>
 			<class
-				name="isoft.etraffic.drl.sdditest.LostDamageLicenseCC" />
+				name="isoft.etraffic.drl.sdditest.RenewLicenseCCTest" />
 		</classes>
 	</test>
 </suite>

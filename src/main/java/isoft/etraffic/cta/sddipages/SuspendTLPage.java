@@ -18,7 +18,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import io.qameta.allure.Step;
 import isoft.etraffic.wrapper.SeleniumWraper;
 
-public class NOCForSuspendTradeLicense extends SeleniumWraper{
+public class SuspendTLPage extends SeleniumWraper{
 
 	
 	WebDriverWait wait = new WebDriverWait(driver, 15, 100);
@@ -72,7 +72,7 @@ public class NOCForSuspendTradeLicense extends SeleniumWraper{
 			clickElement(OpenLink);
 			clickElement(ApprovalCheck);
 			clickElement(Proceed);
-			clickElement(Submit);
+			//clickElement(Submit);
 		}
 
 		public String getsysdateplusmonths() {
@@ -85,7 +85,7 @@ public class NOCForSuspendTradeLicense extends SeleniumWraper{
 
 
 
-		public NOCForSuspendTradeLicense(WebDriver driver) {
+		public SuspendTLPage(WebDriver driver) {
 			super(driver);
 	}
 		

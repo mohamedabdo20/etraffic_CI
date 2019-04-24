@@ -54,7 +54,7 @@ public void setup(@Optional("https://tst12c:7793/trfesrv/public_resources/public
 	@AfterMethod
 	public void tearDown(ITestResult result) throws IOException, InterruptedException {
 		TestBase testBase = new TestBase();
-		testBase.tearDown(result);
+		//testBase.tearDown(result);
 		driver = testBase.driver;
 	}
 }

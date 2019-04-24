@@ -17,7 +17,7 @@ import isoft.etraffic.testbase.TestBase;
 
 public class EyeTestResult_TC_0149 {
 
-	String trafficFile = "10526699";
+	String trafficFile = "10325760";
 
 	DBQueries dbQueries = new DBQueries();
 	WebDriver driver;
@@ -46,6 +46,7 @@ public class EyeTestResult_TC_0149 {
 		TestBase testBase = new TestBase();
 		testBase.setup(url, browser, lang);
 		driver = testBase.driver;
+		//dbQueries.updateOpticalBalance("1","0");
 
 	}
 }

@@ -48,7 +48,7 @@ public class RenewTLTest  {
 		String Traffic_file = dbqueries.TRF;
 		String Trade_license = dbqueries.TL;
 
-		renewObject.RenewTLInitiate("50195616", "61419");
+		renewObject.RenewTLInitiate(Traffic_file, Trade_license);
 		renewObject.viewandacceptObligation();
 		renewObject.confirmtodelivery();
 
@@ -56,7 +56,7 @@ public class RenewTLTest  {
 		PaymentCreaditCardforRenew payment = new PaymentCreaditCardforRenew(driver);
 		payment.paymentcreaditcardforrenew(driver);
 		Thread.sleep(30000);
-
+/*
 		// get certification No
 		NewTLNOCPage NOCpage = new NewTLNOCPage(driver);
 		String TrxID = renewObject.TraxIDForRenew();
@@ -88,12 +88,12 @@ public class RenewTLTest  {
 		ReviewTLPage ReviewObject = new ReviewTLPage(driver);
 		ReviewObject.ReviewTL(UpdateTrxID, AppNo);
 		ReviewObject.SubmitFees();
-
+*/
 	}
 	@AfterMethod
 	public void tearDown(ITestResult result) throws IOException, InterruptedException {
 		TestBase testBase = new TestBase();
-		testBase.tearDown(result);
+		//testBase.tearDown(result);
 		driver = testBase.driver;
 	}
 

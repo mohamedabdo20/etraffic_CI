@@ -82,6 +82,9 @@ public class ModifyTLChangeNameTest {
 		// Modify company name
 
 		modifyTLObject.changecompanyName("Automation EngName", "شركة اتوميشن");
+		PaymentCreaditCard payment = new PaymentCreaditCard(driver);
+		payment.paymentcreaditcard(driver);
+		Thread.sleep(5000);
 		String TrxID = NOCpage.TraxID();
 		String AppNo = NOCpage.AppNo();
 		System.out.println("Transaction ID" + TrxID);
@@ -105,9 +108,9 @@ public class ModifyTLChangeNameTest {
 			DeliveryObject.delivermethodwithoutpay("0501234657", "04065858585", "test@test.com", "test@test.com");
 		} else {
 			//DeliveryObject.delivermethod("0501234657", "04065858585", "test@test.com", "test@test.com");
-			PaymentCreaditCard payment = new PaymentCreaditCard(driver);
+		/*	PaymentCreaditCard payment = new PaymentCreaditCard(driver);
 			payment.paymentcreaditcard(driver);
-			Thread.sleep(5000);
+			Thread.sleep(5000);*/
 		}
 	
 
@@ -146,7 +149,7 @@ public class ModifyTLChangeNameTest {
 	@AfterMethod
 	public void tearDown(ITestResult result) throws IOException, InterruptedException {
 		TestBase testBase = new TestBase();
-		testBase.tearDown(result);
+		//testBase.tearDown(result);
 		driver = testBase.driver;
 	}
 }

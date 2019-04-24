@@ -400,7 +400,7 @@ public class DBQueries {
 				+ "AND   BKT.IS_MORTGAGED = 1\r\n" + "AND PLT_ID IN (SELECT plt.ID FROM TF_VHL_PLATES plt\r\n"
 				+ "               WHERE PCD_ID in (select pcd.ID from tf_vhl_plate_codes pCD where plc_emi_code = 'DXB'AND pcd.plc_code = 2))\r\n"
 				+ "AND VCL.ID = 3\r\n" + "AND TRS_END_DATE IS NULL\r\n" + "AND EXPIRY_DATE IS NOT NULL\r\n"
-				+ "AND F_GET_TRF_NUMBER_2(BKT.TRF_ID) NOT IN(10018551,10024368, 10029566, 10011937, 10012944, 10010048, 10010030)\r\n"
+				+ "AND F_GET_TRF_NUMBER_2(BKT.TRF_ID) NOT IN(10010022,10018551,10024368, 10029566, 10011937, 10012944, 10010048, 10010030)\r\n"
 				// + "AND F_GET_TRF_NUMBER_2(BKT.TRF_ID) NOT LIKE '%100%'\r\n"
 				+ "AND F_GET_TRF_NUMBER_2(BKT.TRF_ID) NOT LIKE '%1000%'\r\n" + "AND ROWNUM < 2\r\n"
 				+ "ORDER BY BKT.TRS_START_DATE");
@@ -1212,538 +1212,509 @@ public class DBQueries {
 
 		stmt.execute("\r\n" + 
 				"DECLARE\r\n" + 
-				"    V_TRAFFIC_FILE_NO    NUMBER(15) := "+ trafficFile +";\r\n" + 
-				"    V_CHASSIS_NO varchar2(30) := '"+ chassis +"'; \r\n" + 
+				"\r\n" + 
+				"	V_TRAFFIC_FILE_NO	NUMBER(15) := "+trafficFile+";"+ 
+				"\r\n" + 
+				"	V_CHASSIS_NO varchar2(30) :=  '"+chassis+"';"+ 
 				"    V_RSET_TRF_VIOLATION NUMBER(15) := 2;\r\n" + 
-				"    V_ADDING_BLACK_POINTS NUMBER(15) := 2;\r\n" + 
-				"    V_ADDING_PAID_DUBAI_TCK NUMBER := 2;\r\n" + 
-				"    V_COUNT_PAID_DXB_TCK NUMBER := 1;\r\n" + 
+				"   	V_ADDING_BLACK_POINTS NUMBER(15) := 2;\r\n" + 
+				"	V_ADDING_PAID_DUBAI_TCK NUMBER := 2;\r\n" + 
+				"    V_COUNT_PAID_DXB_TCK NUMBER := 20;\r\n" + 
 				"    V_ADDING_NOT_PAID_DUBAI_TCK NUMBER := 2;\r\n" + 
-				"    V_COUNT_NOT_PAID_DXB_TCK NUMBER := 1;\r\n" + 
+				"    V_COUNT_NOT_PAID_DXB_TCK NUMBER := 2;\r\n" + 
 				"    V_ADDING_VEHICLE_CONFISCATION NUMBER := 2;\r\n" + 
-				"    V_COUNT_VEHICLE_CONFISCATION    NUMBER := 1;\r\n" + 
+				"    V_COUNT_VEHICLE_CONFISCATION	NUMBER := 2;\r\n" + 
 				"    V_ADDING_PAID_LIC_DUBAI_TCK NUMBER := 2;\r\n" + 
-				"    V_COUNT_PAID_LIC_DXB_TCK NUMBER := 1;\r\n" + 
+				"    V_COUNT_PAID_LIC_DXB_TCK NUMBER := 2;\r\n" + 
 				"    V_ADDING_NOT_PAID_LIC_DXB_TCK NUMBER := 2;\r\n" + 
-				"    V_COUNT_NOT_PAID_LIC_DXB_TCK NUMBER := 1;\r\n" + 
-				"    V_ADDING_PAID_AUH_TCK NUMBER := 1;\r\n" + 
-				"    V_COUNT_PAID_AUH_TCK NUMBER := 1;\r\n" + 
+				"    V_COUNT_NOT_PAID_LIC_DXB_TCK NUMBER := 2;\r\n" + 
+				"    V_ADDING_PAID_AUH_TCK NUMBER := 2;\r\n" + 
+				"    V_COUNT_PAID_AUH_TCK NUMBER := 2;\r\n" + 
 				"    V_ADDING_NOT_PAID_AUH_TCK NUMBER := 1;\r\n" + 
-				"    V_COUNT_NOT_PAID_AUH_TCK NUMBER := 1;\r\n" + 
+				"    V_COUNT_NOT_PAID_AUH_TCK NUMBER := 2;\r\n" + 
 				"    V_ADDING_LIC_AUH_TCK NUMBER := 1;\r\n" + 
-				"    V_COUNT_LIC_AUH_TCK NUMBER := 1;\r\n" + 
-				"    V_ADDING_PAID_SLK_TCK NUMBER := 1;\r\n" + 
-				"    V_COUNT_PAID_SLK_TCK NUMBER := 1;\r\n" + 
+				"    V_COUNT_LIC_AUH_TCK NUMBER := 2;\r\n" + 
+				"    V_ADDING_PAID_SLK_TCK NUMBER := 2;\r\n" + 
+				"    V_COUNT_PAID_SLK_TCK NUMBER := 2;\r\n" + 
 				"    V_ADDING_NOT_PAID_SLK_TCK NUMBER := 1;\r\n" + 
-				"    V_COUNT_NOT_PAID_SLK_TCK NUMBER := 1;\r\n" + 
-				"    P_DLC_ID    NUMBER(15);\r\n" + 
-				"    V_TCK_ID    NUMBER(15);\r\n" + 
+				"    V_COUNT_NOT_PAID_SLK_TCK NUMBER := 2;\r\n" + 
+				"    P_DLC_ID	NUMBER(15);\r\n" + 
+				"    V_TCK_ID	NUMBER(15);\r\n" + 
 				"    P_LICENSE_NO NUMBER(15);\r\n" + 
 				"   cursor get_vle_info IS\r\n" + 
+				"\r\n" + 
 				"      SELECT\r\n" + 
-				"       BKT_ID,\r\n" + 
-				"       TRF_ID,\r\n" + 
-				"       VLE_ID,\r\n" + 
-				"       PLATE_NO,\r\n" + 
-				"        plc_code ,\r\n" + 
-				"        pcd_id ,\r\n" + 
-				"        pcd_desc ,\r\n" + 
-				"        plc_desc    ,PLC_EMI_CODE\r\n" + 
+				"	   BKT_ID,\r\n" + 
+				"	   TRF_ID,\r\n" + 
+				"	   VLE_ID,\r\n" + 
+				"	   PLATE_NO,\r\n" + 
+				"		plc_code ,\r\n" + 
+				"		pcd_id ,\r\n" + 
+				"		pcd_desc ,\r\n" + 
+				"		plc_desc    ,PLC_EMI_CODE\r\n" + 
 				"FROM (SELECT /*+ RULE */\r\n" + 
 				"             MAN.ID,\r\n" + 
-				"             MAN.DESCRIPTION_A,\r\n" + 
-				"             F_DB_PRINT_VEHICLE_COLOR(BKT.VLE_ID) COLOR_DESC,\r\n" + 
-				"             VEHICLES.VCL_ID,\r\n" + 
-				"             BKT.ID BKT_ID,\r\n" + 
-				"             BKT.TRF_ID   ,\r\n" + 
-				"             VEHICLES.ID  VLE_ID,\r\n" + 
-				"             PLT.PLATE_STATUS   PLATE_STATUS,\r\n" + 
-				"             PLT.PLATE_NO,\r\n" + 
-				"             plc.code    plc_code,\r\n" + 
-				"             pcd.id        pcd_id,\r\n" + 
-				"             PLC_EMI_CODE,\r\n" + 
-				"             pcd.description_a pcd_desc,\r\n" + 
-				"             plc.description_a plc_desc\r\n" + 
+				"			 MAN.DESCRIPTION_A,\r\n" + 
+				"			 F_DB_PRINT_VEHICLE_COLOR(BKT.VLE_ID) COLOR_DESC,\r\n" + 
+				"			 VEHICLES.VCL_ID,\r\n" + 
+				"			 BKT.ID BKT_ID,\r\n" + 
+				"			 BKT.TRF_ID   ,\r\n" + 
+				"			 VEHICLES.ID  VLE_ID,\r\n" + 
+				"			 PLT.PLATE_STATUS   PLATE_STATUS,\r\n" + 
+				"			 PLT.PLATE_NO,\r\n" + 
+				"			 plc.code	plc_code,\r\n" + 
+				"			 pcd.id		pcd_id,\r\n" + 
+				"			 PLC_EMI_CODE,\r\n" + 
+				"			 pcd.description_a pcd_desc,\r\n" + 
+				"			 plc.description_a plc_desc\r\n" + 
 				"\r\n" + 
-				"             FROM    TF_VHL_MANUFACTURERS MAN,\r\n" + 
-				"             TF_VHL_VEHICLE_MODEL MODEL,\r\n" + 
-				"             TF_VHL_BOOKLETS BKT,\r\n" + 
-				"             TF_VHL_PLATES PLT,\r\n" + 
-				"             TF_VHL_VEHICLES VEHICLES,\r\n" + 
-				"             tf_vhl_plate_codes pcd,\r\n" + 
-				"             tf_vhl_plate_categories plc\r\n" + 
-				"      WHERE MAN.ID=MODEL.VMK_ID  AND\r\n" + 
-				"            MODEL.ID=BKT.VSM_ID AND\r\n" + 
-				"            BKT.PLT_ID=PLT.ID AND\r\n" + 
-				"            VEHICLES.ID=BKT.VLE_ID AND\r\n" + 
-				"            VEHICLES.chasiss_no = v_chassis_no\r\n" + 
-				"            and    plt.pcd_id = pcd.id\r\n" + 
-				"            and    pcd.plc_code = plc.code\r\n" + 
-				"            and    pcd.plc_emi_code = plc.emi_code\r\n" + 
-				"             AND NOT EXISTS (SELECT 1\r\n" + 
-				"                             FROM TF_VHL_BOOKLETS BKT2\r\n" + 
-				"                              WHERE BKT2.TRS_START_DATE > BKT.TRS_START_DATE\r\n" + 
-				"                              AND BKT2.PLT_ID = PLT.ID\r\n" + 
-				"                              AND NVL(BKT2.TRS_START_DATE, SYSDATE) <= SYSDATE\r\n" + 
-				"                             )\r\n" + 
-				"            AND    SYSDATE BETWEEN BKT.TRS_START_DATE AND\r\n" + 
-				"            decode(plt.pcd_id,11,(BKT.TRS_START_DATE + 14), NVL(BKT.TRS_END_DATE,SYSDATE)\r\n" + 
-				"     )\r\n" + 
+				"			 FROM    TF_VHL_MANUFACTURERS MAN,\r\n" + 
+				"			 TF_VHL_VEHICLE_MODEL MODEL,\r\n" + 
+				"			 TF_VHL_BOOKLETS BKT,\r\n" + 
+				"			 TF_VHL_PLATES PLT,\r\n" + 
+				"			 TF_VHL_VEHICLES VEHICLES,\r\n" + 
+				"			 tf_vhl_plate_codes pcd,\r\n" + 
+				"			 tf_vhl_plate_categories plc\r\n" + 
+				"\r\n" + 
+				"	  WHERE MAN.ID=MODEL.VMK_ID  AND\r\n" + 
+				"		    MODEL.ID=BKT.VSM_ID AND\r\n" + 
+				"		    BKT.PLT_ID=PLT.ID AND\r\n" + 
+				"		    VEHICLES.ID=BKT.VLE_ID AND\r\n" + 
+				"		    VEHICLES.chasiss_no = v_chassis_no\r\n" + 
+				"		    and	plt.pcd_id = pcd.id\r\n" + 
+				"		    and	pcd.plc_code = plc.code\r\n" + 
+				"		    and	pcd.plc_emi_code = plc.emi_code\r\n" + 
+				"		     AND NOT EXISTS (SELECT 1\r\n" + 
+				"			                 FROM TF_VHL_BOOKLETS BKT2\r\n" + 
+				"			                  WHERE BKT2.TRS_START_DATE > BKT.TRS_START_DATE\r\n" + 
+				"			                  AND BKT2.PLT_ID = PLT.ID\r\n" + 
+				"			                  AND NVL(BKT2.TRS_START_DATE, SYSDATE) <= SYSDATE\r\n" + 
+				"							 )\r\n" + 
+				"			AND    SYSDATE BETWEEN BKT.TRS_START_DATE AND\r\n" + 
+				"		    decode(plt.pcd_id,11,(BKT.TRS_START_DATE + 14), NVL(BKT.TRS_END_DATE,SYSDATE)\r\n" + 
+				"\r\n" + 
+				"\r\n" + 
+				"	 )\r\n" + 
 				"     ORDER BY TRS_START_DATE DESC\r\n" + 
 				")\r\n" + 
 				"WHERE ROWNUM <=1;\r\n" + 
-				"\r\n" + 
-				"\r\n" + 
-				"\r\n" + 
 				"begin\r\n" + 
+				"	IF V_RSET_TRF_VIOLATION = 2 THEN\r\n" + 
+				"		UPDATE 	TRAFFIC.TF_FFU_VEHICLE_CONFISCATIONS\r\n" + 
+				"		SET		BOOKING_STATUS = 5\r\n" + 
 				"\r\n" + 
-				"    --------RESET FINES ON THE TRAFFIC FILES\r\n" + 
-				"    IF V_RSET_TRF_VIOLATION = 2 THEN\r\n" + 
-				"        UPDATE     TRAFFIC.TF_FFU_VEHICLE_CONFISCATIONS\r\n" + 
-				"        SET        BOOKING_STATUS = 5\r\n" + 
-				"\r\n" + 
-				"          WHERE    BOOKING_STATUS IN (1,2,3)\r\n" + 
-				"          AND        TRF_ID =  (SELECT ID FROM traffic.TF_STP_TRAFFIC_FILES WHERE TRAFFIC_NO =V_TRAFFIC_FILE_NO ) ;\r\n" + 
+				"	  	WHERE	BOOKING_STATUS IN (1,2,3)\r\n" + 
+				"	  	AND		TRF_ID =  (SELECT ID FROM traffic.TF_STP_TRAFFIC_FILES WHERE TRAFFIC_NO =V_TRAFFIC_FILE_NO ) ;\r\n" + 
 				"\r\n" + 
 				"\r\n" + 
-				"          UPDATE     TRAFFIC.TF_FFU_TICKETS\r\n" + 
-				"          SET        TICKET_STATUS = 5\r\n" + 
-				"        WHERE    TICKET_STATUS IN (4)\r\n" + 
-				"          AND        TRF_ID =  (SELECT ID FROM traffic.TF_STP_TRAFFIC_FILES WHERE TRAFFIC_NO =V_TRAFFIC_FILE_NO ) ;\r\n" + 
+				"	  	UPDATE 	TRAFFIC.TF_FFU_TICKETS\r\n" + 
+				"	  	SET		TICKET_STATUS = 5\r\n" + 
+				"	    WHERE	TICKET_STATUS IN (4)\r\n" + 
+				"	  	AND		TRF_ID =  (SELECT ID FROM traffic.TF_STP_TRAFFIC_FILES WHERE TRAFFIC_NO =V_TRAFFIC_FILE_NO ) ;\r\n" + 
 				"\r\n" + 
 				"\r\n" + 
-				"          UPDATE TRAFFIC.TF_FFU_CIRCULAR_TICKETS\r\n" + 
-				"          SET        CIRCULAR_STATUS = 3\r\n" + 
-				"        WHERE    CIRCULAR_STATUS IN (1)\r\n" + 
-				"          AND        TRF_ID =  (SELECT ID FROM traffic.TF_STP_TRAFFIC_FILES WHERE TRAFFIC_NO =V_TRAFFIC_FILE_NO ) ;\r\n" + 
+				"	  	UPDATE TRAFFIC.TF_FFU_CIRCULAR_TICKETS\r\n" + 
+				"	  	SET		CIRCULAR_STATUS = 3\r\n" + 
+				"	    WHERE	CIRCULAR_STATUS IN (1)\r\n" + 
+				"	  	AND		TRF_ID =  (SELECT ID FROM traffic.TF_STP_TRAFFIC_FILES WHERE TRAFFIC_NO =V_TRAFFIC_FILE_NO ) ;\r\n" + 
 				"\r\n" + 
-				"          UPDATE TRAFFIC.TF_DRL_DRIVING_LICENSES\r\n" + 
-				"          SET        TOTAL_BLACK_POINTS =0\r\n" + 
-				"        WHERE    TRF_ID =  (SELECT ID FROM traffic.TF_STP_TRAFFIC_FILES WHERE TRAFFIC_NO =V_TRAFFIC_FILE_NO ) ;\r\n" + 
+				"	  	UPDATE TRAFFIC.TF_DRL_DRIVING_LICENSES\r\n" + 
+				"	  	SET		TOTAL_BLACK_POINTS =0\r\n" + 
+				"	    WHERE	TRF_ID =  (SELECT ID FROM traffic.TF_STP_TRAFFIC_FILES WHERE TRAFFIC_NO =V_TRAFFIC_FILE_NO ) ;\r\n" + 
 				"\r\n" + 
-				"    END IF;\r\n" + 
+				"	    update tf_stp_circular_notes\r\n" + 
+				"		set	status = 1\r\n" + 
+				"		where prs_id = (SELECT prs_ID FROM traffic.TF_STP_TRAFFIC_FILES WHERE TRAFFIC_NO =V_TRAFFIC_FILE_NO )\r\n" + 
+				"		and status = 2 ;\r\n" + 
 				"\r\n" + 
-				"    ------ PAYABLE DXB FINES ON VEHICLE\r\n" + 
-				"    IF V_ADDING_PAID_DUBAI_TCK = 2 THEN\r\n" + 
-				"        FOR    I IN 1..V_COUNT_PAID_DXB_TCK LOOP\r\n" + 
-				"            FOR J IN GET_VLE_INFO LOOP\r\n" + 
+				"		 update tf_stp_circular_notes\r\n" + 
+				"		set	status = 1\r\n" + 
+				"		where org_id = (SELECT org_id FROM traffic.TF_STP_TRAFFIC_FILES WHERE TRAFFIC_NO =V_TRAFFIC_FILE_NO )\r\n" + 
+				"		and status = 2 ;\r\n" + 
 				"\r\n" + 
-				"                insert into traffic.tf_ffu_tickets (ID ,EMI_CODE,CTR_ID,TICKET_NO,TICKET_DATE,IS_RADAR,IS_LICENCE_NOT_PRESENTED,IS_PAYABLE,PLATE_CATEGORY_DESC,\r\n" + 
-				"                            TICKET_STATUS_DATE ,LOC_ID,PCD_ID,DLC_ID ,PLATE_SOURCE  ,PENALTY_FINE,OFFENSE_BLACK_PIONTS,IS_BLACK_POINTS_DELETED ,\r\n" + 
-				"                            TICKET_HELD_STATUS ,IS_VEHICLE_EXPORTED,HAS_EXTRA_ACTIONS   ,PLC_CODE,PLATE_NO,TOTAL_FINE,TICKET_TIME,\r\n" + 
-				"                            TICKET_TYPE,LICENCE_HELD_STATUS,BOOKLET_HELD_STATUS  ,TICKET_FINE,TICKET_STATUS  ,VEHICLE_SHOULD_BE_BOOKED ,\r\n" + 
-				"                            CREATED_BY,CREATION_DATE,UPDATED_BY,UPDATE_DATE, BKT_ID,TRF_ID ,PLC_EMI_CODE,PLATE_COLOR_DESC,\r\n" + 
-				"                            EMI_CODE_PLATE_FROM\r\n" + 
+				"		update tf_stp_circular_notes\r\n" + 
+				"		set	status = 1\r\n" + 
+				"		where bkt_id in (select id from tf_vhl_booklets where trf_id = V_TRAFFIC_FILE_NO)\r\n" + 
+				"		and status = 2 ;\r\n" + 
 				"\r\n" + 
-				"                )\r\n" + 
+				"	END IF;\r\n" + 
+				"	IF V_ADDING_PAID_DUBAI_TCK = 2 THEN\r\n" + 
+				"		FOR	I IN 1..V_COUNT_PAID_DXB_TCK LOOP\r\n" + 
+				"			FOR J IN GET_VLE_INFO LOOP\r\n" + 
 				"\r\n" + 
-				"                    values (tck_seq.nextval,'DXB',233,tck_seq.currval, sysdate,2,1,2,J.PLC_DESC,\r\n" + 
-				"                            SYSDATE,2,J.PCD_ID,Null,1,0,2,1,\r\n" + 
-				"                            1,1,1,J.PLC_CODE,J.PLATE_NO,0,sysdate,\r\n" + 
-				"                            2,1,1,0,1,1,\r\n" + 
-				"                            'TESTING_SENARIO',SYSDATE,'TESTING_SENARIO',SYSDATE, J.BKT_ID,J.TRF_ID,J.PLC_EMI_CODE ,J.pcd_desc,\r\n" + 
-				"                            J.PLC_EMI_CODE\r\n" + 
+				"				insert into traffic.tf_ffu_tickets (ID ,EMI_CODE,CTR_ID,TICKET_NO,TICKET_DATE,IS_RADAR,IS_LICENCE_NOT_PRESENTED,IS_PAYABLE,PLATE_CATEGORY_DESC,\r\n" + 
+				"							TICKET_STATUS_DATE ,LOC_ID,PCD_ID,DLC_ID ,PLATE_SOURCE  ,PENALTY_FINE,OFFENSE_BLACK_PIONTS,IS_BLACK_POINTS_DELETED ,\r\n" + 
+				"							TICKET_HELD_STATUS ,IS_VEHICLE_EXPORTED,HAS_EXTRA_ACTIONS   ,PLC_CODE,PLATE_NO,TOTAL_FINE,TICKET_TIME,\r\n" + 
+				"							TICKET_TYPE,LICENCE_HELD_STATUS,BOOKLET_HELD_STATUS  ,TICKET_FINE,TICKET_STATUS  ,VEHICLE_SHOULD_BE_BOOKED ,\r\n" + 
+				"							CREATED_BY,CREATION_DATE,UPDATED_BY,UPDATE_DATE, BKT_ID,TRF_ID ,PLC_EMI_CODE,PLATE_COLOR_DESC,\r\n" + 
+				"							EMI_CODE_PLATE_FROM\r\n" + 
 				"\r\n" + 
-				"                            );\r\n" + 
-				"                   V_TCK_ID := tck_seq.currval;\r\n" + 
+				"				)\r\n" + 
 				"\r\n" + 
-				"                   DBMS_OUTPUT.PUT_LINE('V_TCK_ID : '||V_TCK_ID||' , J.BKT_ID:='||J.BKT_ID||' ,J.TRF_ID :'||J.TRF_ID);\r\n" + 
+				"					values (tck_seq.nextval,'DXB',233,tck_seq.currval, sysdate,2,1,2,J.PLC_DESC,\r\n" + 
+				"					        SYSDATE,2,J.PCD_ID,P_DLC_ID,1,0,2,1,\r\n" + 
+				"					        1,1,1,J.PLC_CODE,J.PLATE_NO,0,sysdate,\r\n" + 
+				"					        2,1,1,0,1,1,\r\n" + 
+				"					        'TESTING_SENARIO',SYSDATE,'TESTING_SENARIO',SYSDATE, J.BKT_ID,J.TRF_ID,J.PLC_EMI_CODE ,J.pcd_desc,\r\n" + 
+				"					        J.PLC_EMI_CODE\r\n" + 
 				"\r\n" + 
-				"                insert into traffic.TF_FFU_TICKET_VIOLATIONS (ID,TCK_ID,RGL_ID,FINE_AMOUNT,NO_OF_BLACK_POINTS,VEHICLE_SHOULD_BE_BOOKED,\r\n" + 
-				"                                                                NO_OF_REPEAT,CREATED_BY,CREATION_DATE,UPDATED_BY,UPDATE_DATE\r\n" + 
-				"                                                                )\r\n" + 
-				"                VALUES                                        (TVL_SEQ.NEXTVAL,tck_seq.currval,3408,500,0,1,1,\r\n" + 
-				"                                                             'TESTING_SENARIO',SYSDATE,'TESTING_SENARIO',SYSDATE)\r\n" + 
-				"                ;\r\n" + 
+				"							);\r\n" + 
+				"               	V_TCK_ID := tck_seq.currval;\r\n" + 
 				"\r\n" + 
-				"                UPDATE         traffic.tf_ffu_tickets\r\n" + 
-				"                set             TOTAL_FINE = (select sum(FINE_AMOUNT) from TF_FFU_TICKET_VIOLATIONS where tck_id = V_TCK_ID),\r\n" + 
-				"                            TICKET_FINE = (select sum(FINE_AMOUNT) from TF_FFU_TICKET_VIOLATIONS where tck_id = V_TCK_ID) ,\r\n" + 
-				"                            TICKET_STATUS = 4\r\n" + 
-				"                where        id=  V_TCK_ID ;\r\n" + 
+				"               	DBMS_OUTPUT.PUT_LINE('V_TCK_ID : '||V_TCK_ID||' , J.BKT_ID:='||J.BKT_ID||' ,J.TRF_ID :'||J.TRF_ID);\r\n" + 
 				"\r\n" + 
+				"				insert into traffic.TF_FFU_TICKET_VIOLATIONS (ID,TCK_ID,RGL_ID,FINE_AMOUNT,NO_OF_BLACK_POINTS,VEHICLE_SHOULD_BE_BOOKED,\r\n" + 
+				"																NO_OF_REPEAT,CREATED_BY,CREATION_DATE,UPDATED_BY,UPDATE_DATE\r\n" + 
+				"																)\r\n" + 
+				"				VALUES										(TVL_SEQ.NEXTVAL,tck_seq.currval,3408,500,0,1,1,\r\n" + 
+				"															 'TESTING_SENARIO',SYSDATE,'TESTING_SENARIO',SYSDATE)\r\n" + 
+				"				;\r\n" + 
 				"\r\n" + 
-				"            END LOOP;\r\n" + 
-				"\r\n" + 
-				"        END LOOP;\r\n" + 
-				"    END IF;\r\n" + 
-				"\r\n" + 
-				"\r\n" + 
-				"\r\n" + 
-				"    ------NOT PAYABLE DXB FINES\r\n" + 
-				"    IF V_ADDING_NOT_PAID_DUBAI_TCK = 2 THEN\r\n" + 
-				"        FOR    I IN 1..V_COUNT_NOT_PAID_DXB_TCK LOOP\r\n" + 
-				"            FOR J IN GET_VLE_INFO LOOP\r\n" + 
-				"\r\n" + 
-				"                insert into traffic.tf_ffu_tickets (ID ,EMI_CODE,CTR_ID,TICKET_NO,TICKET_DATE,IS_RADAR,IS_LICENCE_NOT_PRESENTED,IS_PAYABLE,PLATE_CATEGORY_DESC,\r\n" + 
-				"                            TICKET_STATUS_DATE ,LOC_ID,PCD_ID,DLC_ID ,PLATE_SOURCE  ,PENALTY_FINE,OFFENSE_BLACK_PIONTS,IS_BLACK_POINTS_DELETED ,\r\n" + 
-				"                            TICKET_HELD_STATUS ,IS_VEHICLE_EXPORTED,HAS_EXTRA_ACTIONS   ,PLC_CODE,PLATE_NO,TOTAL_FINE,TICKET_TIME,\r\n" + 
-				"                            TICKET_TYPE,LICENCE_HELD_STATUS,BOOKLET_HELD_STATUS  ,TICKET_FINE,TICKET_STATUS  ,VEHICLE_SHOULD_BE_BOOKED ,\r\n" + 
-				"                            CREATED_BY,CREATION_DATE,UPDATED_BY,UPDATE_DATE, BKT_ID,TRF_ID ,PLC_EMI_CODE,PLATE_COLOR_DESC,\r\n" + 
-				"                            EMI_CODE_PLATE_FROM\r\n" + 
-				"\r\n" + 
-				"                )\r\n" + 
-				"\r\n" + 
-				"                    values (tck_seq.nextval,'DXB',233,tck_seq.currval, sysdate,2,1,1,J.PLC_DESC,\r\n" + 
-				"                            SYSDATE,2,J.PCD_ID,null,1,0,2,1,\r\n" + 
-				"                            1,1,1,J.PLC_CODE,J.PLATE_NO,0,sysdate,\r\n" + 
-				"                            2,1,1,0,1,1,\r\n" + 
-				"                            'TESTING_SENARIO',SYSDATE,'TESTING_SENARIO',SYSDATE, J.BKT_ID,J.TRF_ID,J.PLC_EMI_CODE ,J.pcd_desc,\r\n" + 
-				"                            J.PLC_EMI_CODE\r\n" + 
-				"\r\n" + 
-				"                            );\r\n" + 
-				"                   V_TCK_ID := tck_seq.currval;\r\n" + 
-				"\r\n" + 
-				"                   DBMS_OUTPUT.PUT_LINE('V_TCK_ID : '||V_TCK_ID||' , J.BKT_ID:='||J.BKT_ID||' ,J.TRF_ID :'||J.TRF_ID);\r\n" + 
-				"\r\n" + 
-				"                insert into traffic.TF_FFU_TICKET_VIOLATIONS (ID,TCK_ID,RGL_ID,FINE_AMOUNT,NO_OF_BLACK_POINTS,VEHICLE_SHOULD_BE_BOOKED,\r\n" + 
-				"                                                                NO_OF_REPEAT,CREATED_BY,CREATION_DATE,UPDATED_BY,UPDATE_DATE\r\n" + 
-				"                                                                )\r\n" + 
-				"                VALUES                                        (TVL_SEQ.NEXTVAL,tck_seq.currval,3374,1000,12,1,0,\r\n" + 
-				"                                                             'TESTING_SENARIO',SYSDATE,'TESTING_SENARIO',SYSDATE)\r\n" + 
-				"                ;\r\n" + 
-				"\r\n" + 
-				"                UPDATE         traffic.tf_ffu_tickets\r\n" + 
-				"                set             TOTAL_FINE = (select sum(FINE_AMOUNT) from TF_FFU_TICKET_VIOLATIONS where tck_id = V_TCK_ID),\r\n" + 
-				"                            TICKET_FINE = (select sum(FINE_AMOUNT) from TF_FFU_TICKET_VIOLATIONS where tck_id = V_TCK_ID) ,\r\n" + 
-				"                            TICKET_STATUS = 4\r\n" + 
-				"                where        id=  V_TCK_ID ;\r\n" + 
+				"				UPDATE     	traffic.tf_ffu_tickets\r\n" + 
+				"				set		 	TOTAL_FINE = (select sum(FINE_AMOUNT) from TF_FFU_TICKET_VIOLATIONS where tck_id = V_TCK_ID),\r\n" + 
+				"							TICKET_FINE = (select sum(FINE_AMOUNT) from TF_FFU_TICKET_VIOLATIONS where tck_id = V_TCK_ID) ,\r\n" + 
+				"							TICKET_STATUS = 4\r\n" + 
+				"				where		id=  V_TCK_ID ;\r\n" + 
 				"\r\n" + 
 				"\r\n" + 
-				"            END LOOP;\r\n" + 
+				"			END LOOP;\r\n" + 
 				"\r\n" + 
-				"        END LOOP;\r\n" + 
-				"    END IF;\r\n" + 
+				"		END LOOP;\r\n" + 
+				"	END IF;\r\n" + 
+				"	IF V_ADDING_NOT_PAID_DUBAI_TCK = 2 THEN\r\n" + 
+				"		FOR	I IN 1..V_COUNT_NOT_PAID_DXB_TCK LOOP\r\n" + 
+				"			FOR J IN GET_VLE_INFO LOOP\r\n" + 
 				"\r\n" + 
+				"				insert into traffic.tf_ffu_tickets (ID ,EMI_CODE,CTR_ID,TICKET_NO,TICKET_DATE,IS_RADAR,IS_LICENCE_NOT_PRESENTED,IS_PAYABLE,PLATE_CATEGORY_DESC,\r\n" + 
+				"							TICKET_STATUS_DATE ,LOC_ID,PCD_ID,DLC_ID ,PLATE_SOURCE  ,PENALTY_FINE,OFFENSE_BLACK_PIONTS,IS_BLACK_POINTS_DELETED ,\r\n" + 
+				"							TICKET_HELD_STATUS ,IS_VEHICLE_EXPORTED,HAS_EXTRA_ACTIONS   ,PLC_CODE,PLATE_NO,TOTAL_FINE,TICKET_TIME,\r\n" + 
+				"							TICKET_TYPE,LICENCE_HELD_STATUS,BOOKLET_HELD_STATUS  ,TICKET_FINE,TICKET_STATUS  ,VEHICLE_SHOULD_BE_BOOKED ,\r\n" + 
+				"							CREATED_BY,CREATION_DATE,UPDATED_BY,UPDATE_DATE, BKT_ID,TRF_ID ,PLC_EMI_CODE,PLATE_COLOR_DESC,\r\n" + 
+				"							EMI_CODE_PLATE_FROM\r\n" + 
 				"\r\n" + 
+				"				)\r\n" + 
 				"\r\n" + 
-				"    ------ADDING VEHICLE CONFISCATION\r\n" + 
-				"    IF V_ADDING_VEHICLE_CONFISCATION = 2 THEN\r\n" + 
-				"        FOR    I IN 1..V_COUNT_VEHICLE_CONFISCATION LOOP\r\n" + 
-				"            FOR J IN GET_VLE_INFO LOOP\r\n" + 
+				"					values (tck_seq.nextval,'DXB',233,tck_seq.currval, sysdate,2,1,1,J.PLC_DESC,\r\n" + 
+				"					        SYSDATE,2,J.PCD_ID,P_DLC_ID,1,0,2,1,\r\n" + 
+				"					        1,1,1,J.PLC_CODE,J.PLATE_NO,0,sysdate,\r\n" + 
+				"					        2,1,1,0,1,1,\r\n" + 
+				"					        'TESTING_SENARIO',SYSDATE,'TESTING_SENARIO',SYSDATE, J.BKT_ID,J.TRF_ID,J.PLC_EMI_CODE ,J.pcd_desc,\r\n" + 
+				"					        J.PLC_EMI_CODE\r\n" + 
 				"\r\n" + 
-				"                insert into traffic.tf_ffu_tickets (ID ,EMI_CODE,CTR_ID,TICKET_NO,TICKET_DATE,IS_RADAR,IS_LICENCE_NOT_PRESENTED,IS_PAYABLE,PLATE_CATEGORY_DESC,\r\n" + 
-				"                            TICKET_STATUS_DATE ,LOC_ID,PCD_ID,DLC_ID ,PLATE_SOURCE  ,PENALTY_FINE,OFFENSE_BLACK_PIONTS,IS_BLACK_POINTS_DELETED ,\r\n" + 
-				"                            TICKET_HELD_STATUS ,IS_VEHICLE_EXPORTED,HAS_EXTRA_ACTIONS   ,PLC_CODE,PLATE_NO,TOTAL_FINE,TICKET_TIME,\r\n" + 
-				"                            TICKET_TYPE,LICENCE_HELD_STATUS,BOOKLET_HELD_STATUS  ,TICKET_FINE,TICKET_STATUS  ,VEHICLE_SHOULD_BE_BOOKED ,\r\n" + 
-				"                            CREATED_BY,CREATION_DATE,UPDATED_BY,UPDATE_DATE, BKT_ID,TRF_ID ,PLC_EMI_CODE,PLATE_COLOR_DESC,\r\n" + 
-				"                            EMI_CODE_PLATE_FROM\r\n" + 
+				"							);\r\n" + 
+				"               	V_TCK_ID := tck_seq.currval;\r\n" + 
 				"\r\n" + 
-				"                )\r\n" + 
+				"               	DBMS_OUTPUT.PUT_LINE('V_TCK_ID : '||V_TCK_ID||' , J.BKT_ID:='||J.BKT_ID||' ,J.TRF_ID :'||J.TRF_ID);\r\n" + 
 				"\r\n" + 
-				"                    values (tck_seq.nextval,'DXB',233,tck_seq.currval, sysdate,2,1,1,J.PLC_DESC,\r\n" + 
-				"                            SYSDATE,2,J.PCD_ID,null,1,0,2,1,\r\n" + 
-				"                            1,1,1,J.PLC_CODE,J.PLATE_NO,0,sysdate,\r\n" + 
-				"                            2,1,1,0,1,2,\r\n" + 
-				"                            'TESTING_SENARIO',SYSDATE,'TESTING_SENARIO',SYSDATE, J.BKT_ID,J.TRF_ID,J.PLC_EMI_CODE ,J.pcd_desc,\r\n" + 
-				"                            J.PLC_EMI_CODE\r\n" + 
+				"				insert into traffic.TF_FFU_TICKET_VIOLATIONS (ID,TCK_ID,RGL_ID,FINE_AMOUNT,NO_OF_BLACK_POINTS,VEHICLE_SHOULD_BE_BOOKED,\r\n" + 
+				"																NO_OF_REPEAT,CREATED_BY,CREATION_DATE,UPDATED_BY,UPDATE_DATE\r\n" + 
+				"																)\r\n" + 
+				"				VALUES										(TVL_SEQ.NEXTVAL,tck_seq.currval,3374,1000,12,1,0,\r\n" + 
+				"															 'TESTING_SENARIO',SYSDATE,'TESTING_SENARIO',SYSDATE)\r\n" + 
+				"				;\r\n" + 
 				"\r\n" + 
-				"                            );\r\n" + 
-				"                   V_TCK_ID := tck_seq.currval;\r\n" + 
-				"\r\n" + 
-				"               --    DBMS_OUTPUT.PUT_LINE('V_TCK_ID : '||V_TCK_ID||' , J.BKT_ID:='||J.BKT_ID||' ,J.TRF_ID :'||J.TRF_ID);\r\n" + 
-				"\r\n" + 
-				"                insert into traffic.TF_FFU_TICKET_VIOLATIONS (ID,TCK_ID,RGL_ID,FINE_AMOUNT,NO_OF_BLACK_POINTS,VEHICLE_SHOULD_BE_BOOKED,\r\n" + 
-				"                                                                NO_OF_REPEAT,CREATED_BY,CREATION_DATE,UPDATED_BY,UPDATE_DATE\r\n" + 
-				"                                                                )\r\n" + 
-				"                VALUES                                        (TVL_SEQ.NEXTVAL,tck_seq.currval,3374,1000,12,2,0 ,\r\n" + 
-				"                                                             'TESTING_SENARIO',SYSDATE,'TESTING_SENARIO',SYSDATE)\r\n" + 
-				"                ;\r\n" + 
-				"\r\n" + 
-				"                UPDATE         traffic.tf_ffu_tickets\r\n" + 
-				"                set             TOTAL_FINE = (select sum(FINE_AMOUNT) from TF_FFU_TICKET_VIOLATIONS where tck_id = V_TCK_ID),\r\n" + 
-				"                            TICKET_FINE = (select sum(FINE_AMOUNT) from TF_FFU_TICKET_VIOLATIONS where tck_id = V_TCK_ID) ,\r\n" + 
-				"                            TICKET_STATUS = 4,\r\n" + 
-				"                            OFFENSE_BLACK_PIONTS= 12\r\n" + 
-				"\r\n" + 
-				"                where        id=  V_TCK_ID ;\r\n" + 
-				"\r\n" + 
-				"                UPDATE         traffic.tf_ffu_tickets\r\n" + 
-				"                set\r\n" + 
-				"                            IS_PAYABLE = 2\r\n" + 
-				"\r\n" + 
-				"                where        id=  V_TCK_ID ;\r\n" + 
+				"				UPDATE     	traffic.tf_ffu_tickets\r\n" + 
+				"				set		 	TOTAL_FINE = (select sum(FINE_AMOUNT) from TF_FFU_TICKET_VIOLATIONS where tck_id = V_TCK_ID),\r\n" + 
+				"							TICKET_FINE = (select sum(FINE_AMOUNT) from TF_FFU_TICKET_VIOLATIONS where tck_id = V_TCK_ID) ,\r\n" + 
+				"							TICKET_STATUS = 4\r\n" + 
+				"				where		id=  V_TCK_ID ;\r\n" + 
 				"\r\n" + 
 				"\r\n" + 
-				"            END LOOP;\r\n" + 
+				"			END LOOP;\r\n" + 
 				"\r\n" + 
-				"        END LOOP;\r\n" + 
-				"    END IF;\r\n" + 
+				"		END LOOP;\r\n" + 
+				"	END IF;\r\n" + 
+				"	IF V_ADDING_VEHICLE_CONFISCATION = 2 THEN\r\n" + 
+				"		FOR	I IN 1..V_COUNT_VEHICLE_CONFISCATION LOOP\r\n" + 
+				"			FOR J IN GET_VLE_INFO LOOP\r\n" + 
 				"\r\n" + 
-				"----    ADDING PAID DXB ON LICENSE\r\n" + 
+				"				insert into traffic.tf_ffu_tickets (ID ,EMI_CODE,CTR_ID,TICKET_NO,TICKET_DATE,IS_RADAR,IS_LICENCE_NOT_PRESENTED,IS_PAYABLE,PLATE_CATEGORY_DESC,\r\n" + 
+				"							TICKET_STATUS_DATE ,LOC_ID,PCD_ID,DLC_ID ,PLATE_SOURCE  ,PENALTY_FINE,OFFENSE_BLACK_PIONTS,IS_BLACK_POINTS_DELETED ,\r\n" + 
+				"							TICKET_HELD_STATUS ,IS_VEHICLE_EXPORTED,HAS_EXTRA_ACTIONS   ,PLC_CODE,PLATE_NO,TOTAL_FINE,TICKET_TIME,\r\n" + 
+				"							TICKET_TYPE,LICENCE_HELD_STATUS,BOOKLET_HELD_STATUS  ,TICKET_FINE,TICKET_STATUS  ,VEHICLE_SHOULD_BE_BOOKED ,\r\n" + 
+				"							CREATED_BY,CREATION_DATE,UPDATED_BY,UPDATE_DATE, BKT_ID,TRF_ID ,PLC_EMI_CODE,PLATE_COLOR_DESC,\r\n" + 
+				"							EMI_CODE_PLATE_FROM\r\n" + 
+				"\r\n" + 
+				"				)\r\n" + 
+				"\r\n" + 
+				"					values (tck_seq.nextval,'DXB',233,tck_seq.currval, sysdate,2,1,1,J.PLC_DESC,\r\n" + 
+				"					        SYSDATE,2,J.PCD_ID,P_DLC_ID,1,0,2,1,\r\n" + 
+				"					        1,1,1,J.PLC_CODE,J.PLATE_NO,0,sysdate,\r\n" + 
+				"					        2,1,1,0,1,2,\r\n" + 
+				"					        'TESTING_SENARIO',SYSDATE,'TESTING_SENARIO',SYSDATE, J.BKT_ID,J.TRF_ID,J.PLC_EMI_CODE ,J.pcd_desc,\r\n" + 
+				"					        J.PLC_EMI_CODE\r\n" + 
+				"\r\n" + 
+				"							);\r\n" + 
+				"               	V_TCK_ID := tck_seq.currval;\r\n" + 
+				"\r\n" + 
+				"               --	DBMS_OUTPUT.PUT_LINE('V_TCK_ID : '||V_TCK_ID||' , J.BKT_ID:='||J.BKT_ID||' ,J.TRF_ID :'||J.TRF_ID);\r\n" + 
+				"\r\n" + 
+				"				insert into traffic.TF_FFU_TICKET_VIOLATIONS (ID,TCK_ID,RGL_ID,FINE_AMOUNT,NO_OF_BLACK_POINTS,VEHICLE_SHOULD_BE_BOOKED,\r\n" + 
+				"																NO_OF_REPEAT,CREATED_BY,CREATION_DATE,UPDATED_BY,UPDATE_DATE\r\n" + 
+				"																)\r\n" + 
+				"				VALUES										(TVL_SEQ.NEXTVAL,tck_seq.currval,3374,1000,12,2,0 ,\r\n" + 
+				"															 'TESTING_SENARIO',SYSDATE,'TESTING_SENARIO',SYSDATE)\r\n" + 
+				"				;\r\n" + 
+				"\r\n" + 
+				"				UPDATE     	traffic.tf_ffu_tickets\r\n" + 
+				"				set		 	TOTAL_FINE = (select sum(FINE_AMOUNT) from TF_FFU_TICKET_VIOLATIONS where tck_id = V_TCK_ID),\r\n" + 
+				"							TICKET_FINE = (select sum(FINE_AMOUNT) from TF_FFU_TICKET_VIOLATIONS where tck_id = V_TCK_ID) ,\r\n" + 
+				"							TICKET_STATUS = 4,\r\n" + 
+				"							OFFENSE_BLACK_PIONTS= 12\r\n" + 
+				"				where		id=  V_TCK_ID ;\r\n" + 
+				"\r\n" + 
+				"\r\n" + 
+				"			END LOOP;\r\n" + 
+				"\r\n" + 
+				"		END LOOP;\r\n" + 
+				"	END IF;\r\n" + 
 				"    IF V_ADDING_PAID_LIC_DUBAI_TCK = 2 THEN\r\n" + 
-				"        FOR    I IN 1..V_COUNT_PAID_LIC_DXB_TCK LOOP\r\n" + 
-				"            FOR J IN GET_VLE_INFO LOOP\r\n" + 
+				"		FOR	I IN 1..V_COUNT_PAID_LIC_DXB_TCK LOOP\r\n" + 
+				"			FOR J IN GET_VLE_INFO LOOP\r\n" + 
+				"\r\n" + 
+				"				SELECT ID , LICENSE_NO\r\n" + 
+				"				INTO P_DLC_ID,P_LICENSE_NO\r\n" + 
+				"\r\n" + 
+				"				FROM traffic.TF_DRL_DRIVING_LICENSES\r\n" + 
+				"				WHERE TRF_ID = (SELECT ID FROM traffic.TF_STP_TRAFFIC_FILES WHERE TRAFFIC_NO =V_TRAFFIC_FILE_NO );\r\n" + 
+				"\r\n" + 
+				"				insert into traffic.tf_ffu_tickets (ID ,EMI_CODE,CTR_ID,TICKET_NO,TICKET_DATE,IS_RADAR,IS_LICENCE_NOT_PRESENTED,IS_PAYABLE,PLATE_CATEGORY_DESC,\r\n" + 
+				"							TICKET_STATUS_DATE ,LOC_ID,PCD_ID,DLC_ID ,PLATE_SOURCE  ,PENALTY_FINE,OFFENSE_BLACK_PIONTS,IS_BLACK_POINTS_DELETED ,\r\n" + 
+				"							TICKET_HELD_STATUS ,IS_VEHICLE_EXPORTED,HAS_EXTRA_ACTIONS   ,PLC_CODE,PLATE_NO,TOTAL_FINE,TICKET_TIME,\r\n" + 
+				"							TICKET_TYPE,LICENCE_HELD_STATUS,BOOKLET_HELD_STATUS  ,TICKET_FINE,TICKET_STATUS  ,VEHICLE_SHOULD_BE_BOOKED ,\r\n" + 
+				"							CREATED_BY,CREATION_DATE,UPDATED_BY,UPDATE_DATE, BKT_ID,TRF_ID ,PLC_EMI_CODE,PLATE_COLOR_DESC,\r\n" + 
+				"							EMI_CODE_PLATE_FROM   ,EMI_CODE_LICENSE_FROM,LICENSE_NO\r\n" + 
+				"\r\n" + 
+				"				)\r\n" + 
+				"\r\n" + 
+				"					values (tck_seq.nextval,'DXB',233,tck_seq.currval, sysdate,2,1,2,J.PLC_DESC,\r\n" + 
+				"					        SYSDATE,2,J.PCD_ID,P_DLC_ID,1,0,2,1,\r\n" + 
+				"					        1,1,1,J.PLC_CODE,J.PLATE_NO,0,sysdate,\r\n" + 
+				"					        1,1,1,0,1,1,\r\n" + 
+				"					        'TESTING_SENARIO',SYSDATE,'TESTING_SENARIO',SYSDATE, J.BKT_ID,J.TRF_ID,J.PLC_EMI_CODE ,J.pcd_desc,\r\n" + 
+				"					        J.PLC_EMI_CODE ,'DXB'  ,P_LICENSE_NO\r\n" + 
 				"\r\n" + 
-				"                SELECT ID , LICENSE_NO\r\n" + 
-				"                INTO P_DLC_ID,P_LICENSE_NO\r\n" + 
+				"							);\r\n" + 
+				"               	V_TCK_ID := tck_seq.currval;\r\n" + 
 				"\r\n" + 
-				"                FROM traffic.TF_DRL_DRIVING_LICENSES\r\n" + 
-				"                WHERE TRF_ID = (SELECT ID FROM traffic.TF_STP_TRAFFIC_FILES WHERE TRAFFIC_NO =V_TRAFFIC_FILE_NO );\r\n" + 
+				"               	DBMS_OUTPUT.PUT_LINE('V_TCK_ID : '||V_TCK_ID||' , J.BKT_ID:='||J.BKT_ID||' ,J.TRF_ID :'||J.TRF_ID);\r\n" + 
+				"\r\n" + 
+				"				insert into traffic.TF_FFU_TICKET_VIOLATIONS (ID,TCK_ID,RGL_ID,FINE_AMOUNT,NO_OF_BLACK_POINTS,VEHICLE_SHOULD_BE_BOOKED,\r\n" + 
+				"																NO_OF_REPEAT,CREATED_BY,CREATION_DATE,UPDATED_BY,UPDATE_DATE\r\n" + 
+				"																)\r\n" + 
+				"				VALUES										(TVL_SEQ.NEXTVAL,tck_seq.currval,3408,500,0,1,1,\r\n" + 
+				"															 'TESTING_SENARIO',SYSDATE,'TESTING_SENARIO',SYSDATE)\r\n" + 
+				"				;\r\n" + 
+				"\r\n" + 
+				"				UPDATE     	traffic.tf_ffu_tickets\r\n" + 
+				"				set		 	TOTAL_FINE = (select sum(FINE_AMOUNT) from TF_FFU_TICKET_VIOLATIONS where tck_id = V_TCK_ID),\r\n" + 
+				"							TICKET_FINE = (select sum(FINE_AMOUNT) from TF_FFU_TICKET_VIOLATIONS where tck_id = V_TCK_ID) ,\r\n" + 
+				"							TICKET_STATUS = 4\r\n" + 
+				"				where		id=  V_TCK_ID ;\r\n" + 
+				"\r\n" + 
+				"\r\n" + 
+				"			END LOOP;\r\n" + 
+				"\r\n" + 
+				"		END LOOP;\r\n" + 
+				"	END IF;\r\n" + 
+				"	IF V_ADDING_NOT_PAID_LIC_DXB_TCK = 2 THEN\r\n" + 
+				"		FOR	I IN 1..V_COUNT_NOT_PAID_LIC_DXB_TCK LOOP\r\n" + 
+				"			FOR J IN GET_VLE_INFO LOOP\r\n" + 
 				"\r\n" + 
-				"                insert into traffic.tf_ffu_tickets (ID ,EMI_CODE,CTR_ID,TICKET_NO,TICKET_DATE,IS_RADAR,IS_LICENCE_NOT_PRESENTED,IS_PAYABLE,PLATE_CATEGORY_DESC,\r\n" + 
-				"                            TICKET_STATUS_DATE ,LOC_ID,PCD_ID,DLC_ID ,PLATE_SOURCE  ,PENALTY_FINE,OFFENSE_BLACK_PIONTS,IS_BLACK_POINTS_DELETED ,\r\n" + 
-				"                            TICKET_HELD_STATUS ,IS_VEHICLE_EXPORTED,HAS_EXTRA_ACTIONS   ,PLC_CODE,PLATE_NO,TOTAL_FINE,TICKET_TIME,\r\n" + 
-				"                            TICKET_TYPE,LICENCE_HELD_STATUS,BOOKLET_HELD_STATUS  ,TICKET_FINE,TICKET_STATUS  ,VEHICLE_SHOULD_BE_BOOKED ,\r\n" + 
-				"                            CREATED_BY,CREATION_DATE,UPDATED_BY,UPDATE_DATE, BKT_ID,TRF_ID ,PLC_EMI_CODE,PLATE_COLOR_DESC,\r\n" + 
-				"                            EMI_CODE_PLATE_FROM   ,EMI_CODE_LICENSE_FROM,LICENSE_NO\r\n" + 
+				"				SELECT ID , LICENSE_NO\r\n" + 
+				"				INTO P_DLC_ID   ,P_LICENSE_NO\r\n" + 
+				"               	FROM TRAFFIC.TF_DRL_DRIVING_LICENSES\r\n" + 
+				"				WHERE TRF_ID = (SELECT ID FROM TRAFFIC.TF_STP_TRAFFIC_FILES WHERE TRAFFIC_NO =V_TRAFFIC_FILE_NO );\r\n" + 
 				"\r\n" + 
-				"                )\r\n" + 
+				"				insert into traffic.tf_ffu_tickets (ID ,EMI_CODE,CTR_ID,TICKET_NO,TICKET_DATE,IS_RADAR,IS_LICENCE_NOT_PRESENTED,IS_PAYABLE,PLATE_CATEGORY_DESC,\r\n" + 
+				"							TICKET_STATUS_DATE ,LOC_ID,PCD_ID,DLC_ID ,PLATE_SOURCE  ,PENALTY_FINE,OFFENSE_BLACK_PIONTS,IS_BLACK_POINTS_DELETED ,\r\n" + 
+				"							TICKET_HELD_STATUS ,IS_VEHICLE_EXPORTED,HAS_EXTRA_ACTIONS   ,PLC_CODE,PLATE_NO,TOTAL_FINE,TICKET_TIME,\r\n" + 
+				"							TICKET_TYPE,LICENCE_HELD_STATUS,BOOKLET_HELD_STATUS  ,TICKET_FINE,TICKET_STATUS  ,VEHICLE_SHOULD_BE_BOOKED ,\r\n" + 
+				"							CREATED_BY,CREATION_DATE,UPDATED_BY,UPDATE_DATE, BKT_ID,TRF_ID ,PLC_EMI_CODE,PLATE_COLOR_DESC,\r\n" + 
+				"							EMI_CODE_PLATE_FROM ,EMI_CODE_LICENSE_FROM,LICENSE_NO\r\n" + 
 				"\r\n" + 
-				"                    values (tck_seq.nextval,'DXB',233,tck_seq.currval, sysdate,2,1,2,J.PLC_DESC,\r\n" + 
-				"                            SYSDATE,2,J.PCD_ID,P_DLC_ID,1,0,2,1,\r\n" + 
-				"                            1,1,1,J.PLC_CODE,J.PLATE_NO,0,sysdate,\r\n" + 
-				"                            1,1,1,0,1,1,\r\n" + 
-				"                            'TESTING_SENARIO',SYSDATE,'TESTING_SENARIO',SYSDATE, J.BKT_ID,J.TRF_ID,J.PLC_EMI_CODE ,J.pcd_desc,\r\n" + 
-				"                            J.PLC_EMI_CODE ,'DXB'  ,P_LICENSE_NO\r\n" + 
+				"				)\r\n" + 
 				"\r\n" + 
-				"                            );\r\n" + 
-				"                   V_TCK_ID := tck_seq.currval;\r\n" + 
+				"					values (tck_seq.nextval,'DXB',233,tck_seq.currval, sysdate,2,1,1,J.PLC_DESC,\r\n" + 
+				"					        SYSDATE,2,J.PCD_ID,P_DLC_ID,1,0,2,1,\r\n" + 
+				"					        1,1,1,J.PLC_CODE,J.PLATE_NO,0,sysdate,\r\n" + 
+				"					        1,1,1,0,1,1,\r\n" + 
+				"					        'TESTING_SENARIO',SYSDATE,'TESTING_SENARIO',SYSDATE, J.BKT_ID,J.TRF_ID,J.PLC_EMI_CODE ,J.pcd_desc,\r\n" + 
+				"					        J.PLC_EMI_CODE  ,'DXB' ,P_LICENSE_NO\r\n" + 
 				"\r\n" + 
-				"                   DBMS_OUTPUT.PUT_LINE('V_TCK_ID : '||V_TCK_ID||' , J.BKT_ID:='||J.BKT_ID||' ,J.TRF_ID :'||J.TRF_ID);\r\n" + 
+				"							);\r\n" + 
+				"               	V_TCK_ID := tck_seq.currval;\r\n" + 
 				"\r\n" + 
-				"                insert into traffic.TF_FFU_TICKET_VIOLATIONS (ID,TCK_ID,RGL_ID,FINE_AMOUNT,NO_OF_BLACK_POINTS,VEHICLE_SHOULD_BE_BOOKED,\r\n" + 
-				"                                                                NO_OF_REPEAT,CREATED_BY,CREATION_DATE,UPDATED_BY,UPDATE_DATE\r\n" + 
-				"                                                                )\r\n" + 
-				"                VALUES                                        (TVL_SEQ.NEXTVAL,tck_seq.currval,3408,500,0,1,1,\r\n" + 
-				"                                                             'TESTING_SENARIO',SYSDATE,'TESTING_SENARIO',SYSDATE)\r\n" + 
-				"                ;\r\n" + 
+				"               	DBMS_OUTPUT.PUT_LINE('V_TCK_ID : '||V_TCK_ID||' , J.BKT_ID:='||J.BKT_ID||' ,J.TRF_ID :'||J.TRF_ID);\r\n" + 
 				"\r\n" + 
-				"                UPDATE         traffic.tf_ffu_tickets\r\n" + 
-				"                set             TOTAL_FINE = (select sum(FINE_AMOUNT) from TF_FFU_TICKET_VIOLATIONS where tck_id = V_TCK_ID),\r\n" + 
-				"                            TICKET_FINE = (select sum(FINE_AMOUNT) from TF_FFU_TICKET_VIOLATIONS where tck_id = V_TCK_ID) ,\r\n" + 
-				"                            TICKET_STATUS = 4\r\n" + 
-				"                where        id=  V_TCK_ID ;\r\n" + 
+				"				insert into traffic.TF_FFU_TICKET_VIOLATIONS (ID,TCK_ID,RGL_ID,FINE_AMOUNT,NO_OF_BLACK_POINTS,VEHICLE_SHOULD_BE_BOOKED,\r\n" + 
+				"																NO_OF_REPEAT,CREATED_BY,CREATION_DATE,UPDATED_BY,UPDATE_DATE\r\n" + 
+				"																)\r\n" + 
+				"				VALUES										(TVL_SEQ.NEXTVAL,tck_seq.currval,3374,1000,12,1,0,\r\n" + 
+				"															 'TESTING_SENARIO',SYSDATE,'TESTING_SENARIO',SYSDATE)\r\n" + 
+				"				;\r\n" + 
 				"\r\n" + 
+				"				UPDATE     	traffic.tf_ffu_tickets\r\n" + 
+				"				set		 	TOTAL_FINE = (select sum(FINE_AMOUNT) from TF_FFU_TICKET_VIOLATIONS where tck_id = V_TCK_ID),\r\n" + 
+				"							TICKET_FINE = (select sum(FINE_AMOUNT) from TF_FFU_TICKET_VIOLATIONS where tck_id = V_TCK_ID) ,\r\n" + 
+				"							TICKET_STATUS = 4\r\n" + 
+				"				where		id=  V_TCK_ID ;\r\n" + 
 				"\r\n" + 
-				"            END LOOP;\r\n" + 
+				"				UPDATE     	traffic.tf_ffu_tickets\r\n" + 
+				"				set		 	 IS_PAYABLE = 1\r\n" + 
+				"				where		id=  V_TCK_ID ;\r\n" + 
 				"\r\n" + 
-				"        END LOOP;\r\n" + 
-				"    END IF;\r\n" + 
 				"\r\n" + 
+				"			END LOOP;\r\n" + 
 				"\r\n" + 
+				"		END LOOP;\r\n" + 
+				"	END IF;\r\n" + 
+				"	IF V_ADDING_PAID_AUH_TCK = 2 THEN\r\n" + 
+				"		FOR	I IN 1..V_COUNT_PAID_AUH_TCK LOOP\r\n" + 
+				"			FOR J IN GET_VLE_INFO LOOP\r\n" + 
 				"\r\n" + 
-				"    ------NOT PAYABLE DXB FINES  ON LICENSE\r\n" + 
+				"				insert into traffic.tf_ffu_CIRCULAR_tickets\r\n" + 
+				"							(ID,EBF_ID,TRF_ID,EMI_CODE,CIRCULAR_DATE,CIRCULAR_TICKET_NO,TICKET_DATE,LICENSE_TYPE,\r\n" + 
+				"							 CIRCULAR_FINE,DLC_ID,BKT_ID,TICKET_TIME,IS_PAYABLE,PENALTY_FINE,TOTAL_FINE,\r\n" + 
+				"							 CIRCULAR_STATUS,CIRCULAR_STATUS_DATE,CREATED_BY,CREATION_DATE,UPDATED_BY,UPDATE_DATE,\r\n" + 
+				"							 PCD_ID,PLATE_NO,IS_BLACK_POINTS_DELETED\r\n" + 
 				"\r\n" + 
-				"    IF V_ADDING_NOT_PAID_LIC_DXB_TCK = 2 THEN\r\n" + 
-				"        FOR    I IN 1..V_COUNT_NOT_PAID_LIC_DXB_TCK LOOP\r\n" + 
-				"            FOR J IN GET_VLE_INFO LOOP\r\n" + 
+				"				)\r\n" + 
 				"\r\n" + 
-				"                SELECT ID , LICENSE_NO\r\n" + 
-				"                INTO P_DLC_ID   ,P_LICENSE_NO\r\n" + 
-				"                   FROM TRAFFIC.TF_DRL_DRIVING_LICENSES\r\n" + 
-				"                WHERE TRF_ID = (SELECT ID FROM TRAFFIC.TF_STP_TRAFFIC_FILES WHERE TRAFFIC_NO =V_TRAFFIC_FILE_NO );\r\n" + 
+				"					values (CTK_SEQ.NEXTVAL,3,J.TRF_ID,'DXB',SYSDATE,CTK_SEQ.CURRVAL,SYSDATE,NULL,\r\n" + 
+				"					        500,null,J.BKT_ID,SYSDATE,2,0,500,\r\n" + 
+				"					        1,SYSDATE,'uts_user',SYSDATE,'uts_user',SYSDATE,\r\n" + 
+				"					        J.PCD_ID,J.PLATE_NO,1\r\n" + 
 				"\r\n" + 
-				"                insert into traffic.tf_ffu_tickets (ID ,EMI_CODE,CTR_ID,TICKET_NO,TICKET_DATE,IS_RADAR,IS_LICENCE_NOT_PRESENTED,IS_PAYABLE,PLATE_CATEGORY_DESC,\r\n" + 
-				"                            TICKET_STATUS_DATE ,LOC_ID,PCD_ID,DLC_ID ,PLATE_SOURCE  ,PENALTY_FINE,OFFENSE_BLACK_PIONTS,IS_BLACK_POINTS_DELETED ,\r\n" + 
-				"                            TICKET_HELD_STATUS ,IS_VEHICLE_EXPORTED,HAS_EXTRA_ACTIONS   ,PLC_CODE,PLATE_NO,TOTAL_FINE,TICKET_TIME,\r\n" + 
-				"                            TICKET_TYPE,LICENCE_HELD_STATUS,BOOKLET_HELD_STATUS  ,TICKET_FINE,TICKET_STATUS  ,VEHICLE_SHOULD_BE_BOOKED ,\r\n" + 
-				"                            CREATED_BY,CREATION_DATE,UPDATED_BY,UPDATE_DATE, BKT_ID,TRF_ID ,PLC_EMI_CODE,PLATE_COLOR_DESC,\r\n" + 
-				"                            EMI_CODE_PLATE_FROM ,EMI_CODE_LICENSE_FROM,LICENSE_NO\r\n" + 
+				"							);\r\n" + 
+				"               	V_TCK_ID := tck_seq.currval;\r\n" + 
 				"\r\n" + 
-				"                )\r\n" + 
+				"               	DBMS_OUTPUT.PUT_LINE('V_TCK_ID : '||V_TCK_ID||' , J.BKT_ID:='||J.BKT_ID||' ,J.TRF_ID :'||J.TRF_ID);\r\n" + 
 				"\r\n" + 
-				"                    values (tck_seq.nextval,'DXB',233,tck_seq.currval, sysdate,2,1,1,J.PLC_DESC,\r\n" + 
-				"                            SYSDATE,2,J.PCD_ID,P_DLC_ID,1,0,2,1,\r\n" + 
-				"                            1,1,1,J.PLC_CODE,J.PLATE_NO,0,sysdate,\r\n" + 
-				"                            1,1,1,0,1,1,\r\n" + 
-				"                            'TESTING_SENARIO',SYSDATE,'TESTING_SENARIO',SYSDATE, J.BKT_ID,J.TRF_ID,J.PLC_EMI_CODE ,J.pcd_desc,\r\n" + 
-				"                            J.PLC_EMI_CODE  ,'DXB' ,P_LICENSE_NO\r\n" + 
 				"\r\n" + 
-				"                            );\r\n" + 
-				"                   V_TCK_ID := tck_seq.currval;\r\n" + 
+				"			END LOOP;\r\n" + 
 				"\r\n" + 
-				"                   DBMS_OUTPUT.PUT_LINE('V_TCK_ID : '||V_TCK_ID||' , J.BKT_ID:='||J.BKT_ID||' ,J.TRF_ID :'||J.TRF_ID);\r\n" + 
+				"		END LOOP;\r\n" + 
+				"	END IF;\r\n" + 
+				"	IF V_ADDING_NOT_PAID_AUH_TCK = 2 THEN\r\n" + 
+				"		FOR	I IN 1..V_COUNT_NOT_PAID_AUH_TCK LOOP\r\n" + 
+				"			FOR J IN GET_VLE_INFO LOOP\r\n" + 
 				"\r\n" + 
-				"                insert into traffic.TF_FFU_TICKET_VIOLATIONS (ID,TCK_ID,RGL_ID,FINE_AMOUNT,NO_OF_BLACK_POINTS,VEHICLE_SHOULD_BE_BOOKED,\r\n" + 
-				"                                                                NO_OF_REPEAT,CREATED_BY,CREATION_DATE,UPDATED_BY,UPDATE_DATE\r\n" + 
-				"                                                                )\r\n" + 
-				"                VALUES                                        (TVL_SEQ.NEXTVAL,tck_seq.currval,3374,1000,12,1,0,\r\n" + 
-				"                                                             'TESTING_SENARIO',SYSDATE,'TESTING_SENARIO',SYSDATE)\r\n" + 
-				"                ;\r\n" + 
+				"				 insert into traffic.tf_ffu_CIRCULAR_tickets\r\n" + 
+				"							(ID,EBF_ID,TRF_ID,EMI_CODE,CIRCULAR_DATE,CIRCULAR_TICKET_NO,TICKET_DATE,LICENSE_TYPE,\r\n" + 
+				"							 CIRCULAR_FINE,DLC_ID,BKT_ID,TICKET_TIME,IS_PAYABLE,PENALTY_FINE,TOTAL_FINE,\r\n" + 
+				"							 CIRCULAR_STATUS,CIRCULAR_STATUS_DATE,CREATED_BY,CREATION_DATE,UPDATED_BY,UPDATE_DATE,\r\n" + 
+				"							 PCD_ID,PLATE_NO,IS_BLACK_POINTS_DELETED\r\n" + 
 				"\r\n" + 
-				"                UPDATE         traffic.tf_ffu_tickets\r\n" + 
-				"                set             TOTAL_FINE = (select sum(FINE_AMOUNT) from TF_FFU_TICKET_VIOLATIONS where tck_id = V_TCK_ID),\r\n" + 
-				"                            TICKET_FINE = (select sum(FINE_AMOUNT) from TF_FFU_TICKET_VIOLATIONS where tck_id = V_TCK_ID) ,\r\n" + 
-				"                            TICKET_STATUS = 4\r\n" + 
-				"                where        id=  V_TCK_ID ;\r\n" + 
+				"				)\r\n" + 
 				"\r\n" + 
-				"                UPDATE         traffic.tf_ffu_tickets\r\n" + 
-				"                set              IS_PAYABLE = 1\r\n" + 
-				"                where        id=  V_TCK_ID ;\r\n" + 
+				"					values (CTK_SEQ.NEXTVAL,3,J.TRF_ID,'DXB',SYSDATE,CTK_SEQ.CURRVAL,SYSDATE,NULL,\r\n" + 
+				"					        500,null,J.BKT_ID,SYSDATE,1,0,1000,\r\n" + 
+				"					        1,SYSDATE,'uts_user',SYSDATE,'uts_user',SYSDATE,\r\n" + 
+				"					        J.PCD_ID,J.PLATE_NO,1\r\n" + 
 				"\r\n" + 
+				"							);\r\n" + 
+				"               	V_TCK_ID := tck_seq.currval;\r\n" + 
 				"\r\n" + 
-				"            END LOOP;\r\n" + 
+				"               	DBMS_OUTPUT.PUT_LINE('V_TCK_ID : '||V_TCK_ID||' , J.BKT_ID:='||J.BKT_ID||' ,J.TRF_ID :'||J.TRF_ID);\r\n" + 
 				"\r\n" + 
-				"        END LOOP;\r\n" + 
-				"    END IF;\r\n" + 
 				"\r\n" + 
-				"   ---------PAID AUH TICKETS\r\n" + 
-				"    IF V_ADDING_PAID_AUH_TCK = 2 THEN\r\n" + 
-				"        FOR    I IN 1..V_COUNT_PAID_AUH_TCK LOOP\r\n" + 
-				"            FOR J IN GET_VLE_INFO LOOP\r\n" + 
 				"\r\n" + 
-				"                insert into traffic.tf_ffu_CIRCULAR_tickets\r\n" + 
-				"                            (ID,EBF_ID,TRF_ID,EMI_CODE,CIRCULAR_DATE,CIRCULAR_TICKET_NO,TICKET_DATE,LICENSE_TYPE,\r\n" + 
-				"                             CIRCULAR_FINE,DLC_ID,BKT_ID,TICKET_TIME,IS_PAYABLE,PENALTY_FINE,TOTAL_FINE,\r\n" + 
-				"                             CIRCULAR_STATUS,CIRCULAR_STATUS_DATE,CREATED_BY,CREATION_DATE,UPDATED_BY,UPDATE_DATE,\r\n" + 
-				"                             PCD_ID,PLATE_NO,IS_BLACK_POINTS_DELETED\r\n" + 
+				"			END LOOP;\r\n" + 
 				"\r\n" + 
-				"                )\r\n" + 
+				"		END LOOP;\r\n" + 
+				"	END IF;\r\n" + 
+				"	IF V_ADDING_PAID_SLK_TCK = 2 THEN\r\n" + 
+				"		FOR	I IN 1..V_COUNT_PAID_SLK_TCK LOOP\r\n" + 
+				"			FOR J IN GET_VLE_INFO LOOP\r\n" + 
 				"\r\n" + 
-				"                    values (CTK_SEQ.NEXTVAL,3,J.TRF_ID,'DXB',SYSDATE,CTK_SEQ.CURRVAL,SYSDATE,NULL,\r\n" + 
-				"                            500,null,J.BKT_ID,SYSDATE,2,0,500,\r\n" + 
-				"                            1,SYSDATE,'uts_user',SYSDATE,'uts_user',SYSDATE,\r\n" + 
-				"                            J.PCD_ID,J.PLATE_NO,1\r\n" + 
+				"				insert into traffic.tf_ffu_CIRCULAR_tickets\r\n" + 
+				"							(ID,EBF_ID,TRF_ID,EMI_CODE,CIRCULAR_DATE,CIRCULAR_TICKET_NO,TICKET_DATE,LICENSE_TYPE,\r\n" + 
+				"							 CIRCULAR_FINE,DLC_ID,BKT_ID,TICKET_TIME,IS_PAYABLE,PENALTY_FINE,TOTAL_FINE,\r\n" + 
+				"							 CIRCULAR_STATUS,CIRCULAR_STATUS_DATE,CREATED_BY,CREATION_DATE,UPDATED_BY,UPDATE_DATE,\r\n" + 
+				"							 PCD_ID,PLATE_NO,IS_BLACK_POINTS_DELETED\r\n" + 
 				"\r\n" + 
-				"                            );\r\n" + 
-				"                   V_TCK_ID := tck_seq.currval;\r\n" + 
+				"				)\r\n" + 
 				"\r\n" + 
-				"                   DBMS_OUTPUT.PUT_LINE('V_TCK_ID : '||V_TCK_ID||' , J.BKT_ID:='||J.BKT_ID||' ,J.TRF_ID :'||J.TRF_ID);\r\n" + 
+				"					values (CTK_SEQ.NEXTVAL,10,J.TRF_ID,'DXB',SYSDATE,CTK_SEQ.CURRVAL,SYSDATE,NULL,\r\n" + 
+				"					        500,null,J.BKT_ID,SYSDATE,2,0,500,\r\n" + 
+				"					        1,SYSDATE,'salik',SYSDATE,'salik',SYSDATE,\r\n" + 
+				"					        J.PCD_ID,J.PLATE_NO,1\r\n" + 
 				"\r\n" + 
+				"							);\r\n" + 
+				"               	V_TCK_ID := tck_seq.currval;\r\n" + 
 				"\r\n" + 
-				"            END LOOP;\r\n" + 
+				"               	DBMS_OUTPUT.PUT_LINE('V_TCK_ID : '||V_TCK_ID||' , J.BKT_ID:='||J.BKT_ID||' ,J.TRF_ID :'||J.TRF_ID);\r\n" + 
 				"\r\n" + 
-				"        END LOOP;\r\n" + 
-				"    END IF;\r\n" + 
 				"\r\n" + 
+				"			END LOOP;\r\n" + 
 				"\r\n" + 
+				"		END LOOP;\r\n" + 
+				"	END IF;\r\n" + 
+				"	IF V_ADDING_NOT_PAID_SLK_TCK = 2 THEN\r\n" + 
+				"		FOR	I IN 1..V_COUNT_NOT_PAID_SLK_TCK LOOP\r\n" + 
+				"			FOR J IN GET_VLE_INFO LOOP\r\n" + 
 				"\r\n" + 
-				"    ------NOT PAYABLE AUH FINES\r\n" + 
-				"    IF V_ADDING_NOT_PAID_AUH_TCK = 2 THEN\r\n" + 
-				"        FOR    I IN 1..V_COUNT_NOT_PAID_AUH_TCK LOOP\r\n" + 
-				"            FOR J IN GET_VLE_INFO LOOP\r\n" + 
+				"				 insert into traffic.tf_ffu_CIRCULAR_tickets\r\n" + 
+				"							(ID,EBF_ID,TRF_ID,EMI_CODE,CIRCULAR_DATE,CIRCULAR_TICKET_NO,TICKET_DATE,LICENSE_TYPE,\r\n" + 
+				"							 CIRCULAR_FINE,dlc_id,BKT_ID,TICKET_TIME,IS_PAYABLE,PENALTY_FINE,TOTAL_FINE,\r\n" + 
+				"							 CIRCULAR_STATUS,CIRCULAR_STATUS_DATE,CREATED_BY,CREATION_DATE,UPDATED_BY,UPDATE_DATE,\r\n" + 
+				"							 PCD_ID,PLATE_NO,IS_BLACK_POINTS_DELETED\r\n" + 
 				"\r\n" + 
-				"                 insert into traffic.tf_ffu_CIRCULAR_tickets\r\n" + 
-				"                            (ID,EBF_ID,TRF_ID,EMI_CODE,CIRCULAR_DATE,CIRCULAR_TICKET_NO,TICKET_DATE,LICENSE_TYPE,\r\n" + 
-				"                             CIRCULAR_FINE,DLC_ID,BKT_ID,TICKET_TIME,IS_PAYABLE,PENALTY_FINE,TOTAL_FINE,\r\n" + 
-				"                             CIRCULAR_STATUS,CIRCULAR_STATUS_DATE,CREATED_BY,CREATION_DATE,UPDATED_BY,UPDATE_DATE,\r\n" + 
-				"                             PCD_ID,PLATE_NO,IS_BLACK_POINTS_DELETED\r\n" + 
+				"				)\r\n" + 
 				"\r\n" + 
-				"                )\r\n" + 
+				"					values (CTK_SEQ.NEXTVAL,10,J.TRF_ID,'DXB',SYSDATE,CTK_SEQ.CURRVAL,SYSDATE,NULL,\r\n" + 
+				"					        500,null,J.BKT_ID,SYSDATE,1,0,1000,\r\n" + 
+				"					        1,SYSDATE,'salik',SYSDATE,'salik',SYSDATE,\r\n" + 
+				"					        J.PCD_ID,J.PLATE_NO,1\r\n" + 
 				"\r\n" + 
-				"                    values (CTK_SEQ.NEXTVAL,3,J.TRF_ID,'DXB',SYSDATE,CTK_SEQ.CURRVAL,SYSDATE,NULL,\r\n" + 
-				"                            500,null,J.BKT_ID,SYSDATE,1,0,1000,\r\n" + 
-				"                            1,SYSDATE,'uts_user',SYSDATE,'uts_user',SYSDATE,\r\n" + 
-				"                            J.PCD_ID,J.PLATE_NO,1\r\n" + 
+				"							);\r\n" + 
+				"               	V_TCK_ID := tck_seq.currval;\r\n" + 
 				"\r\n" + 
-				"                            );\r\n" + 
-				"                   V_TCK_ID := tck_seq.currval;\r\n" + 
+				"               	DBMS_OUTPUT.PUT_LINE('V_TCK_ID : '||V_TCK_ID||' , J.BKT_ID:='||J.BKT_ID||' ,J.TRF_ID :'||J.TRF_ID);\r\n" + 
 				"\r\n" + 
-				"                   DBMS_OUTPUT.PUT_LINE('V_TCK_ID : '||V_TCK_ID||' , J.BKT_ID:='||J.BKT_ID||' ,J.TRF_ID :'||J.TRF_ID);\r\n" + 
 				"\r\n" + 
 				"\r\n" + 
+				"			END LOOP;\r\n" + 
 				"\r\n" + 
-				"            END LOOP;\r\n" + 
+				"		END LOOP;\r\n" + 
+				"	END IF;\r\n" + 
+				"	IF V_ADDING_LIC_AUH_TCK = 2 THEN\r\n" + 
+				"		FOR	I IN 1..V_COUNT_LIC_AUH_TCK LOOP\r\n" + 
+				"			FOR J IN GET_VLE_INFO LOOP\r\n" + 
 				"\r\n" + 
-				"        END LOOP;\r\n" + 
-				"    END IF;\r\n" + 
+				"				SELECT ID , LICENSE_NO\r\n" + 
+				"				INTO P_DLC_ID   ,P_LICENSE_NO\r\n" + 
+				"               	FROM TRAFFIC.TF_DRL_DRIVING_LICENSES\r\n" + 
+				"				WHERE TRF_ID = (SELECT ID FROM TRAFFIC.TF_STP_TRAFFIC_FILES WHERE TRAFFIC_NO =V_TRAFFIC_FILE_NO );\r\n" + 
 				"\r\n" + 
-				"    ---------PAID SALIK TICKETS\r\n" + 
-				"    IF V_ADDING_PAID_SLK_TCK = 2 THEN\r\n" + 
-				"        FOR    I IN 1..V_COUNT_PAID_SLK_TCK LOOP\r\n" + 
-				"            FOR J IN GET_VLE_INFO LOOP\r\n" + 
 				"\r\n" + 
-				"                insert into traffic.tf_ffu_CIRCULAR_tickets\r\n" + 
-				"                            (ID,EBF_ID,TRF_ID,EMI_CODE,CIRCULAR_DATE,CIRCULAR_TICKET_NO,TICKET_DATE,LICENSE_TYPE,\r\n" + 
-				"                             CIRCULAR_FINE,DLC_ID,BKT_ID,TICKET_TIME,IS_PAYABLE,PENALTY_FINE,TOTAL_FINE,\r\n" + 
-				"                             CIRCULAR_STATUS,CIRCULAR_STATUS_DATE,CREATED_BY,CREATION_DATE,UPDATED_BY,UPDATE_DATE,\r\n" + 
-				"                             PCD_ID,PLATE_NO,IS_BLACK_POINTS_DELETED\r\n" + 
+				"				 insert into traffic.tf_ffu_CIRCULAR_tickets\r\n" + 
+				"							(ID,EBF_ID,TRF_ID,EMI_CODE,CIRCULAR_DATE,CIRCULAR_TICKET_NO,TICKET_DATE,LICENSE_TYPE,\r\n" + 
+				"							 CIRCULAR_FINE,DLC_ID,BKT_ID,TICKET_TIME,IS_PAYABLE,PENALTY_FINE,TOTAL_FINE,\r\n" + 
+				"							 CIRCULAR_STATUS,CIRCULAR_STATUS_DATE,CREATED_BY,CREATION_DATE,UPDATED_BY,UPDATE_DATE,\r\n" + 
+				"							 PCD_ID,PLATE_NO,IS_BLACK_POINTS_DELETED  ,LICENSE_NO\r\n" + 
 				"\r\n" + 
-				"                )\r\n" + 
+				"				)\r\n" + 
 				"\r\n" + 
-				"                    values (CTK_SEQ.NEXTVAL,10,J.TRF_ID,'DXB',SYSDATE,CTK_SEQ.CURRVAL,SYSDATE,NULL,\r\n" + 
-				"                            500,null,J.BKT_ID,SYSDATE,2,0,500,\r\n" + 
-				"                            1,SYSDATE,'salik',SYSDATE,'salik',SYSDATE,\r\n" + 
-				"                            J.PCD_ID,J.PLATE_NO,1\r\n" + 
+				"					values (CTK_SEQ.NEXTVAL,3,J.TRF_ID,'DXB',SYSDATE,CTK_SEQ.CURRVAL,SYSDATE,NULL,\r\n" + 
+				"					        500,P_DLC_ID,NULL,SYSDATE,1,0,1000,\r\n" + 
+				"					        1,SYSDATE,'uts_user',SYSDATE,'uts_user',SYSDATE,\r\n" + 
+				"					        J.PCD_ID,J.PLATE_NO,1,P_LICENSE_NO\r\n" + 
+				"							);\r\n" + 
+				"               	V_TCK_ID := tck_seq.currval;\r\n" + 
 				"\r\n" + 
-				"                            );\r\n" + 
-				"                   V_TCK_ID := tck_seq.currval;\r\n" + 
+				"               	DBMS_OUTPUT.PUT_LINE('V_TCK_ID : '||V_TCK_ID||' , J.BKT_ID:='||J.BKT_ID||' ,J.TRF_ID :'||J.TRF_ID);\r\n" + 
+				"			END LOOP;\r\n" + 
 				"\r\n" + 
-				"                   DBMS_OUTPUT.PUT_LINE('V_TCK_ID : '||V_TCK_ID||' , J.BKT_ID:='||J.BKT_ID||' ,J.TRF_ID :'||J.TRF_ID);\r\n" + 
+				"		END LOOP;\r\n" + 
+				"	END IF;\r\n" + 
 				"\r\n" + 
+				"	IF V_ADDING_BLACK_POINTS = 2 THEN\r\n" + 
 				"\r\n" + 
-				"            END LOOP;\r\n" + 
-				"\r\n" + 
-				"        END LOOP;\r\n" + 
-				"    END IF;\r\n" + 
-				"\r\n" + 
-				"\r\n" + 
-				"\r\n" + 
-				"    ------NOT PAYABLE SALIK FINES\r\n" + 
-				"    IF V_ADDING_NOT_PAID_SLK_TCK = 2 THEN\r\n" + 
-				"        FOR    I IN 1..V_COUNT_NOT_PAID_SLK_TCK LOOP\r\n" + 
-				"            FOR J IN GET_VLE_INFO LOOP\r\n" + 
-				"\r\n" + 
-				"                 insert into traffic.tf_ffu_CIRCULAR_tickets\r\n" + 
-				"                            (ID,EBF_ID,TRF_ID,EMI_CODE,CIRCULAR_DATE,CIRCULAR_TICKET_NO,TICKET_DATE,LICENSE_TYPE,\r\n" + 
-				"                             CIRCULAR_FINE,dlc_id,BKT_ID,TICKET_TIME,IS_PAYABLE,PENALTY_FINE,TOTAL_FINE,\r\n" + 
-				"                             CIRCULAR_STATUS,CIRCULAR_STATUS_DATE,CREATED_BY,CREATION_DATE,UPDATED_BY,UPDATE_DATE,\r\n" + 
-				"                             PCD_ID,PLATE_NO,IS_BLACK_POINTS_DELETED\r\n" + 
-				"\r\n" + 
-				"                )\r\n" + 
-				"\r\n" + 
-				"                    values (CTK_SEQ.NEXTVAL,10,J.TRF_ID,'DXB',SYSDATE,CTK_SEQ.CURRVAL,SYSDATE,NULL,\r\n" + 
-				"                            500,null,J.BKT_ID,SYSDATE,1,0,1000,\r\n" + 
-				"                            1,SYSDATE,'salik',SYSDATE,'salik',SYSDATE,\r\n" + 
-				"                            J.PCD_ID,J.PLATE_NO,1\r\n" + 
-				"\r\n" + 
-				"                            );\r\n" + 
-				"                   V_TCK_ID := tck_seq.currval;\r\n" + 
-				"\r\n" + 
-				"                   DBMS_OUTPUT.PUT_LINE('V_TCK_ID : '||V_TCK_ID||' , J.BKT_ID:='||J.BKT_ID||' ,J.TRF_ID :'||J.TRF_ID);\r\n" + 
-				"\r\n" + 
-				"\r\n" + 
-				"\r\n" + 
-				"            END LOOP;\r\n" + 
-				"\r\n" + 
-				"        END LOOP;\r\n" + 
-				"    END IF;\r\n" + 
-				"\r\n" + 
-				"\r\n" + 
-				"    ------AUH FINES ON LICENSE\r\n" + 
-				"    IF V_ADDING_LIC_AUH_TCK = 2 THEN\r\n" + 
-				"        FOR    I IN 1..V_COUNT_LIC_AUH_TCK LOOP\r\n" + 
-				"            FOR J IN GET_VLE_INFO LOOP\r\n" + 
-				"\r\n" + 
-				"                SELECT ID , LICENSE_NO\r\n" + 
-				"                INTO P_DLC_ID   ,P_LICENSE_NO\r\n" + 
-				"                   FROM TRAFFIC.TF_DRL_DRIVING_LICENSES\r\n" + 
-				"                WHERE TRF_ID = (SELECT ID FROM TRAFFIC.TF_STP_TRAFFIC_FILES WHERE TRAFFIC_NO =V_TRAFFIC_FILE_NO );\r\n" + 
-				"\r\n" + 
-				"\r\n" + 
-				"                 insert into traffic.tf_ffu_CIRCULAR_tickets\r\n" + 
-				"                            (ID,EBF_ID,TRF_ID,EMI_CODE,CIRCULAR_DATE,CIRCULAR_TICKET_NO,TICKET_DATE,LICENSE_TYPE,\r\n" + 
-				"                             CIRCULAR_FINE,DLC_ID,BKT_ID,TICKET_TIME,IS_PAYABLE,PENALTY_FINE,TOTAL_FINE,\r\n" + 
-				"                             CIRCULAR_STATUS,CIRCULAR_STATUS_DATE,CREATED_BY,CREATION_DATE,UPDATED_BY,UPDATE_DATE,\r\n" + 
-				"                             PCD_ID,PLATE_NO,IS_BLACK_POINTS_DELETED  ,LICENSE_NO\r\n" + 
-				"\r\n" + 
-				"                )\r\n" + 
-				"\r\n" + 
-				"                    values (CTK_SEQ.NEXTVAL,3,J.TRF_ID,'DXB',SYSDATE,CTK_SEQ.CURRVAL,SYSDATE,NULL,\r\n" + 
-				"                            500,P_DLC_ID,NULL,SYSDATE,1,0,1000,\r\n" + 
-				"                            1,SYSDATE,'uts_user',SYSDATE,'uts_user',SYSDATE,\r\n" + 
-				"                            J.PCD_ID,J.PLATE_NO,1,P_LICENSE_NO\r\n" + 
-				"\r\n" + 
-				"                            );\r\n" + 
-				"                   V_TCK_ID := tck_seq.currval;\r\n" + 
-				"\r\n" + 
-				"                   DBMS_OUTPUT.PUT_LINE('V_TCK_ID : '||V_TCK_ID||' , J.BKT_ID:='||J.BKT_ID||' ,J.TRF_ID :'||J.TRF_ID);\r\n" + 
-				"\r\n" + 
-				"\r\n" + 
-				"\r\n" + 
-				"            END LOOP;\r\n" + 
-				"\r\n" + 
-				"        END LOOP;\r\n" + 
-				"    END IF;\r\n" + 
-				"\r\n" + 
-				"\r\n" + 
-				"     ------AUH FINES ON LICENSE\r\n" + 
-				"    IF V_ADDING_BLACK_POINTS = 2 THEN\r\n" + 
-				"\r\n" + 
-				"        UPDATE TRAFFIC.TF_DRL_DRIVING_LICENSES\r\n" + 
-				"          SET        TOTAL_BLACK_POINTS = 24\r\n" + 
-				"        WHERE    TRF_ID =  (SELECT ID FROM traffic.TF_STP_TRAFFIC_FILES WHERE TRAFFIC_NO =V_TRAFFIC_FILE_NO ) ;\r\n" + 
+				"		UPDATE TRAFFIC.TF_DRL_DRIVING_LICENSES\r\n" + 
+				"	  	SET		TOTAL_BLACK_POINTS = 24\r\n" + 
+				"	    WHERE	TRF_ID =  (SELECT ID FROM traffic.TF_STP_TRAFFIC_FILES WHERE TRAFFIC_NO =V_TRAFFIC_FILE_NO ) ;\r\n" + 
 				"   END IF;\r\n" + 
 				"\r\n" + 
 				"   commit;\r\n" + 
@@ -1753,6 +1724,7 @@ public class DBQueries {
 		System.out.println(("Fines were added successfully."));
 		con.close();
 	}
+	
 	
 	
 	public void makeTradePlateExpired(String plateNumber) throws ClassNotFoundException, SQLException {
@@ -2145,6 +2117,11 @@ public class DBQueries {
 			connection = "jdbc:oracle:thin:@172.18.125.38:1521:trfstg";
 			break;
 		case ERDB:
+			connection = "jdbc:oracle:thin:@10.11.206.11:1527:erdb";
+			Username = "ELKADY_ER"; // "a_nour_stg";//
+			password = "ELKADY_ER";//
+			break;
+		case TRFER:
 			connection = "jdbc:oracle:thin:@10.11.206.11:1527:trfer";
 			Username = "ELKADY_ER"; // "a_nour_stg";//
 			password = "ELKADY_ER";//
@@ -2525,9 +2502,9 @@ public class DBQueries {
 
 		String[] person = new String[6];
 
-		ResultSet rs = stmt.executeQuery("SELECT TRF.TRAFFIC_NO,DLC.LICENSE_NO,TO_CHAR(PRS.BIRTH_DATE,'YYYY') BIRTH_YEAR,DLC.ISSUE_DATE,PRS.ID PRS_ID\r\n" + 
+		ResultSet rs = stmt.executeQuery("SELECT TRF.TRAFFIC_NO,DLC.LICENSE_NO,TO_CHAR(PRS.BIRTH_DATE,'YYYY') BIRTH_YEAR,TO_CHAR(DLC.ISSUE_DATE,'DD-MM-YYYY'),PRS.ID PRS_ID\r\n" + 
 				"FROM TF_DRL_DRIVING_LICENSES DLC,TF_STP_TRAFFIC_FILES TRF,TF_STP_PERSONS PRS\r\n" + 
-				"WHERE	TRF.ID = DLC.TRF_ID AND		TRF.PRS_ID = PRS.ID AND		DLC.STATUS = 2 AND		DLC.LICENSE_STATUS = 0 AND		DLC.EXPIRY_DATE >= TRUNC(SYSDATE)-1000 AND		DLC.EXPIRY_DATE <  TRUNC(SYSDATE)\r\n" + 
+				"WHERE	TRF.ID = DLC.TRF_ID AND		TRF.PRS_ID = PRS.ID AND		DLC.STATUS = 2 AND		DLC.LICENSE_STATUS = 0 AND		DLC.EXPIRY_DATE >= TRUNC(SYSDATE)-500 AND		DLC.EXPIRY_DATE <  TRUNC(SYSDATE)\r\n" + 
 				"AND	EXISTS(SELECT 	1 FROM 	TF_STP_OPTICAL_RESULTS OPR WHERE	OPR.PRS_ID = PRS.ID AND		OPR.TEST_DATE >= TRUNC(SYSDATE)-300)\r\n" + 
 				"AND	PRS.CID_ID IS NOT NULL AND		PRS.RES_EXPIRY_DATE >= TRUNC(SYSDATE) AND		PRS.CID_EXPIRY_DATE >= TRUNC(SYSDATE) AND		PRS.CTY_CODE_VISA = '03'\r\n" + 
 				"AND	NOT EXISTS (SELECT 1 FROM 	TF_FFU_TICKETS TCK WHERE	TCK.TRF_ID = TRF.ID AND		TCK.TICKET_STATUS = 4)AND NOT EXISTS (SELECT 1 FROM 	TF_FFU_CIRCULAR_TICKETS ctk WHERE	ctk.TRF_ID = TRF.ID AND		ctk.CIRCULAR_STATUS = 1)\r\n" + 
@@ -3021,7 +2998,7 @@ public class DBQueries {
 		// step4 execute query
 		String trafficFile = "";
 		ResultSet rs = stmt.executeQuery("SELECT 	TRF.TRAFFIC_NO FROM TF_STP_TRAFFIC_FILES TRF, TF_STP_PERSONS PRS\r\n" + 
-				"WHERE TRF.PRS_ID = PRS.ID AND PRS.CNT_ID <> 10 AND PRS.UPDATE_DATE >= TRUNC(SYSDATE)-60 AND prs.occ_id = 100871\r\n" + 
+				"WHERE TRF.PRS_ID = PRS.ID AND PRS.CNT_ID <> 10 AND PRS.UPDATE_DATE >= TRUNC(SYSDATE)-90 AND prs.occ_id = 100871\r\n" + 
 				"AND NOT EXISTS (SELECT 1 FROM TF_DTT_LICENSE_APPLICATIONS APP WHERE APP.PRS_ID = PRS.ID)\r\n" + 
 				"AND NOT EXISTS (SELECT 1 FROM TF_DRL_DRIVING_LICENSES DLC WHERE DLC.TRF_ID = TRF.ID)\r\n" + 
 				"AND NOT EXISTS (SELECT 1 FROM TF_VHL_BOOKLETS BKT WHERE BKT.TRF_ID = TRF.ID)\r\n" + 
@@ -3471,5 +3448,18 @@ public class DBQueries {
 
 	}
 	
-	
+
+	public void updateOpticalBalance(String RTA_BALANCE , String RECEIPTS_BALANCE) throws ClassNotFoundException, SQLException
+	{
+		setConnection();
+		PreparedStatement preparedStmt = con
+				.prepareStatement("UPDATE TF_STP_OPTICIANS_BALANCE\r\n" + 
+						"SET RTA_BALANCE = ? , RECEIPTS_BALANCE = ?\r\n" + 
+						"WHERE OPT_ID = 4;");
+		preparedStmt.setString(1, RTA_BALANCE);
+		preparedStmt.setString(2, RECEIPTS_BALANCE);
+		preparedStmt.executeUpdate();
+		System.out.println(" RTA_BALANCE Updated  (" + RTA_BALANCE + ")" + " and RECEIPTS_BALANCE updated "+ "(" + RECEIPTS_BALANCE + ")");
+		con.close();
+	}
 }

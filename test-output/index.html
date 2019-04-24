@@ -38,7 +38,7 @@
         <div class="rounded-window">
           <div class="suite-header light-rounded-window-top">
             <a href="#" class="navigator-link" panel-name="suite-Staging">
-              <span class="suite-name border-passed">Staging</span>
+              <span class="suite-name border-skipped">Staging</span>
             </a> <!-- navigator-link -->
           </div> <!-- suite-header light-rounded-window-top -->
           <div class="navigator-suite-content">
@@ -49,7 +49,7 @@
               <ul>
                 <li>
                   <a href="#" class="navigator-link " panel-name="test-xml-Staging">
-                    <span>D:\Work\Automation\Jenkins\etraffic_CI\XMLFiles\RunCTASDDI\ModifyTLLegalClassPublicAccess.xml</span>
+                    <span>D:\Work\Automation\Jenkins\etraffic_CI\XMLFiles\RunVHLFTF\ChangePlateNumber.xml</span>
                   </a> <!-- navigator-link  -->
                 </li>
                 <li>
@@ -91,21 +91,21 @@
               <div class="suite-section-content">
                 <ul>
                   <li>
-                    <span class="method-stats">1 method,   1 passed</span>
+                    <span class="method-stats">1 method,  1 skipped,  </span>
                   </li>
                   <li>
-                    <span class="method-list-title passed">Passed methods</span>
-                    <span class="show-or-hide-methods passed">
-                      <a href="#" panel-name="suite-Staging" class="hide-methods passed suite-Staging"> (hide)</a> <!-- hide-methods passed suite-Staging -->
-                      <a href="#" panel-name="suite-Staging" class="show-methods passed suite-Staging"> (show)</a> <!-- show-methods passed suite-Staging -->
+                    <span class="method-list-title skipped">Skipped methods</span>
+                    <span class="show-or-hide-methods skipped">
+                      <a href="#" panel-name="suite-Staging" class="hide-methods skipped suite-Staging"> (hide)</a> <!-- hide-methods skipped suite-Staging -->
+                      <a href="#" panel-name="suite-Staging" class="show-methods skipped suite-Staging"> (show)</a> <!-- show-methods skipped suite-Staging -->
                     </span>
-                    <div class="method-list-content passed suite-Staging">
+                    <div class="method-list-content skipped suite-Staging">
                       <span>
-                        <img width="3%" src="passed.png"/>
-                        <a href="#" class="method navigator-link" panel-name="suite-Staging" title="isoft.etraffic.cta.sdditest.ModifyTLChangeLegalTest" hash-for-method="ModifyTLChangelegalclass(10081.0, 500.00 AED, commercial)">ModifyTLChangelegalclass(10081.0, 500.00 AED, commercial)</a> <!-- method navigator-link -->
+                        <img width="3%" src="skipped.png"/>
+                        <a href="#" class="method navigator-link" panel-name="suite-Staging" title="isoft.etraffic.vhl.ftftest.ChangePlateNumberTest" hash-for-method="changePlateNumber">changePlateNumber</a> <!-- method navigator-link -->
                       </span>
                       <br/>
-                    </div> <!-- method-list-content passed suite-Staging -->
+                    </div> <!-- method-list-content skipped suite-Staging -->
                   </li>
                 </ul>
               </div> <!-- suite-section-content -->
@@ -117,44 +117,84 @@
     <div class="wrapper">
       <div class="main-panel-root">
         <div panel-name="suite-Staging" class="panel Staging">
-          <div class="suite-Staging-class-passed">
+          <div class="suite-Staging-class-skipped">
             <div class="main-panel-header rounded-window-top">
-              <img src="passed.png"/>
-              <span class="class-name">isoft.etraffic.cta.sdditest.ModifyTLChangeLegalTest</span>
+              <img src="skipped.png"/>
+              <span class="class-name">isoft.etraffic.vhl.ftftest.ChangePlateNumberTest</span>
             </div> <!-- main-panel-header rounded-window-top -->
             <div class="main-panel-content rounded-window-bottom">
               <div class="method">
                 <div class="method-content">
-                  <a name="ModifyTLChangelegalclass(10081.0, 500.00 AED, commercial)">
-                  </a> <!-- ModifyTLChangelegalclass(10081.0, 500.00 AED, commercial) -->
-                  <span class="method-name">ModifyTLChangelegalclass</span>
-                  <span class="parameters">(10081.0, 500.00 AED, commercial)</span>
+                  <a name="changePlateNumber">
+                  </a> <!-- changePlateNumber -->
+                  <span class="method-name">changePlateNumber</span>
+                  <div class="stack-trace">java.sql.SQLSyntaxErrorException: ORA-00942: table or view does not exist
+
+	at oracle.jdbc.driver.T4CTTIoer.processError(T4CTTIoer.java:450)
+	at oracle.jdbc.driver.T4CTTIoer.processError(T4CTTIoer.java:399)
+	at oracle.jdbc.driver.T4C8Oall.processError(T4C8Oall.java:1017)
+	at oracle.jdbc.driver.T4CTTIfun.receive(T4CTTIfun.java:655)
+	at oracle.jdbc.driver.T4CTTIfun.doRPC(T4CTTIfun.java:249)
+	at oracle.jdbc.driver.T4C8Oall.doOALL(T4C8Oall.java:566)
+	at oracle.jdbc.driver.T4CStatement.doOall8(T4CStatement.java:202)
+	at oracle.jdbc.driver.T4CStatement.doOall8(T4CStatement.java:45)
+	at oracle.jdbc.driver.T4CStatement.executeForDescribe(T4CStatement.java:766)
+	at oracle.jdbc.driver.OracleStatement.executeMaybeDescribe(OracleStatement.java:897)
+	at oracle.jdbc.driver.OracleStatement.doExecuteWithTimeout(OracleStatement.java:1034)
+	at oracle.jdbc.driver.OracleStatement.executeQuery(OracleStatement.java:1244)
+	at oracle.jdbc.driver.OracleStatementWrapper.executeQuery(OracleStatementWrapper.java:420)
+	at isoft.etraffic.db.DBQueries.getVehicleOfTRFHasPreservedPlate(DBQueries.java:716)
+	at isoft.etraffic.vhl.ftftest.ChangePlateNumberTest.setup(ChangePlateNumberTest.java:63)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.testng.internal.MethodInvocationHelper.invokeMethod(MethodInvocationHelper.java:124)
+	at org.testng.internal.MethodInvocationHelper.invokeMethodConsideringTimeout(MethodInvocationHelper.java:59)
+	at org.testng.internal.Invoker.invokeConfigurationMethod(Invoker.java:458)
+	at org.testng.internal.Invoker.invokeConfigurations(Invoker.java:222)
+	at org.testng.internal.Invoker.invokeMethod(Invoker.java:523)
+	at org.testng.internal.Invoker.invokeTestMethod(Invoker.java:719)
+	at org.testng.internal.Invoker.invokeTestMethods(Invoker.java:989)
+	at org.testng.internal.TestMethodWorker.invokeTestMethods(TestMethodWorker.java:125)
+	at org.testng.internal.TestMethodWorker.run(TestMethodWorker.java:109)
+	at org.testng.TestRunner.privateRun(TestRunner.java:648)
+	at org.testng.TestRunner.run(TestRunner.java:505)
+	at org.testng.SuiteRunner.runTest(SuiteRunner.java:455)
+	at org.testng.SuiteRunner.runSequentially(SuiteRunner.java:450)
+	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:415)
+	at org.testng.SuiteRunner.run(SuiteRunner.java:364)
+	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
+	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:84)
+	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1208)
+	at org.testng.TestNG.runSuitesLocally(TestNG.java:1137)
+	at org.testng.TestNG.runSuites(TestNG.java:1049)
+	at org.testng.TestNG.run(TestNG.java:1017)
+	at isoft.etraffic.testrunner.ThreadRun.run(ThreadRun.java:43)
+
+</div> <!-- stack-trace -->
                 </div> <!-- method-content -->
               </div> <!-- method -->
             </div> <!-- main-panel-content rounded-window-bottom -->
-          </div> <!-- suite-Staging-class-passed -->
+          </div> <!-- suite-Staging-class-skipped -->
         </div> <!-- panel Staging -->
         <div panel-name="test-xml-Staging" class="panel">
           <div class="main-panel-header rounded-window-top">
-            <span class="header-content">D:\Work\Automation\Jenkins\etraffic_CI\XMLFiles\RunCTASDDI\ModifyTLLegalClassPublicAccess.xml</span>
+            <span class="header-content">D:\Work\Automation\Jenkins\etraffic_CI\XMLFiles\RunVHLFTF\ChangePlateNumber.xml</span>
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <pre>
 &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
 &lt;!DOCTYPE suite SYSTEM &quot;http://testng.org/testng-1.0.dtd&quot;&gt;
 &lt;suite guice-stage=&quot;DEVELOPMENT&quot; name=&quot;Staging&quot;&gt;
-  &lt;parameter name=&quot;filename&quot; value=&quot;CTASDDI&quot;/&gt;
-  &lt;parameter name=&quot;browser&quot; value=&quot;CHROME&quot;/&gt;
-  &lt;parameter name=&quot;url&quot; value=&quot;https://tst12c:7793/trfesrv/public_resources/public-access.do&quot;/&gt;
-  &lt;test thread-count=&quot;5&quot; verbose=&quot;2&quot; name=&quot;ModifyTLChangeLegalTest&quot;&gt;
+  &lt;parameter name=&quot;filename&quot; value=&quot;VHLFTF&quot;/&gt;
+  &lt;parameter name=&quot;browser&quot; value=&quot;IE&quot;/&gt;
+  &lt;parameter name=&quot;url&quot; value=&quot;https://er12cr2:7784/traffic/faces/jsf/auth/login.jsf&quot;/&gt;
+  &lt;test thread-count=&quot;5&quot; verbose=&quot;2&quot; name=&quot;تغيير رقم اللوحة لمركبة خفيفة خصوصي&quot;&gt;
     &lt;classes&gt;
-      &lt;class name=&quot;isoft.etraffic.cta.sdditest.ModifyTLChangeLegalTest&quot;&gt;
-        &lt;methods&gt;
-          &lt;include name=&quot;ModifyTLChangelegalclass&quot;/&gt;
-        &lt;/methods&gt;
-      &lt;/class&gt; &lt;!-- isoft.etraffic.cta.sdditest.ModifyTLChangeLegalTest --&gt;
+      &lt;class name=&quot;isoft.etraffic.vhl.ftftest.ChangePlateNumberTest&quot;/&gt;
     &lt;/classes&gt;
-  &lt;/test&gt; &lt;!-- ModifyTLChangeLegalTest --&gt;
+  &lt;/test&gt; &lt;!-- تغيير رقم اللوحة لمركبة خفيفة خصوصي --&gt;
 &lt;/suite&gt; &lt;!-- Staging --&gt;
             </pre>
           </div> <!-- main-panel-content rounded-window-bottom -->
@@ -166,7 +206,7 @@
           <div class="main-panel-content rounded-window-bottom">
             <ul>
               <li>
-                <span class="test-name">ModifyTLChangeLegalTest (1 class)</span>
+                <span class="test-name">تغيير رقم اللوحة لمركبة خفيفة خصوصي (1 class)</span>
               </li>
             </ul>
           </div> <!-- main-panel-content rounded-window-bottom -->
@@ -194,14 +234,14 @@ data.addColumn('string', 'Class');
 data.addColumn('number', 'Time (ms)');
 data.addRows(1);
 data.setCell(0, 0, 0)
-data.setCell(0, 1, 'ModifyTLChangelegalclass')
-data.setCell(0, 2, 'isoft.etraffic.cta.sdditest.ModifyTLChangeLegalTest')
-data.setCell(0, 3, 215445);
+data.setCell(0, 1, 'changePlateNumber')
+data.setCell(0, 2, 'isoft.etraffic.vhl.ftftest.ChangePlateNumberTest')
+data.setCell(0, 3, 0);
 window.suiteTableData['Staging']= { tableData: data, tableDiv: 'times-div-Staging'}
 return data;
 }
               </script>
-              <span class="suite-total-time">Total running time: 3 minutes</span>
+              <span class="suite-total-time">Total running time: 0 ms</span>
               <div id="times-div-Staging">
               </div> <!-- times-div-Staging -->
             </div> <!-- times-div -->
@@ -216,16 +256,9 @@ return data;
         </div> <!-- panel -->
         <div panel-name="ignored-methods-Staging" class="panel">
           <div class="main-panel-header rounded-window-top">
-            <span class="header-content">1 ignored method</span>
+            <span class="header-content">0 ignored methods</span>
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
-            <div class="ignored-class-div">
-              <span class="ignored-class-name">isoft.etraffic.cta.sdditest.ModifyTLChangeLegalTest</span>
-              <div class="ignored-methods-div">
-                <span class="ignored-method-name">ModifyTLChangelegalclassWithAddMember</span>
-                <br/>
-              </div> <!-- ignored-methods-div -->
-            </div> <!-- ignored-class-div -->
           </div> <!-- main-panel-content rounded-window-bottom -->
         </div> <!-- panel -->
         <div panel-name="chronological-Staging" class="panel">
@@ -234,19 +267,21 @@ return data;
           </div> <!-- main-panel-header rounded-window-top -->
           <div class="main-panel-content rounded-window-bottom">
             <div class="chronological-class">
-              <div class="chronological-class-name">isoft.etraffic.cta.sdditest.ModifyTLChangeLegalTest</div> <!-- chronological-class-name -->
-              <div class="configuration-method before">
-                <span class="method-name">setup(https://tst12c:7793/trfesrv/public_resources/public-access.do, CHROME, en)</span>
-                <span class="method-start">0 ms</span>
-              </div> <!-- configuration-method before -->
+              <div class="chronological-class-name">isoft.etraffic.vhl.ftftest.ChangePlateNumberTest</div> <!-- chronological-class-name -->
               <div class="test-method">
-                <span class="method-name">ModifyTLChangelegalclass(10081.0, 500.00 AED, commercial)</span>
-                <span class="method-start">11880 ms</span>
+                <span class="method-name">changePlateNumber</span>
+                <span class="method-start">0 ms</span>
               </div> <!-- test-method -->
-              <div class="configuration-method after">
-                <span class="method-name">tearDown([TestResult name=ModifyTLChangelegalclass status=SUCCESS method=ModifyTLChangeLegalTest.ModifyTLChan...)</span>
-                <span class="method-start">227481 ms</span>
-              </div> <!-- configuration-method after -->
+              <div class="configuration-class before">
+                <span class="method-name">beforeClass</span>
+                <span class="method-start">0 ms</span>
+              </div> <!-- configuration-class before -->
+              <div class="configuration-method before">
+                <img src="failed.png">
+                </img>
+                <span class="method-name">setup(https://er12cr2:7784/traffic/faces/jsf/auth/login.jsf, IE, en)</span>
+                <span class="method-start">58 ms</span>
+              </div> <!-- configuration-method before -->
           </div> <!-- main-panel-content rounded-window-bottom -->
         </div> <!-- panel -->
       </div> <!-- main-panel-root -->

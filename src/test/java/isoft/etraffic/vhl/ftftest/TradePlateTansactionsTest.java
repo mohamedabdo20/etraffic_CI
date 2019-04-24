@@ -164,7 +164,7 @@ public class TradePlateTansactionsTest {
 	public void aftermethod(ITestResult result) {
 		System.out.println(result.getMethod().getMethodName() + " trns: " + transactionsLst.get(0));
 		transactionsLst.remove(transactionsLst.size() - 1);
-		driver.quit();
+		//driver.quit();
 	}
 
 	@BeforeClass

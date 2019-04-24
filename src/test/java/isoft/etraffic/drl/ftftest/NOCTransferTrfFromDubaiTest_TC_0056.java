@@ -78,6 +78,6 @@ public class NOCTransferTrfFromDubaiTest_TC_0056 {
 		System.out.println(result.getMethod().getMethodName() + " trnsNo: " + transactionsLst.get(0));
 		transactionsLst.remove(transactionsLst.size() - 1);
 		dbQueries.updateTrfFileEnName(result.getMethod().getMethodName(), trafficFileNo);
-		driver.quit();
+		//driver.quit();
 	}
 }

@@ -60,6 +60,6 @@ public class SubstitutableCountriesReport_TC_182 {
 	public void aftermethod(ITestResult result) throws ClassNotFoundException, SQLException {
 		System.out.println(result.getMethod().getMethodName() + " trnsNo: " + transactionsLst.get(0));
 		transactionsLst.remove(transactionsLst.size() - 1);
-		driver.quit();
+		//driver.quit();
 	}
 }

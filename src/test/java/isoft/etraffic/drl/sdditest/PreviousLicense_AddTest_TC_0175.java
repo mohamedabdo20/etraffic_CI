@@ -17,7 +17,7 @@ import isoft.etraffic.drl.sddipages.PreviousLicensePage;
 import isoft.etraffic.testbase.TestBase;
 import isoft.etraffic.vhl.sddipages.CommonPageOnline;
 
-public class PreviousLicense_AddTest_TC_0162 {
+public class PreviousLicense_AddTest_TC_0175 {
 	String trafficFile = "10101932";
 
 	DBQueries dbQueries = new DBQueries();
@@ -57,6 +57,6 @@ public class PreviousLicense_AddTest_TC_0162 {
 		System.out.println(result.getMethod().getMethodName() + " trnsNo: " + transactionsLst.get(0));
 		transactionsLst.remove(transactionsLst.size() - 1);
 		dbQueries.updateTrfFileEnName(result.getMethod().getMethodName(), trafficFile);
-		driver.quit();
+		//driver.quit();
 	}
 }

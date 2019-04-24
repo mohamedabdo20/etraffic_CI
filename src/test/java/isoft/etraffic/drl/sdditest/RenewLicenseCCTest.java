@@ -36,6 +36,7 @@ public class RenewLicenseCCTest {
 
 		commonPage.clickConfirmAndProceedtoDeliveryMethod();
 		commonPage.selectDeliveryDateCourierTrustedAgent(true);
+		commonPage.payCreditCardCallCenter();
 	}
 
 	@BeforeMethod
